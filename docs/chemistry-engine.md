@@ -1,40 +1,37 @@
 # Proton Pages — Chemistry Engine Documentation
 
 ## System Overview
-The Chemistry Engine serves as the scientific core of the Proton Pages workbench. It performs deterministic chemistry calculations, equation balancing, formula parsing, and stoichiometric yield analysis without reliance on non-deterministic external LLMs or floating-point approximations.
+The Chemistry Engine serves as the scientific core of the Proton Pages workbench. It performs deterministic chemistry calculations, equation balancing, formula parsing, and stoichiometric yield analysis as a pure Python scientific computing library.
 
-## API Specification
+## Python API Specification (`ChemistryEngine`)
 
 ### Elements
-- `GET /api/v1/chemistry/elements`: List or search elements.
-- `GET /api/v1/chemistry/elements/{identifier}`: Fetch single element by atomic number (Z), symbol, or name.
-- `GET /api/v1/chemistry/elements/group/{group}`: Filter elements by periodic table group (1-18).
-- `GET /api/v1/chemistry/elements/period/{period}`: Filter elements by period (1-7).
-- `GET /api/v1/chemistry/elements/category/{category}`: Filter elements by category classification.
+- `chemistry_engine.get_element(identifier)`: Fetch single element by atomic number (Z), symbol, or name.
+- `chemistry_engine.list_elements(skip, limit)`: List all chemical elements.
+- `chemistry_engine.search_elements(query)`: Search elements by query string.
 
 ### Compounds
-- `GET /api/v1/chemistry/compounds`: List or search compounds.
-- `GET /api/v1/chemistry/compounds/{identifier}`: Get compound by ID, formula, or name.
+- `chemistry_engine.get_compound(identifier)`: Get compound by ID, formula, or name.
+- `chemistry_engine.search_compounds(query)`: Search compounds.
 
 ### Formulas
-- `POST /api/v1/chemistry/formulas/parse`: Parse formula string into structured composition AST.
-- `POST /api/v1/chemistry/formulas/mass`: Calculate total molar mass in g/mol and elemental contributions.
-- `POST /api/v1/chemistry/formulas/composition`: Calculate elemental percent composition.
-- `POST /api/v1/chemistry/formulas/empirical`: Derive empirical formula from elemental ratios.
+- `chemistry_engine.parse_formula(formula)`: Parse formula string into structured composition AST.
+- `chemistry_engine.calculate_molecular_mass(formula)`: Calculate total molar mass in g/mol and elemental contributions.
+- `chemistry_engine.calculate_percent_composition(formula)`: Calculate elemental percent composition.
+- `chemistry_engine.calculate_empirical_formula(elemental_data)`: Derive empirical formula from elemental ratios.
 
 ### Reactions
-- `POST /api/v1/chemistry/reactions/parse`: Parse chemical equation into species, state symbols, and coefficients.
-- `POST /api/v1/chemistry/reactions/balance`: Balance equation using exact matrix null-space solver.
-- `POST /api/v1/chemistry/reactions/validate`: Verify atom conservation between left and right sides.
-- `POST /api/v1/chemistry/reactions/classify`: Classify reaction type (synthesis, combustion, acid-base, etc.).
+- `chemistry_engine.parse_reaction(equation)`: Parse chemical equation into species, state symbols, and coefficients.
+- `chemistry_engine.balance_reaction(equation)`: Balance equation using exact matrix null-space solver.
+- `chemistry_engine.validate_reaction(equation)`: Verify atom conservation between left and right sides.
+- `chemistry_engine.classify_reaction(equation)`: Classify reaction type (synthesis, combustion, acid-base, etc.).
 
 ### Stoichiometry
-- `POST /api/v1/chemistry/stoichiometry/limiting-reactant`: Compute limiting reactant, excess remaining, and theoretical yields.
-- `POST /api/v1/chemistry/stoichiometry/yield`: Calculate theoretical yield for a target product.
-- `POST /api/v1/chemistry/stoichiometry/percent-yield`: Calculate percent yield from actual vs theoretical yield.
-- `POST /api/v1/chemistry/stoichiometry/molarity`: Solve molarity, moles, or volume.
-- `POST /api/v1/chemistry/stoichiometry/dilution`: Solve $M_1 V_1 = M_2 V_2$.
-- `POST /api/v1/chemistry/stoichiometry/convert-units`: Convert chemistry mass, volume, amount, or concentration units.
+- `chemistry_engine.calculate_limiting_reactant(equation, reactants)`: Compute limiting reactant, excess remaining, and theoretical yields.
+- `chemistry_engine.calculate_theoretical_yield(equation, reactants, target_product)`: Calculate theoretical yield for a target product.
+- `chemistry_engine.calculate_percent_yield(actual, theoretical)`: Calculate percent yield from actual vs theoretical yield.
+- `chemistry_engine.calculate_molarity(moles, volume_liters)`: Solve molarity, moles, or volume.
+- `chemistry_engine.calculate_dilution(m1, v1, m2, v2)`: Solve $M_1 V_1 = M_2 V_2$.
 
 ### Search
-- `GET /api/v1/chemistry/search`: Unified multi-domain search.
+- `chemistry_engine.search(query)`: Unified multi-domain search.
