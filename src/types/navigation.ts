@@ -21,6 +21,7 @@ export type NavigationPath =
 export interface UserProfile {
   id: string;
   name: string;
+  email?: string;
   role: string;
   avatarUrl: string;
   streakDays: number;

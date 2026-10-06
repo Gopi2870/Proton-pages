@@ -84,3 +84,36 @@ export const STUDENT_ROSTER_DATA: StudentProgressRecord[] = [
     weakTopics: ['None']
   }
 ];
+
+export interface TeacherCohort {
+  id: string;
+  name: string;
+  enrolled: number;
+  term: string;
+  averageScore: number;
+  completionRate: number;
+}
+
+export const TEACHER_COHORTS: TeacherCohort[] = [
+  { id: 'c1', name: 'CHEM 204: Organic Foundations', enrolled: 42, term: 'Fall 2026', averageScore: 84.2, completionRate: 88 },
+  { id: 'c2', name: 'CHEM 102: General Principles II', enrolled: 68, term: 'Fall 2026', averageScore: 79.5, completionRate: 91 },
+  { id: 'c3', name: 'CHEM 301: Physical Thermodynamics', enrolled: 32, term: 'Fall 2026', averageScore: 88.0, completionRate: 94 }
+];
+
+export interface TeacherStudentSummary {
+  id: string;
+  name: string;
+  email: string;
+  cohort: string;
+  grade: number;
+  attendance: number;
+}
+
+export const TEACHER_STUDENTS: TeacherStudentSummary[] = STUDENT_ROSTER_DATA.map((s, idx) => ({
+  id: s.id,
+  name: s.name,
+  email: s.email,
+  cohort: s.course,
+  grade: s.masteryScore,
+  attendance: 90 + (idx % 8)
+}));
