@@ -31,6 +31,7 @@ lerna-debug.log*
 *.sln
 *.sw?
 Thumbs.db
+*.timestamp-*.mjs
 
 # Design Reference Assets (Kept local, excluded from git repo tracking)
 stitch_proton_pages_ui_engine.zip
