@@ -1,0 +1,103 @@
+[
+  {
+    "id": "rxn-water-synth",
+    "raw_equation": "2H2 + O2 -> 2H2O",
+    "name": "Water Synthesis",
+    "type": "synthesis",
+    "reactants": [
+      "H2",
+      "O2"
+    ],
+    "products": [
+      "H2O"
+    ],
+    "description": "Combustion of hydrogen gas with oxygen to produce water."
+  },
+  {
+    "id": "rxn-methane-combustion",
+    "raw_equation": "CH4 + 2O2 -> CO2 + 2H2O",
+    "name": "Methane Combustion",
+    "type": "combustion",
+    "reactants": [
+      "CH4",
+      "O2"
+    ],
+    "products": [
+      "CO2",
+      "H2O"
+    ],
+    "description": "Complete combustion of methane gas."
+  },
+  {
+    "id": "rxn-rusting",
+    "raw_equation": "4Fe + 3O2 -> 2Fe2O3",
+    "name": "Iron Rusting",
+    "type": "synthesis",
+    "reactants": [
+      "Fe",
+      "O2"
+    ],
+    "products": [
+      "Fe2O3"
+    ],
+    "description": "Oxidation of iron forming ferric oxide."
+  },
+  {
+    "id": "rxn-salt-synth",
+    "raw_equation": "2Na + Cl2 -> 2NaCl",
+    "name": "Sodium Chloride Synthesis",
+    "type": "synthesis",
+    "reactants": [
+      "Na",
+      "Cl2"
+    ],
+    "products": [
+      "NaCl"
+    ],
+    "description": "Exothermic synthesis of table salt."
+  },
+  {
+    "id": "rxn-propane-combustion",
+    "raw_equation": "C3H8 + 5O2 -> 3CO2 + 4H2O",
+    "name": "Propane Combustion",
+    "type": "combustion",
+    "reactants": [
+      "C3H8",
+      "O2"
+    ],
+    "products": [
+      "CO2",
+      "H2O"
+    ],
+    "description": "Combustion of propane gas."
+  },
+  {
+    "id": "rxn-aluminum-oxide",
+    "raw_equation": "4Al + 3O2 -> 2Al2O3",
+    "name": "Aluminum Oxidation",
+    "type": "synthesis",
+    "reactants": [
+      "Al",
+      "O2"
+    ],
+    "products": [
+      "Al2O3"
+    ],
+    "description": "Oxidation of aluminum metal forming alumina."
+  },
+  {
+    "id": "rxn-acid-base-neutralization",
+    "raw_equation": "HCl + NaOH -> NaCl + H2O",
+    "name": "Acid-Base Neutralization",
+    "type": "acid_base",
+    "reactants": [
+      "HCl",
+      "NaOH"
+    ],
+    "products": [
+      "NaCl",
+      "H2O"
+    ],
+    "description": "Neutralization of hydrochloric acid with sodium hydroxide."
+  }
+]
