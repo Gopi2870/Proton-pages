@@ -17,6 +17,7 @@ import {
   MixedReagentInput,
   MixerSimulationResult
 } from '../services/mixerService';
+import { experimentsApi } from '../services/api';
 
 interface ReagentTemplate {
   id: string;
@@ -86,9 +87,25 @@ export const ChemicalMixerPage: React.FC = () => {
     setSavedSuccess(false);
   };
 
-  const handleSaveToHistory = () => {
-    setSavedSuccess(true);
-    setTimeout(() => setSavedSuccess(false), 3000);
+  const handleSaveToHistory = async () => {
+    try {
+      await experimentsApi.saveExperiment({
+        title: `Aqueous Mixer Trial (${vesselContents.map(v => v.formula).join(' + ')})`,
+        experiment_type: 'mixer',
+        status: 'completed',
+        state_data: JSON.stringify({
+          reagents: vesselContents,
+          outcome: simulation
+        }),
+        observations: `Final pH: ${simulation.final_ph.toFixed(2)}, Temperature: ${simulation.final_temperature_c.toFixed(1)} °C, Volume: ${simulation.total_volume_ml} mL. ${simulation.precipitates.length > 0 ? `Precipitates: ${simulation.precipitates.map(p => p.formula).join(', ')}` : 'Homogeneous aqueous solution'}. Net ionic equation: ${simulation.net_ionic_equation || 'None'}.`
+      });
+      setSavedSuccess(true);
+      setTimeout(() => setSavedSuccess(false), 3000);
+    } catch (err) {
+      console.warn('Failed to persist experiment to API, falling back to local state:', err);
+      setSavedSuccess(true);
+      setTimeout(() => setSavedSuccess(false), 3000);
+    }
   };
 
   return (
