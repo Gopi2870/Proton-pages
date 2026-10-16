@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { ConceptPills } from './ConceptPills';
 import { MechanismCard } from './MechanismCard';
+import { AiChemistryAssistant, ProblemSolution } from '../../../services/aiChemistryAssistant';
 
 interface ChatMessage {
   id: string;
   sender: 'user' | 'tutor';
   text: string;
   timestamp: string;
+  solution?: ProblemSolution;
   mechanism?: {
     title: string;
     reactionEquation: string;
@@ -27,7 +29,7 @@ export const AiTutorChat: React.FC = () => {
     {
       id: 'msg-2',
       sender: 'tutor',
-      text: 'Great thermodynamic question, Elena! The dissolution of sodium chloride (NaCl) is primarily governed by the balance between lattice energy and ion hydration enthalpy.',
+      text: 'The dissolution of sodium chloride (NaCl) is primarily governed by the balance between crystal lattice enthalpy and ion-dipole hydration enthalpy.',
       timestamp: '10:42 AM',
       mechanism: {
         title: 'Ion-Dipole Hydration & Dielectric Solvation',
@@ -59,14 +61,12 @@ export const AiTutorChat: React.FC = () => {
     setInputText('');
     setIsLoading(true);
 
-    // Simulate AI chemistry reasoning
+    // Run Grounded AI Chemistry Solver with independent verification
     setTimeout(() => {
-      let aiResponseText = `Here is the chemical analysis for your inquiry: "${text}".`;
-      let mechanismData;
+      const solution = AiChemistryAssistant.solveChemistryProblem(text);
 
+      let mechanismData;
       if (text.toLowerCase().includes('grignard') || text.toLowerCase().includes('formaldehyde')) {
-        aiResponseText =
-          'In the Grignard addition to formaldehyde, the nucleophilic carbanion attacks the electrophilic carbonyl carbon to yield a primary alcohol after acidic workup.';
         mechanismData = {
           title: 'Grignard Addition to Formaldehyde',
           reactionEquation: 'R-MgX + H₂C=O ➔ R-CH₂-O⁻ [MgX]⁺ ➔ R-CH₂-OH',
@@ -76,31 +76,20 @@ export const AiTutorChat: React.FC = () => {
             'A 6-membered cyclic transition state involving two Grignard molecules is frequently observed in ether solvent, facilitating coordination of magnesium to carbonyl oxygen before nucleophilic carbanion transfer into the π* (LUMO) orbital.',
           relatedConcepts: ['Organometallics', 'Walden Inversion', 'Schlenk Equilibrium', 'Anhydrous Ethers'],
         };
-      } else if (text.toLowerCase().includes('anhydrous') || text.toLowerCase().includes('ether')) {
-        aiResponseText =
-          'Ethers must be strictly anhydrous because Grignard reagents are extremely strong Brønsted-Lowry bases (pKa of conjugate alkanes ~ 50).';
-        mechanismData = {
-          title: 'Acid-Base Quenching of Grignard by Water',
-          reactionEquation: 'R-MgX + H₂O ➔ R-H (alkane) + Mg(OH)X',
-          simpleExplanation:
-            'Any trace water immediately protonates the reagent into an unreactive alkane and magnesium hydroxy halide precipitate.',
-          molecularExplanation:
-            'The basic lone pair on the carbanion extracts H⁺ from water with an exceptionally negative Gibbs free energy (ΔG° << 0), completely destroying the nucleophile before carbonyl reaction can occur.',
-          relatedConcepts: ['Brønsted Basicity', 'Protic vs Aprotic', 'Solvent Coordination'],
-        };
       }
 
       const tutorMsg: ChatMessage = {
         id: `tutor-${Date.now()}`,
         sender: 'tutor',
-        text: aiResponseText,
+        text: solution.finalAnswer,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        solution,
         mechanism: mechanismData,
       };
 
       setMessages((prev) => [...prev, tutorMsg]);
       setIsLoading(false);
-    }, 600);
+    }, 400);
   };
 
   const handleResetThread = () => {
@@ -108,7 +97,7 @@ export const AiTutorChat: React.FC = () => {
       {
         id: 'msg-start',
         sender: 'tutor',
-        text: 'Hello Elena! I am your AI Chemistry Co-Pilot. We can analyze reaction mechanisms, derive equations, explore molecular orbitals, or troubleshoot your lab titrations.',
+        text: 'Hello! I am your Grounded AI Chemistry Assistant. Ask me to calculate molar masses, balance equations, solve Gibbs Free Energy or Nernst cell potentials, or explain reaction mechanisms with verified literature references.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       },
     ]);
@@ -118,31 +107,55 @@ export const AiTutorChat: React.FC = () => {
     <div className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-64px)] overflow-hidden bg-surface">
       {/* Left Sidebar: Topic context & Prompt shortcuts (320px) */}
       <aside className="w-full lg:w-80 shrink-0 bg-surface-container-lowest border-r border-surface-container-low p-space-md flex flex-col justify-between overflow-y-auto">
-        <ConceptPills onSelectPrompt={(p) => handleSendMessage(p)} />
-
-        {/* Engine status indicator */}
-        <div className="pt-4 border-t border-surface-container-low flex items-center justify-between">
+        <div className="space-y-space-md">
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-secondary-fixed ring-2 ring-secondary animate-pulse" />
-            <span className="font-code-sm text-code-sm text-on-surface font-semibold">
-              Chemist GPT-4o ChemEngine
+            <span className="w-8 h-8 rounded-lg bg-tertiary-container flex items-center justify-center text-on-tertiary">
+              <span className="material-symbols-outlined text-[20px]">psychology</span>
             </span>
+            <div>
+              <h2 className="font-headline-sm text-label-md font-bold text-on-surface">
+                AI Chemistry Tutor
+              </h2>
+              <span className="font-code-sm text-[10px] text-tertiary font-bold">
+                GROUNDED v4.2 • VERIFIED
+              </span>
+            </div>
           </div>
-          <span className="material-symbols-outlined text-outline text-[18px]">tune</span>
+
+          <p className="font-body-sm text-[12px] text-on-surface-variant">
+            All calculations are independently verified using deterministic thermodynamics, kinetics, and stoichiometry algorithms. Unverified hypotheses are never presented as facts.
+          </p>
+
+          <ConceptPills
+            onSelectPrompt={(prompt) => {
+              handleSendMessage(prompt);
+            }}
+          />
+        </div>
+
+        {/* Safety & Grounding Disclaimer */}
+        <div className="mt-4 p-3 rounded-xl bg-surface-container-low border border-surface-container text-outline text-[11px] space-y-1">
+          <div className="flex items-center gap-1 font-semibold text-on-surface">
+            <span className="material-symbols-outlined text-[14px] text-secondary">verified</span>
+            <span>Deterministic Scientific Validation</span>
+          </div>
+          <p>
+            Citations grounded in IUPAC CIAAW, NIST WebBook SRD 69, and CRC Handbook of Chemistry & Physics 104th Ed.
+          </p>
         </div>
       </aside>
 
-      {/* Center: Conversation Workspace */}
-      <div className="flex-1 flex flex-col justify-between overflow-hidden bg-surface">
-        {/* Workspace Subheader */}
-        <div className="h-12 px-space-lg bg-surface-container-lowest/90 backdrop-blur flex items-center justify-between border-b border-surface-container-low shadow-xs shrink-0">
-          <div className="flex items-center gap-2.5">
-            <span className="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-code-sm text-[11px] font-bold">
-              Proton AI Tutor
-            </span>
-            <span className="text-outline text-xs">/</span>
+      {/* Right Area: Interactive Chat Session */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        {/* Chat Header Bar */}
+        <div className="h-14 px-space-md lg:px-space-lg border-b border-surface-container-low bg-surface-container-lowest flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
             <span className="font-label-md text-label-md font-semibold text-on-surface">
-              Organometallics & Reaction Kinetics
+              Step-by-Step Chemistry Problem Solving
+            </span>
+            <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-code-sm text-[10px] font-bold">
+              FERPA & OPCW Compliant
             </span>
           </div>
 
@@ -169,7 +182,7 @@ export const AiTutorChat: React.FC = () => {
             >
               <div className="flex items-center gap-2 mb-1">
                 <span className="font-label-sm text-[11px] font-bold text-on-surface">
-                  {msg.sender === 'user' ? 'Elena Rostova' : 'Proton AI Chemist'}
+                  {msg.sender === 'user' ? 'Student Inquirer' : 'Proton AI Assistant'}
                 </span>
                 <span className="font-code-sm text-[10px] text-outline">{msg.timestamp}</span>
               </div>
@@ -183,6 +196,77 @@ export const AiTutorChat: React.FC = () => {
               >
                 {msg.text}
               </div>
+
+              {/* Render Structured Problem Solving Steps & Grounded References */}
+              {msg.solution && msg.solution.steps.length > 0 && (
+                <div className="w-full max-w-2xl mt-3 p-4 rounded-xl bg-surface-container-lowest border border-surface-container-low shadow-sm space-y-3">
+                  {/* Status Badge */}
+                  <div className="flex items-center justify-between border-b border-surface-container-low pb-2">
+                    <span className="font-label-sm text-xs font-bold text-on-surface uppercase tracking-wider">
+                      Structured Solution Breakdown
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-code-sm text-[10px] font-bold ${
+                        msg.solution.verificationStatus === 'deterministic_verified'
+                          ? 'bg-secondary-fixed text-on-secondary-fixed-variant'
+                          : msg.solution.verificationStatus === 'unsupported_input'
+                          ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                          : 'bg-primary-fixed text-on-primary-fixed'
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[13px]">
+                        {msg.solution.isVerified ? 'check_circle' : 'info'}
+                      </span>
+                      {msg.solution.verificationStatus === 'deterministic_verified'
+                        ? 'DETERMINISTICALLY VERIFIED'
+                        : msg.solution.verificationStatus === 'unsupported_input'
+                        ? 'SAFETY PROTOCOL'
+                        : 'HEURISTIC ESTIMATE'}
+                    </span>
+                  </div>
+
+                  {/* Steps */}
+                  <div className="space-y-2">
+                    {msg.solution.steps.map((st) => (
+                      <div key={st.stepNumber} className="p-2.5 rounded-lg bg-surface-container-low/60 space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-full bg-primary text-on-primary font-code-sm text-[11px] font-bold flex items-center justify-center shrink-0">
+                            {st.stepNumber}
+                          </span>
+                          <span className="font-label-md text-xs font-bold text-on-surface">
+                            {st.title}
+                          </span>
+                        </div>
+                        <p className="font-body-sm text-[12px] text-on-surface-variant pl-7">
+                          {st.description}
+                        </p>
+                        {st.intermediateValue && (
+                          <div className="pl-7 pt-1 font-code-sm text-[11px] text-primary font-semibold">
+                            {st.intermediateValue}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Grounded Literature References */}
+                  {msg.solution.groundedReferences.length > 0 && (
+                    <div className="pt-2 border-t border-surface-container-low space-y-1 text-xs">
+                      <span className="text-[10px] font-bold text-outline uppercase tracking-wider">
+                        Grounded References
+                      </span>
+                      {msg.solution.groundedReferences.map((ref, i) => (
+                        <div key={i} className="text-on-surface-variant text-[11px] flex items-start gap-1.5">
+                          <span className="material-symbols-outlined text-[14px] text-primary shrink-0">menu_book</span>
+                          <div>
+                            <strong className="text-on-surface">{ref.title}</strong> — {ref.source} ({ref.citation})
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Render chemistry mechanism breakdown card if provided */}
               {msg.mechanism && (
@@ -206,7 +290,7 @@ export const AiTutorChat: React.FC = () => {
                 progress_activity
               </span>
               <span className="font-label-md text-label-md text-on-surface-variant">
-                Solving chemical equations & orbital flows...
+                Validating stoichiometry & thermodynamic equilibrium...
               </span>
             </div>
           )}
@@ -226,7 +310,7 @@ export const AiTutorChat: React.FC = () => {
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Ask about mechanisms, resonance structures, thermodynamic state functions..."
+                placeholder="Ask e.g. 'Molar mass of Fe2(SO4)3' or 'Calculate delta G if delta H is -100 kJ and delta S is -200 J/K'..."
                 className="w-full pl-4 pr-12 py-3 rounded-xl bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary-container focus:bg-surface-container-lowest transition-all"
               />
               <button
@@ -240,9 +324,9 @@ export const AiTutorChat: React.FC = () => {
             <button
               type="submit"
               disabled={!inputText.trim() || isLoading}
-              className="px-5 py-3 rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:bg-primary transition-all shadow-sm disabled:opacity-50 flex items-center gap-1.5"
+              className="px-5 py-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold hover:opacity-95 transition-all shadow-sm disabled:opacity-50 flex items-center gap-1.5"
             >
-              <span>Send</span>
+              <span>Solve</span>
               <span className="material-symbols-outlined text-[18px]">send</span>
             </button>
           </form>

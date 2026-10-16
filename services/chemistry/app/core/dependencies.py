@@ -103,3 +103,19 @@ def get_current_user_or_guest(
         except HTTPException:
             pass
     return get_or_create_default_guest(db)
+
+
+def require_role(*allowed_roles: str):
+    """
+    Enforce role-based access control (RBAC).
+    Admins always bypass role restrictions.
+    """
+    def role_dependency(user: User = Depends(get_current_user_or_guest)) -> User:
+        if user.role not in allowed_roles and "admin" not in user.role:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Access forbidden: User role '{user.role}' lacks required authorization ({', '.join(allowed_roles)})."
+            )
+        return user
+    return role_dependency
+

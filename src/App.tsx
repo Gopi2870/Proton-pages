@@ -12,7 +12,7 @@ import { VirtualLabPage } from './pages/VirtualLabPage';
 import { AiTutorChat } from './components/chemistry/ai-tutor/AiTutorChat';
 import { CourseView } from './components/learning/CourseView';
 import { QuizView } from './components/assessments/QuizView';
-import { TeacherPortal } from './components/analytics/TeacherPortal';
+import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
 import { SavedItemsPage } from './pages/SavedItemsPage';
 import { AssignmentsPage } from './pages/AssignmentsPage';
 import { ChemicalMixerPage } from './pages/ChemicalMixerPage';
@@ -20,6 +20,7 @@ import { ReactionDatabasePage } from './pages/ReactionDatabasePage';
 import { FunctionalGroupsPage } from './pages/FunctionalGroupsPage';
 import { CarbonStructuresPage } from './pages/CarbonStructuresPage';
 import { IsomersPage } from './pages/IsomersPage';
+import { StructureEditorCanvas } from './components/chemistry/structure-editor/StructureEditorCanvas';
 import { HelpDocsPage } from './pages/HelpDocsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { InstitutionDashboardPage } from './pages/InstitutionDashboardPage';
@@ -96,6 +97,9 @@ export const App: React.FC = () => {
       case 'isomers':
         return <IsomersPage />;
 
+      case 'structure-editor':
+        return <StructureEditorCanvas onAskAi={() => setCurrentPath('ai-tutor')} />;
+
       case 'virtual-lab':
       case 'my-experiments':
         return <VirtualLabPage onAskAi={() => setCurrentPath('ai-tutor')} />;
@@ -121,7 +125,7 @@ export const App: React.FC = () => {
         return <StudentProgressPage />;
 
       case 'teacher-portal':
-        return <TeacherPortal />;
+        return <TeacherDashboardPage />;
 
       case 'institution-portal':
         return <InstitutionDashboardPage />;

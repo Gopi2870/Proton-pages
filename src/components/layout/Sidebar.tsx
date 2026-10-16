@@ -42,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { path: 'functional-groups', label: 'Functional Groups', icon: 'category' },
     { path: 'carbon-structures', label: 'Carbon Allotropes', icon: 'grain' },
     { path: 'isomers', label: 'Isomer Library', icon: 'polyline' },
+    { path: 'structure-editor', label: '2D Molecule Canvas', icon: 'draw' },
   ];
 
   const workspaceNavItems: { path: NavigationPath; label: string; icon: string }[] = [

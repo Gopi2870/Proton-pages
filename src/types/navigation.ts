@@ -22,6 +22,7 @@ export type NavigationPath =
   | 'functional-groups'
   | 'carbon-structures'
   | 'isomers'
+  | 'structure-editor'
   | 'global-search';
 
 export interface UserProfile {
