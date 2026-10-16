@@ -52,15 +52,28 @@
   - Upgraded `SavedItemsPage.tsx` with live bookmarks, experiment records, delete actions, and module shortcuts.
 - **Metrics**: 85,695 total lines, 82,918 LOC.
 
+### Iteration 5: Thermochemistry & Electrochemistry Expansion (Phase 2)
+- **Status**: Completed
+- **Changes**:
+  - Implemented standard state thermodynamic database (NIST/CRC vetted, 60+ species) and Hess's Law linear matrix solver using Gaussian elimination in `services/chemistry/app/services/thermo_service.py`.
+  - Implemented standard reduction potentials table (25+ half-reactions) and Nernst equation solver with Faraday electrolysis in `services/chemistry/app/services/electrochemistry_service.py`.
+  - Exposed REST endpoints `/api/v1/chemistry/thermo/calculate`, `/hess-solve`, `/species`, `/api/v1/chemistry/electrochemistry/cell-potential`, `/electrolysis`, and `/reduction-potentials`.
+  - Added 20 Python tests (7 unit in `test_thermo.py`, 6 unit in `test_electrochemistry.py`, 7 integration in `test_thermo_electro_api.py`). All 145 backend tests passing.
+  - Implemented frontend services `src/services/thermoService.ts` and `src/services/electrochemistryService.ts` with 7 new Vitest unit tests (all 44 frontend tests passing).
+  - Upgraded `src/pages/ReactionDatabasePage.tsx` with dedicated interactive tabs for Reaction Mechanisms, Hess's Law Pathway Matrix Solver, and Galvanic Cell Nernst Simulators with direct persistence to the user's notebook.
+- **Metrics**: 88,181 total lines, 85,003 LOC.
+
 ---
 
 ## Next Prioritized Tasks
 
-1. **Task 1: Thermochemistry & Electrochemistry Expansion (Phase 2)**:
-   - Implement Hess's Law standard enthalpy matrix solver and Nernst equation electrochemistry engine with standard reduction potentials in Python chemistry services.
-   - Expose endpoints under `/api/v1/chemistry/thermo` and `/api/v1/chemistry/electrochemistry`.
-2. **Task 2: Molecular 3D Visualization & Geometry (Phase 3)**:
-   - Integrate WebGL/Three.js or 3D ball-and-stick molecular viewer in `MolecularExplorerPage.tsx` with atom hover inspection and bond length metrics.
-3. **Task 3: Virtual Lab Titration & Calorimetry Workflows (Phase 4)**:
-   - Wire interactive buret titration curves and calorimeter temperature logging directly to the experiment persistence store.
+1. **Task 1: 3D Molecular Visualization & Geometry Inspection (Phase 3)**:
+   - Implement interactive 3D ball-and-stick and space-filling molecular viewer using Three.js/WebGL in `src/pages/MolecularExplorerPage.tsx`.
+   - Support SMILES / PDB / XYZ parsing, bond angle/distance inspection, and functional group highlights.
+2. **Task 2: Virtual Laboratory Titration & Calorimetry Workflows (Phase 4)**:
+   - Implement interactive buret fluid drop titration curves (pH vs added titrant volume) and coffee-cup calorimeter temperature shift curves with live charting.
+   - Connect simulation outputs directly to the experiment database records.
+3. **Task 3: Education Platform User Roles & Dashboards (Phase 7 & 10)**:
+   - Provide student, teacher, and administrator dashboard views with assignment authoring and grading workflows.
+
 
