@@ -1,5 +1,5 @@
 """
-Stoichiometry API Schemas.
+Stoichiometry API Schemas with strict validation.
 """
 from typing import List, Optional
 from pydantic import BaseModel, Field
@@ -9,9 +9,18 @@ from services.chemistry.app.models.stoichiometry import (
 )
 
 class LimitingReactantRequest(BaseModel):
-    equation: str = Field(..., json_schema_extra={"example": "2H2 + O2 -> 2H2O"})
+    equation: str = Field(
+        ...,
+        min_length=3,
+        max_length=512,
+        description="Balanced chemical equation",
+        json_schema_extra={"example": "2H2 + O2 -> 2H2O"}
+    )
     reactants: List[ReactantAmountInput] = Field(
         ...,
+        min_length=1,
+        max_length=20,
+        description="List of reactant amounts with formula, value, and units",
         json_schema_extra={"example": [
             {"formula": "H2", "amount": 4.0, "unit": "g"},
             {"formula": "O2", "amount": 32.0, "unit": "g"}
@@ -19,30 +28,59 @@ class LimitingReactantRequest(BaseModel):
     )
 
 class TheoreticalYieldRequest(BaseModel):
-    equation: str = Field(..., json_schema_extra={"example": "2H2 + O2 -> 2H2O"})
-    reactants: List[ReactantAmountInput]
-    target_product: str = Field(..., json_schema_extra={"example": "H2O"})
+    equation: str = Field(
+        ...,
+        min_length=3,
+        max_length=512,
+        description="Balanced chemical equation",
+        json_schema_extra={"example": "2H2 + O2 -> 2H2O"}
+    )
+    reactants: List[ReactantAmountInput] = Field(
+        ...,
+        min_length=1,
+        max_length=20,
+        description="List of available reactant amounts"
+    )
+    target_product: str = Field(
+        ...,
+        min_length=1,
+        max_length=128,
+        description="Formula of the desired target product",
+        json_schema_extra={"example": "H2O"}
+    )
 
 class PercentYieldRequest(BaseModel):
-    actual_yield_g: float = Field(..., gt=0, json_schema_extra={"example": 32.5})
-    theoretical_yield_g: float = Field(..., gt=0, json_schema_extra={"example": 36.0})
+    actual_yield_g: float = Field(
+        ...,
+        gt=0,
+        le=1e9,
+        description="Experimentally isolated mass in grams",
+        json_schema_extra={"example": 32.5}
+    )
+    theoretical_yield_g: float = Field(
+        ...,
+        gt=0,
+        le=1e9,
+        description="Calculated stoichiometric maximum mass in grams",
+        json_schema_extra={"example": 36.0}
+    )
 
 class MolarityRequest(BaseModel):
-    moles: Optional[float] = Field(None, json_schema_extra={"example": 0.5})
-    volume_liters: Optional[float] = Field(None, json_schema_extra={"example": 1.0})
-    molarity: Optional[float] = Field(None, json_schema_extra={"example": 0.5})
-    unit_v: str = Field("L", json_schema_extra={"example": "L"})
+    moles: Optional[float] = Field(None, gt=0, le=1e9, json_schema_extra={"example": 0.5})
+    volume_liters: Optional[float] = Field(None, gt=0, le=1e9, json_schema_extra={"example": 1.0})
+    molarity: Optional[float] = Field(None, gt=0, le=1e9, json_schema_extra={"example": 0.5})
+    unit_v: str = Field("L", max_length=8, json_schema_extra={"example": "L"})
 
 class DilutionRequest(BaseModel):
-    m1: Optional[float] = Field(None, json_schema_extra={"example": 12.0})
-    v1: Optional[float] = Field(None, json_schema_extra={"example": 0.1})
-    m2: Optional[float] = Field(None, json_schema_extra={"example": 1.0})
-    v2: Optional[float] = Field(None)
+    m1: Optional[float] = Field(None, gt=0, le=1e9, json_schema_extra={"example": 12.0})
+    v1: Optional[float] = Field(None, gt=0, le=1e9, json_schema_extra={"example": 0.1})
+    m2: Optional[float] = Field(None, gt=0, le=1e9, json_schema_extra={"example": 1.0})
+    v2: Optional[float] = Field(None, gt=0, le=1e9)
 
 class UnitConversionRequest(BaseModel):
-    value: float
-    from_unit: str
-    to_unit: str
+    value: float = Field(..., le=1e12, ge=-1e12)
+    from_unit: str = Field(..., min_length=1, max_length=16)
+    to_unit: str = Field(..., min_length=1, max_length=16)
     unit_type: str = Field(..., description="mass, amount, volume, or concentration")
 
 class UnitConversionResponse(BaseModel):
