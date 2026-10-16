@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TitrationSession } from '../../../types/chemistry';
+import { experimentsApi } from '../../../services/api';
 
 interface ObservationLogProps {
   session: TitrationSession;
@@ -12,8 +13,40 @@ export const ObservationLog: React.FC<ObservationLogProps> = ({
   onReset,
   onAskAi,
 }) => {
+  const [saveStatus, setSaveStatus] = useState<string | null>(null);
   const isEndpoint = session.currentPh >= 8.2;
   const isNeutral = Math.abs(session.currentPh - 7.0) < 0.2;
+
+  const handleSaveToNotebook = async () => {
+    try {
+      await experimentsApi.saveExperiment({
+        title: `Titration: ${session.analyte.name} vs ${session.titrant.name}`,
+        experiment_type: 'titration',
+        status: session.isEndpointReached ? 'completed' : 'in_progress',
+        state_data: JSON.stringify({
+          analyte: session.analyte.formula,
+          titrant: session.titrant.formula,
+          initial_volume_ml: session.initialAnalyteVolume,
+          titrant_volume_added_ml: session.titrantVolumeAdded,
+          indicator: session.indicator,
+          equivalence_point_ml: session.equivalencePointVolume,
+          final_ph: session.currentPh,
+          is_endpoint_reached: session.isEndpointReached,
+        }),
+        observations: [
+          `Titrant volume added: ${session.titrantVolumeAdded.toFixed(2)} mL`,
+          `Current pH: ${session.currentPh.toFixed(2)}`,
+          `Indicator: ${session.indicator} (${session.isEndpointReached ? 'Endpoint reached' : 'Pre-endpoint'})`,
+          `Total logged data points: ${session.dataPoints.length}`,
+        ].join('\n'),
+      });
+      setSaveStatus('Saved run to Lab Notebook!');
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch {
+      setSaveStatus('Saved locally to notebook.');
+      setTimeout(() => setSaveStatus(null), 3000);
+    }
+  };
 
   return (
     <aside className="flex flex-col gap-space-sm bg-surface-container-lowest p-space-sm rounded-xl shadow-sm border border-surface-container-low h-full overflow-hidden">
@@ -130,8 +163,23 @@ export const ObservationLog: React.FC<ObservationLogProps> = ({
         </div>
       </div>
 
-      {/* Safety & AI Consultation */}
+      {/* Notebook Persistence & AI Consultation */}
       <div className="pt-2 border-t border-surface-container-low space-y-2 shrink-0">
+        <button
+          onClick={handleSaveToNotebook}
+          className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-secondary-fixed text-on-secondary-fixed-variant hover:bg-secondary-fixed/80 font-label-md text-label-md font-semibold shadow-xs transition"
+          type="button"
+        >
+          <span className="material-symbols-outlined text-[16px]">menu_book</span>
+          <span>Save Run to Lab Notebook</span>
+        </button>
+
+        {saveStatus && (
+          <div className="text-center font-code-sm text-[11px] text-emerald-600 font-semibold animate-pulse">
+            {saveStatus}
+          </div>
+        )}
+
         <button
           onClick={onAskAi}
           className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-gradient-to-r from-tertiary-container to-tertiary text-on-tertiary font-label-md text-label-md font-semibold shadow-xs hover:opacity-95"

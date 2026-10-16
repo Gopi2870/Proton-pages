@@ -6,11 +6,14 @@ import { ReagentShelf } from '../components/chemistry/virtual-lab/ReagentShelf';
 import { TitrationRig } from '../components/chemistry/virtual-lab/TitrationRig';
 import { ObservationLog } from '../components/chemistry/virtual-lab/ObservationLog';
 
+import { CalorimeterRig } from '../components/chemistry/virtual-lab/CalorimeterRig';
+
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
+  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry'>('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -59,7 +62,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                 Virtual Chemistry Laboratory
               </h1>
               <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-code-sm text-code-sm font-semibold">
-                Rig #2: Acid-Base Titration
+                {activeRig === 'titration' ? 'Rig #2: Acid-Base Titration' : 'Rig #1: Calorimetry'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -68,20 +71,51 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
           </div>
         </div>
 
+        {/* Rig Switcher Tabs & Reset */}
         <div className="flex items-center gap-2">
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md"
-            type="button"
-          >
-            <span className="material-symbols-outlined text-[18px]">restart_alt</span>
-            <span>Clean Glassware</span>
-          </button>
+          <div className="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg">
+            <button
+              type="button"
+              onClick={() => setActiveRig('titration')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'titration'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Titration Workcell
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('calorimetry')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'calorimetry'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Calorimeter Rig
+            </button>
+          </div>
+
+          {activeRig === 'titration' && (
+            <button
+              onClick={handleReset}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md"
+              type="button"
+            >
+              <span className="material-symbols-outlined text-[18px]">restart_alt</span>
+              <span>Clean Glassware</span>
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Main 3-Column Laboratory Rig (Col 3 / Col 6 / Col 3) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+      {/* Main Laboratory Rig Viewport */}
+      {activeRig === 'calorimetry' ? (
+        <CalorimeterRig />
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
         {/* Left Column: Inventory & Reagent Rack (3 cols) */}
         <div className="lg:col-span-3">
           <ReagentShelf
@@ -117,6 +151,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
           />
         </div>
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 };

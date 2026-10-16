@@ -63,17 +63,29 @@
   - Upgraded `src/pages/ReactionDatabasePage.tsx` with dedicated interactive tabs for Reaction Mechanisms, Hess's Law Pathway Matrix Solver, and Galvanic Cell Nernst Simulators with direct persistence to the user's notebook.
 - **Metrics**: 88,181 total lines, 85,003 LOC.
 
+### Iteration 6: 3D Molecular Visualization, Virtual Titration & Calorimetry Workflows (Phases 3 & 4)
+- **Status**: Completed
+- **Changes**:
+  - Implemented 3D molecular raycasting, atom hover HUD, distance measurement ($d = \sqrt{\Delta x^2 + \Delta y^2 + \Delta z^2}$ Å), bond angle calculation ($\theta = \arccos(\vec{u} \cdot \vec{v} / (|\vec{u}||\vec{v}|))^\circ$), orbital wireframe rendering, and Cartesian `.XYZ` quantum chemistry coordinate export in `src/components/chemistry/molecules/MolecularViewer3D.tsx` and `src/pages/MolecularExplorerPage.tsx`.
+  - Added direct molecular bookmarking to `bookmarksApi` in `MolecularExplorerPage.tsx`.
+  - Implemented deterministic virtual lab backend engine in `services/chemistry/app/services/virtual_lab_service.py` with analytical Henderson-Hasselbalch titration curves, numerical first derivatives ($\frac{dpH}{dV}$), indicator transitions, and dual-mode calorimetry (solution coffee-cup dissolution and constant-volume bomb combustion).
+  - Exposed REST endpoints `/api/v1/chemistry/lab/titration-simulate`, `/calorimetry-simulate`, `/solutes`, and `/systems`.
+  - Added 11 new backend tests (7 unit in `test_virtual_lab.py`, 4 integration in `test_virtual_lab_api.py`). All 156 backend tests passing.
+  - Implemented frontend client `src/services/virtualLabService.ts` with 4 new Vitest tests (all 48 frontend tests passing).
+  - Overhauled `src/pages/VirtualLabPage.tsx` with unified Rig Switcher between "Rig #2: Titration Workcell" and "Rig #1: Calorimeter Rig".
+  - Upgraded `src/components/chemistry/virtual-lab/CalorimeterRig.tsx` with animated Dewar/bomb chambers, thermometer levels, live $T(t)$ curve, and direct persistence to `/api/v1/experiments`.
+  - Enhanced `src/components/chemistry/virtual-lab/ObservationLog.tsx` with "Save Run to Lab Notebook" button connected to `experimentsApi.saveExperiment`.
+- **Metrics**: 90,487 total lines, 87,004 LOC, 20,260 first-party implementation lines, 1,668 test lines, 204 automated tests.
+
 ---
 
 ## Next Prioritized Tasks
 
-1. **Task 1: 3D Molecular Visualization & Geometry Inspection (Phase 3)**:
-   - Implement interactive 3D ball-and-stick and space-filling molecular viewer using Three.js/WebGL in `src/pages/MolecularExplorerPage.tsx`.
-   - Support SMILES / PDB / XYZ parsing, bond angle/distance inspection, and functional group highlights.
-2. **Task 2: Virtual Laboratory Titration & Calorimetry Workflows (Phase 4)**:
-   - Implement interactive buret fluid drop titration curves (pH vs added titrant volume) and coffee-cup calorimeter temperature shift curves with live charting.
-   - Connect simulation outputs directly to the experiment database records.
-3. **Task 3: Education Platform User Roles & Dashboards (Phase 7 & 10)**:
-   - Provide student, teacher, and administrator dashboard views with assignment authoring and grading workflows.
+1. **Task 1: Education Platform Role Dashboards & Course Workflows (Phase 7 & 10)**:
+   - Provide dedicated Student, Teacher, and Administrator dashboard views with assignment authoring, lab rubric grading, and cohort streak tracking.
+2. **Task 2: Grounded AI Chemistry Assistant Expansion (Phase 6)**:
+   - Implement multi-step chemical problem solver with equation balancing, stoichiometry tutoring, and grounded deterministic verification.
+3. **Task 3: 2D Chemical Structure Drawing Canvas (Phase 3)**:
+   - Interactive SVG/Canvas chemical structure editor with bond snapping, formal charge assignment, aromatic ring stamps, and SMILES serialization.
 
 

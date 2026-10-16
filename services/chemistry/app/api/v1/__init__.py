@@ -15,6 +15,7 @@ from services.chemistry.app.api.v1.endpoints.bookmarks import router as bookmark
 from services.chemistry.app.api.v1.endpoints.experiments import router as experiments_router
 from services.chemistry.app.api.v1.endpoints.thermo import router as thermo_router
 from services.chemistry.app.api.v1.endpoints.electrochemistry import router as electrochemistry_router
+from services.chemistry.app.api.v1.endpoints.virtual_lab import router as virtual_lab_router
 
 api_v1_router = APIRouter(prefix="/api/v1")
 
@@ -28,6 +29,7 @@ api_v1_router.include_router(stoichiometry_router, prefix="/chemistry")
 api_v1_router.include_router(mixer_router, prefix="/chemistry")
 api_v1_router.include_router(thermo_router, prefix="/chemistry")
 api_v1_router.include_router(electrochemistry_router, prefix="/chemistry")
+api_v1_router.include_router(virtual_lab_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, and virtual lab notebook
