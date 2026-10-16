@@ -16,7 +16,13 @@ export type NavigationPath =
   | 'help-and-documentation'
   | 'settings-and-preferences'
   | 'teacher-portal'
-  | 'institution-portal';
+  | 'institution-portal'
+  | 'chemical-mixer'
+  | 'reaction-database'
+  | 'functional-groups'
+  | 'carbon-structures'
+  | 'isomers'
+  | 'global-search';
 
 export interface UserProfile {
   id: string;

@@ -50,6 +50,30 @@ export const Header: React.FC<HeaderProps> = ({
         return 'Analytics';
       case 'teacher-portal':
         return 'Institutional Faculty Portal';
+      case 'institution-portal':
+        return 'Institution Administration';
+      case 'chemical-mixer':
+        return 'Chemical Mixer';
+      case 'reaction-database':
+        return 'Reaction Knowledgebase';
+      case 'functional-groups':
+        return 'Functional Groups Atlas';
+      case 'carbon-structures':
+        return 'Carbon Allotropes';
+      case 'isomers':
+        return 'Stereoisomer Library';
+      case 'global-search':
+        return 'Global Chemistry Search';
+      case 'help-and-documentation':
+        return 'Documentation';
+      case 'settings-and-preferences':
+        return 'Preferences & Settings';
+      case 'saved-formulas':
+        return 'Saved Items';
+      case 'recent-sessions':
+        return 'Recent Sessions';
+      case 'my-experiments':
+        return 'Laboratory Experiments';
       default:
         return 'Console';
     }

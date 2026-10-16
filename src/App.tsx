@@ -3,7 +3,7 @@ import { AppLayout } from './components/layout/AppLayout';
 import { NavigationPath, UserProfile } from './types/navigation';
 import { CURRENT_USER } from './services/users';
 
-// Pages
+// Core Chemistry & Platform Pages
 import { DashboardPage } from './pages/DashboardPage';
 import { PeriodicTable } from './components/chemistry/periodic-table/PeriodicTable';
 import { MolecularExplorerPage } from './pages/MolecularExplorerPage';
@@ -14,6 +14,18 @@ import { CourseView } from './components/learning/CourseView';
 import { QuizView } from './components/assessments/QuizView';
 import { TeacherPortal } from './components/analytics/TeacherPortal';
 import { SavedItemsPage } from './pages/SavedItemsPage';
+import { AssignmentsPage } from './pages/AssignmentsPage';
+import { ChemicalMixerPage } from './pages/ChemicalMixerPage';
+import { ReactionDatabasePage } from './pages/ReactionDatabasePage';
+import { FunctionalGroupsPage } from './pages/FunctionalGroupsPage';
+import { CarbonStructuresPage } from './pages/CarbonStructuresPage';
+import { IsomersPage } from './pages/IsomersPage';
+import { HelpDocsPage } from './pages/HelpDocsPage';
+import { SettingsPage } from './pages/SettingsPage';
+import { InstitutionDashboardPage } from './pages/InstitutionDashboardPage';
+import { StudentProgressPage } from './pages/StudentProgressPage';
+import { GlobalSearchPage } from './pages/GlobalSearchPage';
+
 import { ChemicalElement } from './types/chemistry';
 
 export const App: React.FC = () => {
@@ -33,6 +45,11 @@ export const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenSearch = () => {
+    const evt = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true });
+    window.dispatchEvent(evt);
+  };
+
   const renderCurrentView = () => {
     switch (currentPath) {
       case 'dashboard':
@@ -40,11 +57,7 @@ export const App: React.FC = () => {
           <DashboardPage
             user={user}
             onNavigate={handleNavigate}
-            onOpenSearch={() => {
-              // Trigger command palette via keyboard event simulation or state
-              const evt = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true });
-              window.dispatchEvent(evt);
-            }}
+            onOpenSearch={handleOpenSearch}
           />
         );
 
@@ -52,9 +65,7 @@ export const App: React.FC = () => {
         return (
           <PeriodicTable
             initialSelectedElement={activeElementMeta}
-            onAskAi={(element) => {
-              setCurrentPath('ai-tutor');
-            }}
+            onAskAi={() => setCurrentPath('ai-tutor')}
           />
         );
 
@@ -70,6 +81,21 @@ export const App: React.FC = () => {
       case 'reaction-engine':
         return <ReactionBalancer />;
 
+      case 'chemical-mixer':
+        return <ChemicalMixerPage />;
+
+      case 'reaction-database':
+        return <ReactionDatabasePage />;
+
+      case 'functional-groups':
+        return <FunctionalGroupsPage />;
+
+      case 'carbon-structures':
+        return <CarbonStructuresPage />;
+
+      case 'isomers':
+        return <IsomersPage />;
+
       case 'virtual-lab':
       case 'my-experiments':
         return <VirtualLabPage onAskAi={() => setCurrentPath('ai-tutor')} />;
@@ -78,7 +104,6 @@ export const App: React.FC = () => {
         return <AiTutorChat />;
 
       case 'learn-and-courses':
-      case 'assignments':
         return (
           <CourseView
             onLaunchVirtualLab={() => setCurrentPath('virtual-lab')}
@@ -89,26 +114,37 @@ export const App: React.FC = () => {
       case 'practice-and-quizzes':
         return <QuizView />;
 
+      case 'assignments':
+        return <AssignmentsPage />;
+
       case 'progress-and-analytics':
+        return <StudentProgressPage />;
+
       case 'teacher-portal':
-      case 'institution-portal':
         return <TeacherPortal />;
+
+      case 'institution-portal':
+        return <InstitutionDashboardPage />;
+
+      case 'global-search':
+        return <GlobalSearchPage />;
 
       case 'saved-formulas':
       case 'recent-sessions':
-      case 'help-and-documentation':
-      case 'settings-and-preferences':
         return <SavedItemsPage onNavigate={handleNavigate} />;
+
+      case 'help-and-documentation':
+        return <HelpDocsPage />;
+
+      case 'settings-and-preferences':
+        return <SettingsPage />;
 
       default:
         return (
           <DashboardPage
             user={user}
             onNavigate={handleNavigate}
-            onOpenSearch={() => {
-              const evt = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true });
-              window.dispatchEvent(evt);
-            }}
+            onOpenSearch={handleOpenSearch}
           />
         );
     }

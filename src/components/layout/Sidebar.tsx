@@ -33,6 +33,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { path: 'assignments', label: 'Assignments', icon: 'assignment' },
     { path: 'progress-and-analytics', label: 'Progress & Analytics', icon: 'trending_up' },
     { path: 'teacher-portal', label: 'Teacher & Faculty', icon: 'supervisor_account' },
+    { path: 'institution-portal', label: 'Institution Admin', icon: 'corporate_fare' },
+  ];
+
+  const advancedToolNavItems: { path: NavigationPath; label: string; icon: string }[] = [
+    { path: 'chemical-mixer', label: 'Chemical Mixer', icon: 'local_bar' },
+    { path: 'reaction-database', label: 'Reaction Database', icon: 'dataset' },
+    { path: 'functional-groups', label: 'Functional Groups', icon: 'category' },
+    { path: 'carbon-structures', label: 'Carbon Allotropes', icon: 'grain' },
+    { path: 'isomers', label: 'Isomer Library', icon: 'polyline' },
   ];
 
   const workspaceNavItems: { path: NavigationPath; label: string; icon: string }[] = [
@@ -144,6 +153,45 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         </span>
                       )}
                     </>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Specialized Scientific Tools Group */}
+        <div className="pt-space-sm border-t border-surface-container-low">
+          {!collapsed && (
+            <div className="mb-1.5 px-space-sm">
+              <span className="font-label-sm text-label-sm uppercase tracking-wider text-outline">
+                Specialized Explorers
+              </span>
+            </div>
+          )}
+          <nav className="space-y-0.5">
+            {advancedToolNavItems.map((item) => {
+              const isActive = currentPath === item.path;
+              return (
+                <button
+                  key={item.path}
+                  onClick={() => {
+                    onNavigate(item.path);
+                    onCloseMobile();
+                  }}
+                  type="button"
+                  title={item.label}
+                  className={`w-full flex items-center ${
+                    collapsed ? 'justify-center px-2 py-2' : 'gap-2.5 px-space-sm py-2'
+                  } rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-primary-container text-on-primary font-semibold'
+                      : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[19px] shrink-0">{item.icon}</span>
+                  {!collapsed && (
+                    <span className="font-label-md text-label-md truncate">{item.label}</span>
                   )}
                 </button>
               );
