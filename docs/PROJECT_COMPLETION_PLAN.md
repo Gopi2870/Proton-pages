@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **132,089 Total Lines** (126,114 non-empty LOC | Source: 123,544 | Tests: 6,510 | Docs: 1,816 | Config: 219 across 410 files)  
-**Total Automated Tests**: **453 tests passing (100%)** (Backend: 322 | Frontend: 131)  
-**Git History**: 56 commits on `main` | 38 merged Pull Requests  
+**Current Verified LOC**: **134,300 Total Lines** (128,126 non-empty LOC | Source: 125,270 | Tests: 6,842 | Docs: 1,969 | Config: 219 across 422 files)  
+**Total Automated Tests**: **470 tests passing (100%)** (Backend: 334 | Frontend: 136)  
+**Git History**: 58 commits on `main` | 39 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -34,6 +34,7 @@ graph TD
     ChemEngine --> Dynamics[Molecular Dynamics & Velocity-Verlet]
     ChemEngine --> ElectroAnalysis[Cyclic Voltammetry & Cottrell Engine]
     ChemEngine --> TernaryLLE[Ternary Phase Equilibria & Hunter-Nash LLE]
+    ChemEngine --> CoordinationCFT[Crystal Field Theory & d-Orbital Splitting]
     Client --> ClientFallback[Self-Contained Offline Scientific Fallbacks]
 ```
 
@@ -45,7 +46,7 @@ graph TD
 
 ---
 
-## 2. Completed Capabilities Matrix (PRs #001 to #038)
+## 2. Completed Capabilities Matrix (PRs #001 to #039)
 
 | PR # | Branch / Module | Domain & Key Algorithms | Tests Added | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -63,6 +64,7 @@ graph TD
 | **#036** | `feature/molecular-dynamics-velocity-verlet` | Lennard-Jones 12-6, Velocity-Verlet, PBC minimum image, NVE/NVT, $g(r)$, MSD diffusion | 20 tests | Merged |
 | **#037** | `feature/electrochemistry-cyclic-voltammetry` | Randles-Sevcik peak current, Butler-Volmer kinetics, Nicholson $\psi$, Cottrell chronoamperometry | 17 tests | Merged |
 | **#038** | `feature/phase-equilibria-ternary-lle` | Gibbs equilateral projections, binodal miscibility gap, Hand/Othmer-Tobias consistency, Hunter-Nash stages | 18 tests | Merged |
+| **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller distortion, magnetic moments, optical color | 17 tests | Merged |
 
 ---
 
@@ -70,17 +72,17 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 123,544 lines (118,859 non-empty) across 305 files
-- **Automated Tests**: 6,510 lines (5,598 non-empty) across 74 files
-- **Documentation**: 1,816 lines (1,442 non-empty) across 25 files
+- **Source Code**: 125,270 lines (120,450 non-empty) across 312 files
+- **Automated Tests**: 6,842 lines (5,892 non-empty) across 77 files
+- **Documentation**: 1,969 lines (1,569 non-empty) across 27 files
 - **Configuration**: 219 lines (215 non-empty) across 6 files
-- **Total Verified LOC**: **132,089 Total Lines** (126,114 non-empty LOC) across 410 files
+- **Total Verified LOC**: **134,300 Total Lines** (128,126 non-empty LOC) across 422 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 322 passed across unit, integration, and property tests in 12.6s.
-- **Vitest Frontend Suite**: 131 passed across 24 test files in 6.1s.
+- **Python Pytest Suite**: 334 passed across unit, integration, and property tests in 13.2s.
+- **Vitest Frontend Suite**: 136 passed across 25 test files in 6.5s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
-- **Production Build**: Vite build succeeded in 32.7s.
+- **Production Build**: Vite build succeeded in 29.4s.
 
 ---
 
@@ -88,18 +90,18 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR37[PR #037: Cyclic Voltammetry (Merged)] --> PR38[PR #038: Ternary LLE (Merged)]
-    PR38 --> PR39[PR #039: Coordination Chemistry & CFT]
+    PR38[PR #038: Ternary LLE (Merged)] --> PR39[PR #039: Coordination CFT (Merged)]
     PR39 --> PR40[PR #040: Stiff ODE Reaction Networks]
+    PR40 --> PR41[PR #041: Surface Science & Langmuir Adsorption]
 ```
 
 ### Active Priority Backlog:
-1. **PR #039: Coordination Chemistry & Crystal Field Theory (CFT) (Active Next)**
-   - Octahedral ($O_h$), tetrahedral ($T_d$), and square planar ($D_{4h}$) d-orbital splitting diagrams ($\Delta_o, \Delta_t, \Delta_{\text{sp}}$).
-   - Crystal Field Stabilization Energy (CFSE), pairing energy $P$, high-spin vs low-spin electron configurations ($d^1 - d^{10}$).
-   - Jahn-Teller tetragonal distortion ($z$-out vs $z$-in) for $d^9$ (e.g. $\text{Cu}^{2+}$) and high-spin $d^4$ ($\text{Cr}^{2+}$).
-   - Spectrochemical ligand series ($\text{I}^- < \text{Br}^- < \text{Cl}^- < \text{F}^- < \text{OH}^- < \text{H}_2\text{O} < \text{NH}_3 < \text{en} < \text{NO}_2^- < \text{CN}^- < \text{CO}$).
-   - Magnetic susceptibility (spin-only magnetic moment $\mu_{\text{eff}} = \sqrt{n(n+2)} \mu_B$) and Tanabe-Sugano electronic absorption spectra prediction.
-2. **PR #040: Computational Chemical Kinetics Network & Stiff ODE Solvers**
-   - Generalized reaction network mechanism builder with arbitrary stoichiometry and rate laws.
-   - Implicit stiff ODE integrator (Rosenbrock / Backward Differentiation Formula BDF) for multi-scale atmospheric and combustion kinetic networks.
+1. **PR #040: Computational Chemical Kinetics Network & Stiff ODE Solvers (Active Next)**
+   - Generalized chemical reaction network compiler with arbitrary reaction orders and reversible equilibrium steps.
+   - Stiff numerical ODE integration: Rosenbrock / Backward Differentiation Formula (BDF) / Radau IIA methods handling disparity in rate constants ($10^{-6}\text{ s}^{-1}$ to $10^{9}\text{ s}^{-1}$).
+   - Classical atmospheric (Chapman ozone cycle $\text{O}_2 + h\nu \leftrightarrow \text{O}_3$), combustion (Zeldovich $\text{NO}_x$ mechanism), and oscillatory (Belousov-Zhabotinsky Oregonator) benchmark networks.
+   - Sensitivity analysis: Jacobian matrix computation $\partial f_i / \partial c_j$ and normalized sensitivity coefficients.
+2. **PR #041: Surface Chemistry, Heterogeneous Catalysis & Langmuir-BET Adsorption**
+   - Langmuir, Freundlich, and BET (Brunauer-Emmett-Teller) multilayer gas adsorption isotherms.
+   - Specific surface area determination ($S_{\text{BET}}$ in $\text{m}^2/\text{g}$), monolayer volume $V_m$, and heat of adsorption $C$.
+   - Langmuir-Hinshelwood and Eley-Rideal heterogeneous catalytic kinetics.

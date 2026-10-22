@@ -28,6 +28,7 @@
 | **#036** | `feature/molecular-dynamics-velocity-verlet` | Lennard-Jones 12-6, Velocity-Verlet, PBC minimum image, NVE/NVT, $g(r)$, MSD | 20 tests | Merged to `main` (`--no-ff`) | Local merged |
 | **#037** | `feature/electrochemistry-cyclic-voltammetry` | Randles-Sevcik peak current, Butler-Volmer kinetics, Nicholson $\psi$, Cottrell | 17 tests | Merged to `main` (`--no-ff`) | Local merged |
 | **#038** | `feature/phase-equilibria-ternary-lle` | Gibbs equilateral projections, binodal miscibility gap, Hand/Othmer-Tobias, Hunter-Nash | 18 tests | Commit `8d50d5c`, Merged (`--no-ff`) | Local merged |
+| **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller, magnetic moments | 17 tests | Commit `8c13bff`, Merged (`--no-ff`) | Local merged |
 
 ---
 
@@ -44,29 +45,28 @@
 ---
 
 ## 3. Verified Metrics Summary (Commit `HEAD` on `main`)
-- **Total Lines**: 132,089
-- **Non-Empty Lines**: 126,114
-- **Files Tracked**: 410 files
-  - Source Code: 123,544 lines across 305 files
-  - Automated Tests: 6,510 lines across 74 files
-  - Documentation: 1,816 lines across 25 files
+- **Total Lines**: 134,300
+- **Non-Empty Lines**: 128,126
+- **Files Tracked**: 422 files
+  - Source Code: 125,270 lines across 312 files
+  - Automated Tests: 6,842 lines across 77 files
+  - Documentation: 1,969 lines across 27 files
   - Configuration: 219 lines across 6 files
 - **Automated Tests**:
-  - Backend Pytest: 322 passed in 12.64s
-  - Frontend Vitest: 131 passed in 6.13s
-  - Total: 453 automated tests (100% passing)
+  - Backend Pytest: 334 passed in 13.18s
+  - Frontend Vitest: 136 passed in 6.53s
+  - Total: 470 automated tests (100% passing)
 - **TypeScript**: 0 errors (`npx tsc --noEmit`)
-- **Build**: Succeeded (`vite build` in 32.74s)
+- **Build**: Succeeded (`vite build` in 29.43s)
 
 ---
 
-## 4. Next Incomplete Backlog Item: PR #039
-- **Feature**: Coordination Chemistry & Crystal Field Theory (CFT)
-- **Target Branch**: `feature/coordination-chemistry-crystal-field-theory`
+## 4. Next Incomplete Backlog Item: PR #040
+- **Feature**: Computational Chemical Kinetics Network & Stiff ODE Solvers
+- **Target Branch**: `feature/stiff-kinetics-reaction-networks`
 - **Scope**:
-  1. Octahedral ($O_h$), tetrahedral ($T_d$), and square planar ($D_{4h}$) d-orbital splitting schemes ($\Delta_o, \Delta_t, \Delta_{\text{sp}}$).
-  2. Crystal Field Stabilization Energy (CFSE) with electron pairing energy $P$ and high-spin vs low-spin spin states ($d^1 - d^{10}$).
-  3. Jahn-Teller tetragonal distortion ($z$-out vs $z$-in) for $d^9$ ($\text{Cu}^{2+}$) and high-spin $d^4$ ($\text{Cr}^{2+}$).
-  4. Spectrochemical ligand series ($\text{I}^- < \text{Br}^- < \text{Cl}^- < \text{F}^- < \text{OH}^- < \text{H}_2\text{O} < \text{NH}_3 < \text{en} < \text{NO}_2^- < \text{CN}^- < \text{CO}$).
-  5. Spin-only magnetic moment $\mu_{\text{eff}} = \sqrt{n(n+2)} \mu_B$ and Tanabe-Sugano ligand field absorption spectra.
-  6. Interactive Coordination Chemistry Workstation with d-orbital energy level diagram and visual color coordination sphere.
+  1. Generalized chemical reaction network compiler with arbitrary reaction orders and reversible elementary steps.
+  2. Stiff numerical ODE integration: Rosenbrock / Backward Differentiation Formula (BDF) / Radau IIA methods handling disparity in rate constants ($10^{-6}\text{ s}^{-1}$ to $10^{9}\text{ s}^{-1}$).
+  3. Classical atmospheric (Chapman ozone cycle $\text{O}_2 + h\nu \leftrightarrow \text{O}_3$), combustion (Zeldovich $\text{NO}_x$ mechanism), and oscillatory (Belousov-Zhabotinsky Oregonator) benchmark networks.
+  4. Sensitivity analysis: Jacobian matrix computation $\partial f_i / \partial c_j$ and normalized sensitivity coefficients.
+  5. Interactive Reaction Network Simulator with live concentration vs time trajectories and phase space limit cycles.
