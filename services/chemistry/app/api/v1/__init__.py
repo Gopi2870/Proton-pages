@@ -17,6 +17,7 @@ from services.chemistry.app.api.v1.endpoints.thermo import router as thermo_rout
 from services.chemistry.app.api.v1.endpoints.electrochemistry import router as electrochemistry_router
 from services.chemistry.app.api.v1.endpoints.virtual_lab import router as virtual_lab_router
 from services.chemistry.app.api.v1.endpoints.spectroscopy import router as spectroscopy_router
+from services.chemistry.app.api.v1.endpoints.kinetics import router as kinetics_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -34,6 +35,7 @@ api_v1_router.include_router(thermo_router, prefix="/chemistry")
 api_v1_router.include_router(electrochemistry_router, prefix="/chemistry")
 api_v1_router.include_router(virtual_lab_router, prefix="/chemistry")
 api_v1_router.include_router(spectroscopy_router, prefix="/chemistry")
+api_v1_router.include_router(kinetics_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
