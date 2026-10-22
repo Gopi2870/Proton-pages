@@ -8,6 +8,7 @@ import { bookmarksApi } from '../services/api';
 import { CrystallographyWorkbench } from '../components/chemistry/crystallography/CrystallographyWorkbench';
 import { MolecularOrbitalWorkstation } from '../components/chemistry/quantum/MolecularOrbitalWorkstation';
 import { MolecularDynamicsWorkstation } from '../components/chemistry/dynamics/MolecularDynamicsWorkstation';
+import { CoordinationCftWorkstation } from '../components/chemistry/coordination/CoordinationCftWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -18,7 +19,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics' | 'coordination'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -121,7 +122,9 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'Materials & Solid-State Explorer'
                     : workbenchTab === 'orbitals'
                     ? 'Quantum Molecular Orbitals (HMO)'
-                    : 'Molecular Dynamics (Velocity-Verlet)'}
+                    : workbenchTab === 'dynamics'
+                    ? 'Molecular Dynamics (Velocity-Verlet)'
+                    : 'Coordination Chemistry & Crystal Field Theory'}
                 </h1>
                 <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-code-sm text-code-sm font-semibold">
                   {workbenchTab === 'molecules'
@@ -130,7 +133,9 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'XRD-Bravais'
                     : workbenchTab === 'orbitals'
                     ? 'Hückel-HMO'
-                    : 'LJ-12-6 NVE/NVT'}
+                    : workbenchTab === 'dynamics'
+                    ? 'LJ-12-6 NVE/NVT'
+                    : 'CFT Oh/Td/D4h'}
                 </span>
                 {savedFeedback && (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-xs font-semibold animate-pulse">
@@ -145,7 +150,9 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? 'Bravais lattices, Miller indices planes, unit cell geometries, and powder X-ray diffractograms'
                   : workbenchTab === 'orbitals'
                   ? 'Hückel molecular orbital secular matrix, energy ladders, wave function nodal planes, and UV-Vis absorption'
-                  : 'Lennard-Jones interatomic pair potential, Velocity-Verlet symplectic integrator, periodic boundary conditions, and g(r) pair correlation'}
+                  : workbenchTab === 'dynamics'
+                  ? 'Lennard-Jones interatomic pair potential, Velocity-Verlet symplectic integrator, periodic boundary conditions, and g(r) pair correlation'
+                  : 'Octahedral, tetrahedral, and square planar d-orbital splitting manifolds, CFSE, High/Low-spin, and Jahn-Teller effect'}
               </p>
             </div>
           </div>
@@ -195,6 +202,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               Molecular Dynamics
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('coordination')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'coordination'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Coordination & CFT
             </button>
           </div>
 
@@ -327,6 +345,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
         <MolecularOrbitalWorkstation />
       ) : workbenchTab === 'dynamics' ? (
         <MolecularDynamicsWorkstation onAskAi={onAskAi} />
+      ) : workbenchTab === 'coordination' ? (
+        <CoordinationCftWorkstation />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
           {/* Left Panel: Library & Isomers (3 cols) */}
