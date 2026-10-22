@@ -32,9 +32,10 @@ import {
 } from '../services/electrochemistryService';
 import { bookmarksApi, experimentsApi } from '../services/api';
 import { KineticsReactorRig } from '../components/chemistry/reactions/KineticsReactorRig';
+import { OrganicMechanismPlayer } from '../components/chemistry/mechanisms/OrganicMechanismPlayer';
 
 export const ReactionDatabasePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics'>('catalog');
+  const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics' | 'mechanisms'>('catalog');
 
   // --- Catalog State ---
   const [searchTerm, setSearchTerm] = useState('');
@@ -270,6 +271,17 @@ export const ReactionDatabasePage: React.FC = () => {
           >
             <RotateCcw className="w-4 h-4" />
             <span>Kinetics & Rate Laws</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('mechanisms')}
+            className={`px-3.5 py-1.5 rounded-lg text-label-md font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'mechanisms'
+                ? 'bg-primary text-on-primary shadow-xs'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <Layers className="w-4 h-4" />
+            <span>Organic Mechanisms</span>
           </button>
         </div>
       </div>
@@ -827,6 +839,13 @@ export const ReactionDatabasePage: React.FC = () => {
       {activeTab === 'kinetics' && (
         <div className="pt-2">
           <KineticsReactorRig />
+        </div>
+      )}
+
+      {/* Organic Mechanisms Tab */}
+      {activeTab === 'mechanisms' && (
+        <div className="pt-2">
+          <OrganicMechanismPlayer />
         </div>
       )}
     </div>
