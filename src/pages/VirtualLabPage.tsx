@@ -8,13 +8,14 @@ import { ObservationLog } from '../components/chemistry/virtual-lab/ObservationL
 
 import { CalorimeterRig } from '../components/chemistry/virtual-lab/CalorimeterRig';
 import { SpectrophotometerRig } from '../components/chemistry/spectroscopy/SpectrophotometerRig';
+import { GasLawsPistonRig } from '../components/chemistry/virtual-lab/GasLawsPistonRig';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
-  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy'>('titration');
+  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws'>('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -67,7 +68,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #2: Acid-Base Titration'
                   : activeRig === 'calorimetry'
                   ? 'Rig #1: Calorimetry'
-                  : 'Rig #3: UV-Vis Spectrophotometer'}
+                  : activeRig === 'spectroscopy'
+                  ? 'Rig #3: UV-Vis Spectrophotometer'
+                  : 'Rig #4: Gas Laws & Kinetic Theory'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -112,6 +115,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Spectrophotometer
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('gas-laws')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'gas-laws'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Piston Chamber
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -132,6 +146,8 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
         <SpectrophotometerRig />
       ) : activeRig === 'calorimetry' ? (
         <CalorimeterRig />
+      ) : activeRig === 'gas-laws' ? (
+        <GasLawsPistonRig />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
         {/* Left Column: Inventory & Reagent Rack (3 cols) */}
