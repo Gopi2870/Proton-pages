@@ -70,6 +70,7 @@ graph TD
 | **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly implicit Rosenbrock-W (ROS2) stiff ODE solver, exact analytic Jacobian, Robertson benchmark, Oregonator BZ oscillator | 19 tests | Merged |
 | **#041** | `feature/surface-chemistry-adsorption-catalysis` | Multi-point BET surface area ($S_{\text{BET}}$), Rouquerol criteria, Langmuir/Freundlich comparison, Langmuir-Hinshelwood kinetics | 19 tests | Merged |
 | **#042** | `feature/nuclear-decay-bateman-chains` | Analytical Bateman equation cascade solver, $\lambda$ regularization, secular/transient equilibrium, calibrated radiocarbon dating | 21 tests | Merged |
+| **#043** | `feature/statistical-thermo-partition-functions` | Canonical partition functions ($q_{\text{trans}}, q_{\text{rot}}, q_{\text{vib}}, q_{\text{elec}}$), Sackur-Tetrode entropy, quantum freeze-out | 21 tests | Merged |
 
 ---
 
@@ -77,14 +78,14 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Total Verified LOC**: **142,217 Total Lines** (135,253 non-empty LOC) across 460 files
+- **Total Verified LOC**: **144,740 Total Lines** (137,526 non-empty LOC) across 471 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 373 passed across unit, integration, and property tests in 22.97s.
-- **Vitest Frontend Suite**: 156 passed across 28 test files in 6.18s.
+- **Python Pytest Suite**: 387 passed across unit, integration, and property tests in 9.10s.
+- **Vitest Frontend Suite**: 163 passed across 29 test files in 4.33s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
-- **Production Build**: Vite build succeeded in 42.68s.
-- **Total Commits on `main`**: 69 commits
+- **Production Build**: Vite build succeeded in 18.84s.
+- **Total Commits on `main`**: 72 commits
 
 ---
 
@@ -92,19 +93,21 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR41[PR #041: Surface Science & Langmuir Adsorption (Merged)] --> PR42[PR #042: Nuclear Chemistry & Bateman Decay (Merged)]
-    PR42 --> PR43[PR #043: Statistical Thermodynamics & Partition Functions (Active Next)]
-    PR43 --> PR44[PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations]
+    PR42[PR #042: Nuclear Chemistry & Bateman Decay (Merged)] --> PR43[PR #043: Statistical Thermodynamics & Partition Functions (Merged)]
+    PR43 --> PR44[PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations (Active Next)]
+    PR44 --> PR45[PR #045: Supramolecular Chemistry & Host-Guest Complexation]
 ```
 
 ### Active Priority Backlog:
-1. **PR #043: Statistical Thermodynamics & Molecular Partition Functions (Active Next)**
-   - Translational, rotational, vibrational, and electronic partition functions ($q_{\text{trans}}, q_{\text{rot}}, q_{\text{vib}}, q_{\text{elec}}$).
-   - Canonical ensemble ensemble partition function $Q(N, V, T)$ for indistinguishable ideal gas molecules ($Q = q^N / N!$).
-   - Exact derivations of macroscopic thermodynamic state functions: $U(T), S(T), A(T), G(T), C_v(T), C_p(T)$.
-   - Quantum low-temperature freeze-out vs high-temperature classical equipartition limits.
-   - Dual-layer backend schemas, services, API endpoints, Pytest tests, Vitest tests, and interactive statistical thermodynamics workstation.
-2. **PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations**
-   - Generalized thermodynamic forces and fluxes ($J_i = \sum L_{ik} X_k$).
-   - Onsager reciprocal symmetry ($L_{ik} = L_{ki}$).
-   - Thermoelectric effects (Seebeck, Peltier, Thomson) and thermodiffusion (Soret and Dufour effects).
+1. **PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations (Active Next)**
+   - Entropy production rate in irreversible processes: $\sigma = \sum J_i X_i \ge 0$.
+   - Coupled linear transport equations: $J_i = \sum_{k} L_{ik} X_k$.
+   - Microscopic reversibility and Onsager reciprocal symmetry: $L_{ik} = L_{ki}$ (and $L_{ik}(B) = L_{ki}(-B)$).
+   - Thermoelectric transport (Seebeck coefficient $S$, Peltier coefficient $\Pi = S T$, Thomson heat).
+   - Thermodiffusion (Soret effect $S_T$ and Dufour effect).
+   - Electrokinetic cross-coupling (streaming potential and electro-osmosis, Saxén relations).
+   - Dual-layer backend schemas, services, API endpoints, Pytest tests, Vitest tests, and interactive non-equilibrium transport workstation.
+2. **PR #045: Supramolecular Chemistry & Host-Guest Complexation**
+   - Crown ethers, cyclodextrins, and cryptand inclusion binding equilibria.
+   - Job's method of continuous variation for stoichiometry determination.
+   - Non-covalent interaction energies: hydrogen bonding, $\pi$-$\pi$ stacking, cation-$\pi$, hydrophobic driving forces.
