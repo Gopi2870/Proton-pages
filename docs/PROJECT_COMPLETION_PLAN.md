@@ -69,6 +69,7 @@ graph TD
 | **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller distortion, magnetic moments, optical color | 17 tests | Merged |
 | **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly implicit Rosenbrock-W (ROS2) stiff ODE solver, exact analytic Jacobian, Robertson benchmark, Oregonator BZ oscillator | 19 tests | Merged |
 | **#041** | `feature/surface-chemistry-adsorption-catalysis` | Multi-point BET surface area ($S_{\text{BET}}$), Rouquerol criteria, Langmuir/Freundlich comparison, Langmuir-Hinshelwood kinetics | 19 tests | Merged |
+| **#042** | `feature/nuclear-decay-bateman-chains` | Analytical Bateman equation cascade solver, $\lambda$ regularization, secular/transient equilibrium, calibrated radiocarbon dating | 21 tests | Merged |
 
 ---
 
@@ -76,17 +77,14 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 121,856 lines across 322 files
-- **Automated Tests**: 7,476 lines across 83 files
-- **Documentation**: 2,110 lines across 28 files
-- **Configuration**: 7,308 lines across 9 files
-- **Total Verified LOC**: **138,750 Total Lines** (132,134 non-empty LOC) across 442 files
+- **Total Verified LOC**: **142,217 Total Lines** (135,253 non-empty LOC) across 460 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 361 passed across unit, integration, and property tests in 13.37s.
-- **Vitest Frontend Suite**: 147 passed across 27 test files in 6.51s.
+- **Python Pytest Suite**: 373 passed across unit, integration, and property tests in 22.97s.
+- **Vitest Frontend Suite**: 156 passed across 28 test files in 6.18s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
-- **Production Build**: Vite build succeeded in 34.72s.
+- **Production Build**: Vite build succeeded in 42.68s.
+- **Total Commits on `main`**: 69 commits
 
 ---
 
@@ -94,17 +92,19 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR40[PR #040: Stiff Kinetics ODE (Merged)] --> PR41[PR #041: Surface Science & Langmuir Adsorption (Merged)]
-    PR41 --> PR42[PR #042: Nuclear Chemistry & Radioactive Decay]
-    PR42 --> PR43[PR #043: Statistical Thermodynamics & Partition Functions]
+    PR41[PR #041: Surface Science & Langmuir Adsorption (Merged)] --> PR42[PR #042: Nuclear Chemistry & Bateman Decay (Merged)]
+    PR42 --> PR43[PR #043: Statistical Thermodynamics & Partition Functions (Active Next)]
+    PR43 --> PR44[PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations]
 ```
 
 ### Active Priority Backlog:
-1. **PR #042: Nuclear Chemistry, Radioactive Decay Chains & Bateman Equation Solver (Active Next)**
-   - Sequential alpha, beta, gamma radioactive decay chains ($A \rightarrow B \rightarrow C$).
-   - Exact analytical Bateman equations for transient and secular radioactive equilibria.
-   - Radiocarbon dating calibration, decay constant $\lambda$, half-life $t_{1/2}$, and decay activity $A(t) = \lambda N(t)$.
-   - Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive decay chain workstation.
-2. **PR #043: Statistical Thermodynamics & Molecular Partition Functions**
+1. **PR #043: Statistical Thermodynamics & Molecular Partition Functions (Active Next)**
    - Translational, rotational, vibrational, and electronic partition functions ($q_{\text{trans}}, q_{\text{rot}}, q_{\text{vib}}, q_{\text{elec}}$).
-   - Statistical entropy ($S = k_B \ln W$), internal energy $U(T)$, Helmholtz free energy $A(T)$, and heat capacity $C_v(T)$.
+   - Canonical ensemble ensemble partition function $Q(N, V, T)$ for indistinguishable ideal gas molecules ($Q = q^N / N!$).
+   - Exact derivations of macroscopic thermodynamic state functions: $U(T), S(T), A(T), G(T), C_v(T), C_p(T)$.
+   - Quantum low-temperature freeze-out vs high-temperature classical equipartition limits.
+   - Dual-layer backend schemas, services, API endpoints, Pytest tests, Vitest tests, and interactive statistical thermodynamics workstation.
+2. **PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations**
+   - Generalized thermodynamic forces and fluxes ($J_i = \sum L_{ik} X_k$).
+   - Onsager reciprocal symmetry ($L_{ik} = L_{ki}$).
+   - Thermoelectric effects (Seebeck, Peltier, Thomson) and thermodiffusion (Soret and Dufour effects).

@@ -3,11 +3,11 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Execution Mode**: Autonomous Recursive Completion Loop  
 **Current Active Branch**: `main`  
-**Current Commit**: HEAD on `main`  
-**Verified Source Lines of Code**: **132,089 Total Lines** (126,114 non-empty LOC across 410 files)  
-**Automated Tests**: **453 tests passing (100%)** (Backend: 322 | Frontend: 131)  
+**Current Commit**: HEAD on `main` (Merge commit for PR #042)  
+**Verified Source Lines of Code**: **142,217 Total Lines** (135,253 non-empty LOC across 460 files)  
+**Automated Tests**: **529 tests passing (100%)** (Backend: 373 | Frontend: 156)  
 **TypeScript Type Check**: Clean `tsc --noEmit` (0 errors)  
-**Production Bundle**: Succeeded (`vite build` in 32.74s)  
+**Production Bundle**: Succeeded (`vite build` in 42.68s)  
 
 ---
 
@@ -31,6 +31,7 @@
 | **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller, magnetic moments | 17 tests | Commit `8c13bff`, Merged (`--no-ff`) | Local merged |
 | **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly-implicit Rosenbrock-W (ROS2) stiff ODE solver, analytic Jacobian, Robertson benchmark, Oregonator | 19 tests | Commit `64b10f4`, Merged (`--no-ff`) | Local merged |
 | **#041** | `feature/surface-chemistry-adsorption-catalysis` | Multi-point BET surface area ($S_{\text{BET}}$), Rouquerol criteria, Langmuir/Freundlich comparison, Langmuir-Hinshelwood kinetics | 19 tests | Commit `ce83640`, Merged (`--no-ff`) | Local merged |
+| **#042** | `feature/nuclear-decay-bateman-chains` | Analytical Bateman equation cascade solver, $\lambda$ regularization, secular/transient equilibrium, calibrated radiocarbon dating | 21 tests (12 backend, 9 frontend) | Commit `c2e9265`, Merged (`--no-ff`) | Local merged |
 
 ---
 
@@ -47,27 +48,29 @@
 ---
 
 ## 3. Verified Metrics Summary (Commit `HEAD` on `main`)
-- **Total Lines**: 138,750
-- **Non-Empty Lines**: 132,134
-- **Files Tracked**: 442 files
-  - Source Code: 121,856 lines across 322 files
-  - Automated Tests: 7,476 lines across 83 files
-  - Documentation: 2,110 lines across 28 files
-  - Configuration: 7,308 lines across 9 files
+- **Total Lines**: 142,217
+- **Non-Empty Lines**: 135,253
+- **Files Tracked**: 460 files
 - **Automated Tests**:
-  - Backend Pytest: 361 passed in 13.37s
-  - Frontend Vitest: 147 passed in 6.51s
-  - Total: 508 automated tests (100% passing)
+  - Backend Pytest: 373 passed in 22.97s
+  - Frontend Vitest: 156 passed in 6.18s
+  - Total: 529 automated tests (100% passing)
 - **TypeScript**: 0 errors (`npx tsc --noEmit`)
-- **Build**: Succeeded (`vite build` in 34.72s)
+- **Build**: Succeeded (`vite build` in 42.68s)
+- **Git Commits on `main`**: 69 commits
 
 ---
 
-## 4. Next Incomplete Backlog Item: PR #042
-- **Feature**: Nuclear Chemistry, Radioactive Decay Chains & Bateman Equation Solver
-- **Target Branch**: `feature/nuclear-decay-bateman-chains`
+## 4. Next Incomplete Backlog Item: PR #043
+- **Feature**: Statistical Thermodynamics & Molecular Partition Functions
+- **Target Branch**: `feature/statistical-thermo-partition-functions`
 - **Scope**:
-  1. Sequential alpha, beta, gamma radioactive decay chains ($A \rightarrow B \rightarrow C$).
-  2. Exact analytical Bateman equations for transient and secular radioactive equilibria.
-  3. Radiocarbon dating calibration, decay constant $\lambda$, half-life $t_{1/2}$, and decay activity $A(t) = \lambda N(t)$.
-  4. Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive decay chain workstation.
+  1. Molecular partition functions: translational ($q_{\text{trans}}$), rotational ($q_{\text{rot}}$ for linear and non-linear polyatomic rotors with symmetry numbers $\sigma$), vibrational ($q_{\text{vib}}$ product over normal modes), and electronic ($q_{\text{elec}}$ with spin degeneracies).
+  2. Canonical ensemble ensemble partition function $Q(N, V, T)$ for indistinguishable ideal gas molecules ($Q = q^N / N!$).
+  3. Exact derivations of macroscopic thermodynamic state functions:
+     - Internal thermal energy: $U - U(0) = k_B T^2 \left(\frac{\partial \ln Q}{\partial T}\right)_{V, N}$
+     - Molar entropy: $S = k_B \ln Q + \frac{U - U(0)}{T} + k_B$ (Sackur-Tetrode formula for monatomic gases)
+     - Helmholtz free energy $A(T)$ and Gibbs free energy $G(T)$
+     - Constant volume heat capacity $C_v(T) = \left(\frac{\partial U}{\partial T}\right)_V$ and $C_p(T) = C_v + R$
+  4. Quantum low-temperature freeze-out vs high-temperature classical equipartition limits (e.g. rotational characteristic temperature $\Theta_{\text{rot}}$ and vibrational characteristic temperature $\Theta_{\text{vib}}$).
+  5. Dual-layer backend schemas, services, API endpoints, Pytest tests, Vitest tests, and interactive statistical thermodynamics workstation.
