@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **124,086 Total Lines** (118,909 non-empty LOC | Source: 109,855 | Tests: 5,311 | Docs: 1,545 | Config: 7,375 across 376 files)  
-**Total Automated Tests**: **398 tests passing (100%)** (Backend: 284 | Frontend: 114)  
-**Git History**: 48 commits on `main` | 35 merged Pull Requests  
+**Current Verified LOC**: **127,270 Total Lines** (121,754 non-empty LOC | Source: 112,450 | Tests: 5,811 | Docs: 1,634 | Config: 7,375 across 387 files)  
+**Total Automated Tests**: **418 tests passing (100%)** (Backend: 297 | Frontend: 121)  
+**Git History**: 51 commits on `main` | 36 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -31,6 +31,7 @@ graph TD
     ChemEngine --> Poly[Polymer Chemistry & Flory-Huggins]
     ChemEngine --> Equil[Chemical Equilibrium & Le Chatelier]
     ChemEngine --> Collig[Colligative Properties & Non-Ideal Solutions]
+    ChemEngine --> Dynamics[Molecular Dynamics & Velocity-Verlet]
     Client --> ClientFallback[Self-Contained Offline Scientific Fallbacks]
 ```
 
@@ -42,7 +43,7 @@ graph TD
 
 ---
 
-## 2. Completed Capabilities Matrix (PRs #001 to #035)
+## 2. Completed Capabilities Matrix (PRs #001 to #036)
 
 | PR # | Branch / Module | Domain & Key Algorithms | Tests Added | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -57,6 +58,7 @@ graph TD
 | **#033** | `feature/polymer-chemistry-macromolecules` | Carothers polycondensation ($X_n, p_c$), radical QSSA kinetics, Flory-Schulz, Flory-Huggins $\chi$ | 17 tests | Merged |
 | **#034** | `feature/chemical-equilibrium-le-chatelier` | RICE monotonic solver, polyprotic electroneutrality, van Slyke $\beta$, $K_{sp}$, Le Chatelier | 20 tests | Merged |
 | **#035** | `feature/colligative-properties-solutions` | Raoult VLE, Margules azeotrope, ebullioscopy, cryoscopy, osmometry, Debye-Hückel | 22 tests | Merged |
+| **#036** | `feature/molecular-dynamics-velocity-verlet` | Lennard-Jones 12-6, Velocity-Verlet, PBC minimum image, NVE/NVT, $g(r)$, MSD diffusion | 20 tests | Merged |
 
 ---
 
@@ -64,15 +66,15 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 109,855 lines (105,778 non-empty) across 282 files
-- **Automated Tests**: 5,311 lines (4,554 non-empty) across 63 files
-- **Documentation**: 1,545 lines (1,222 non-empty) across 21 files
+- **Source Code**: 112,450 lines (108,119 non-empty) across 289 files
+- **Automated Tests**: 5,811 lines (4,985 non-empty) across 66 files
+- **Documentation**: 1,634 lines (1,295 non-empty) across 22 files
 - **Configuration**: 7,375 lines (7,355 non-empty) across 10 files
-- **Total Verified LOC**: **124,086 Total Lines** (118,909 non-empty LOC) across 376 files
+- **Total Verified LOC**: **127,270 Total Lines** (121,754 non-empty LOC) across 387 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 284 passed across unit, integration, and property tests in 12.3s.
-- **Vitest Frontend Suite**: 114 passed across 21 test files in 5.3s.
+- **Python Pytest Suite**: 297 passed across unit, integration, and property tests in 13.3s.
+- **Vitest Frontend Suite**: 121 passed across 22 test files in 6.0s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
 
 ---
@@ -81,16 +83,17 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR34[PR #034: Chemical Equilibrium & Le Chatelier (Merged)] --> PR35[PR #035: Colligative Properties (Merged)]
-    PR35 --> PR36[PR #036: Molecular Dynamics & Velocity Verlet Sandbox]
+    PR35[PR #035: Colligative Properties (Merged)] --> PR36[PR #036: Molecular Dynamics (Merged)]
     PR36 --> PR37[PR #037: Advanced Electroanalytical Chemistry]
+    PR37 --> PR38[PR #038: Ternary Liquid-Liquid Extraction]
 ```
 
 ### Active Priority Backlog:
-1. **PR #036: High-Depth Molecular Dynamics & Numerical Velocity-Verlet Simulation Sandbox (Active Next)**
-   - Microcanonical ($NVE$) and canonical ($NVT$ Andersen / Berendsen thermostat) molecular dynamics integrator using Lennard-Jones 12-6 potential and Velocity-Verlet algorithm.
-   - Periodic boundary conditions (PBC), minimum image convention, radial distribution functions $g(r)$, mean square displacement (MSD) Einstein diffusion coefficients $D = \lim_{t\to\infty} \frac{\langle |r(t)-r(0)|^2 \rangle}{6t}$.
-2. **PR #037: Advanced Electroanalytical Chemistry & Cyclic Voltammetry Simulator**
-   - Randles-Sevcik peak current modeling ($i_p = 0.4463 n F A C \sqrt{\frac{n F \nu D}{R T}}$), Cottrell chronoamperometry, and Butler-Volmer electron transfer kinetics.
-3. **PR #038: Phase Equilibria & Ternary Liquid-Liquid Extraction (LLE)**
+1. **PR #037: Advanced Electroanalytical Chemistry & Cyclic Voltammetry Simulator (Active Next)**
+   - Randles-Sevcik peak current modeling ($i_p = 0.4463 n F A C \sqrt{\frac{n F \nu D}{R T}}$) for reversible, quasi-reversible, and irreversible redox couples.
+   - Cottrell chronoamperometry ($i(t) = \frac{n F A D^{1/2} C}{\pi^{1/2} t^{1/2}}$) and Butler-Volmer electron transfer kinetics with transfer coefficient $\alpha$ and exchange current density $j_0$.
+   - Interactive voltammogram curve explorer with forward and reverse scan visualization.
+2. **PR #038: Phase Equilibria & Ternary Liquid-Liquid Extraction (LLE)**
    - Gibbs triangular coordinates, binodal solubility curves, tie-lines, and Hand / Othmer-Tobias consistency equations.
+3. **PR #039: Coordination Chemistry & Crystal Field Theory (CFT)**
+   - Octahedral, tetrahedral, and square planar d-orbital splitting ($\Delta_o, \Delta_t$), crystal field stabilization energy (CFSE), Jahn-Teller distortions, and spectrochemical series.
