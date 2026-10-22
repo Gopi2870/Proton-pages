@@ -14,7 +14,8 @@ import {
   Save,
   Layers,
   Thermometer,
-  RotateCcw
+  RotateCcw,
+  Scale
 } from 'lucide-react';
 import { COMPREHENSIVE_REACTIONS } from '../data/reactionsComprehensive';
 import { ComprehensiveReaction } from '../types/comprehensiveChemistry';
@@ -33,9 +34,10 @@ import {
 import { bookmarksApi, experimentsApi } from '../services/api';
 import { KineticsReactorRig } from '../components/chemistry/reactions/KineticsReactorRig';
 import { OrganicMechanismPlayer } from '../components/chemistry/mechanisms/OrganicMechanismPlayer';
+import { EquilibriumWorkstation } from '../components/chemistry/equilibrium/EquilibriumWorkstation';
 
 export const ReactionDatabasePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics' | 'mechanisms'>('catalog');
+  const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics' | 'mechanisms' | 'equilibrium'>('catalog');
 
   // --- Catalog State ---
   const [searchTerm, setSearchTerm] = useState('');
@@ -282,6 +284,17 @@ export const ReactionDatabasePage: React.FC = () => {
           >
             <Layers className="w-4 h-4" />
             <span>Organic Mechanisms</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('equilibrium')}
+            className={`px-3.5 py-1.5 rounded-lg text-label-md font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'equilibrium'
+                ? 'bg-primary text-on-primary shadow-xs'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <Scale className="w-4 h-4" />
+            <span>Equilibrium & Le Chatelier</span>
           </button>
         </div>
       </div>
@@ -846,6 +859,13 @@ export const ReactionDatabasePage: React.FC = () => {
       {activeTab === 'mechanisms' && (
         <div className="pt-2">
           <OrganicMechanismPlayer />
+        </div>
+      )}
+
+      {/* Chemical Equilibrium & Le Chatelier Tab */}
+      {activeTab === 'equilibrium' && (
+        <div className="pt-2">
+          <EquilibriumWorkstation />
         </div>
       )}
     </div>

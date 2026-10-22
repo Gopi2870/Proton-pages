@@ -24,6 +24,7 @@ from services.chemistry.app.api.v1.endpoints.mechanisms import router as mechani
 from services.chemistry.app.api.v1.endpoints.quantum import router as quantum_router
 from services.chemistry.app.api.v1.endpoints.chromatography import router as chromatography_router
 from services.chemistry.app.api.v1.endpoints.polymers import router as polymers_router
+from services.chemistry.app.api.v1.endpoints.equilibrium import router as equilibrium_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -48,6 +49,7 @@ api_v1_router.include_router(mechanisms_router)
 api_v1_router.include_router(quantum_router)
 api_v1_router.include_router(chromatography_router)
 api_v1_router.include_router(polymers_router)
+api_v1_router.include_router(equilibrium_router)
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
