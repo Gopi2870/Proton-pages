@@ -33,6 +33,7 @@ import {
 } from '../services/electrochemistryService';
 import { bookmarksApi, experimentsApi } from '../services/api';
 import { KineticsReactorRig } from '../components/chemistry/reactions/KineticsReactorRig';
+import { StiffKineticsWorkstation } from '../components/chemistry/kinetics/StiffKineticsWorkstation';
 import { OrganicMechanismPlayer } from '../components/chemistry/mechanisms/OrganicMechanismPlayer';
 import { EquilibriumWorkstation } from '../components/chemistry/equilibrium/EquilibriumWorkstation';
 import { CyclicVoltammetryWorkstation } from '../components/chemistry/electrochemistry/CyclicVoltammetryWorkstation';
@@ -40,6 +41,7 @@ import { CyclicVoltammetryWorkstation } from '../components/chemistry/electroche
 export const ReactionDatabasePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics' | 'mechanisms' | 'equilibrium'>('catalog');
   const [electroMode, setElectroMode] = useState<'voltammetry' | 'cells'>('voltammetry');
+  const [kineticsMode, setKineticsMode] = useState<'stiff-networks' | 'reactor'>('stiff-networks');
 
   // --- Catalog State ---
   const [searchTerm, setSearchTerm] = useState('');
@@ -886,8 +888,37 @@ export const ReactionDatabasePage: React.FC = () => {
 
       {/* Kinetics & Rate Laws Tab */}
       {activeTab === 'kinetics' && (
-        <div className="pt-2">
-          <KineticsReactorRig />
+        <div className="pt-2 space-y-4">
+          <div className="flex border-b border-surface-container-high">
+            <button
+              onClick={() => setKineticsMode('stiff-networks')}
+              className={`pb-3 px-4 font-label-md font-bold transition flex items-center gap-2 border-b-2 ${
+                kineticsMode === 'stiff-networks'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              <Zap className="w-4 h-4" />
+              Stiff Reaction Networks & ROS2 ODE Solver (PR #040)
+            </button>
+            <button
+              onClick={() => setKineticsMode('reactor')}
+              className={`pb-3 px-4 font-label-md font-bold transition flex items-center gap-2 border-b-2 ${
+                kineticsMode === 'reactor'
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              <Thermometer className="w-4 h-4" />
+              Ideal Chemical Reactors (CSTR / PFR / Batch)
+            </button>
+          </div>
+
+          {kineticsMode === 'stiff-networks' ? (
+            <StiffKineticsWorkstation />
+          ) : (
+            <KineticsReactorRig />
+          )}
         </div>
       )}
 
