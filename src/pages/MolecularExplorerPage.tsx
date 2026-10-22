@@ -6,6 +6,7 @@ import { IsomerLibrary } from '../components/chemistry/molecules/IsomerLibrary';
 import { ConformationPanel } from '../components/chemistry/molecules/ConformationPanel';
 import { bookmarksApi } from '../services/api';
 import { CrystallographyWorkbench } from '../components/chemistry/crystallography/CrystallographyWorkbench';
+import { MolecularOrbitalWorkstation } from '../components/chemistry/quantum/MolecularOrbitalWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -16,7 +17,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -113,10 +114,18 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="font-headline-md text-headline-md text-on-surface font-bold">
-                  {workbenchTab === 'molecules' ? 'Molecular Explorer' : 'Materials & Solid-State Explorer'}
+                  {workbenchTab === 'molecules'
+                    ? 'Molecular Explorer'
+                    : workbenchTab === 'crystallography'
+                    ? 'Materials & Solid-State Explorer'
+                    : 'Quantum Molecular Orbitals (HMO)'}
                 </h1>
                 <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-code-sm text-code-sm font-semibold">
-                  {workbenchTab === 'molecules' ? 'v4.8-GPU' : 'XRD-Bravais'}
+                  {workbenchTab === 'molecules'
+                    ? 'v4.8-GPU'
+                    : workbenchTab === 'crystallography'
+                    ? 'XRD-Bravais'
+                    : 'Hückel-HMO'}
                 </span>
                 {savedFeedback && (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-xs font-semibold animate-pulse">
@@ -127,7 +136,9 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               <p className="font-body-sm text-body-sm text-on-surface-variant">
                 {workbenchTab === 'molecules'
                   ? 'Real-time quantum-mechanical topology, raycasted atomic inspection, and 3D geometry measurements'
-                  : 'Bravais lattices, Miller indices planes, unit cell geometries, and powder X-ray diffractograms'}
+                  : workbenchTab === 'crystallography'
+                  ? 'Bravais lattices, Miller indices planes, unit cell geometries, and powder X-ray diffractograms'
+                  : 'Hückel molecular orbital secular matrix, energy ladders, wave function nodal planes, and UV-Vis absorption'}
               </p>
             </div>
           </div>
@@ -143,7 +154,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              Molecule 3D Explorer
+              Molecule 3D
             </button>
             <button
               type="button"
@@ -155,6 +166,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               Crystallography & XRD
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('orbitals')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'orbitals'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Molecular Orbitals
             </button>
           </div>
 
@@ -283,6 +305,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
       {/* Main Viewport Grid / Workbench View */}
       {workbenchTab === 'crystallography' ? (
         <CrystallographyWorkbench />
+      ) : workbenchTab === 'orbitals' ? (
+        <MolecularOrbitalWorkstation />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
           {/* Left Panel: Library & Isomers (3 cols) */}
