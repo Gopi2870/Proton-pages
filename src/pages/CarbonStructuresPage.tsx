@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { COMPREHENSIVE_CARBON_STRUCTURES } from '../data/carbonStructuresComprehensive';
 import { CarbonStructure } from '../types/carbonStructures';
 import { Layers, Zap, Shield, Sparkles } from 'lucide-react';
+import { PolymerWorkstation } from '../components/chemistry/polymers/PolymerWorkstation';
 
 export const CarbonStructuresPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'allotropes' | 'polymers'>('allotropes');
   const [selectedType, setSelectedType] = useState('All');
   const [activeItem, setActiveItem] = useState<CarbonStructure>(COMPREHENSIVE_CARBON_STRUCTURES[0]);
 
@@ -15,16 +17,48 @@ export const CarbonStructuresPage: React.FC = () => {
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Layers className="w-6 h-6 text-teal-400" /> Carbon Structures & Nanomaterials
-          </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Explore allotropes, fullerenes, carbon nanotubes, and 2D graphene lattices with rigorous bonding physics.
-          </p>
-        </div>
-        <div className="flex gap-2">
+      {/* Top Mode Tabs */}
+      <div className="flex items-center gap-2 border-b border-surface-container pb-2">
+        <button
+          type="button"
+          onClick={() => setActiveTab('allotropes')}
+          className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 ${
+            activeTab === 'allotropes'
+              ? 'bg-primary text-on-primary shadow-xs'
+              : 'bg-surface-container-low text-on-surface-variant hover:text-on-surface'
+          }`}
+        >
+          <Layers className="w-4 h-4" />
+          Carbon Allotropes & Nanomaterials
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('polymers')}
+          className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 ${
+            activeTab === 'polymers'
+              ? 'bg-primary text-on-primary shadow-xs'
+              : 'bg-surface-container-low text-on-surface-variant hover:text-on-surface'
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          Polymer Chemistry & Macromolecular Architecture
+        </button>
+      </div>
+
+      {activeTab === 'polymers' ? (
+        <PolymerWorkstation />
+      ) : (
+        <>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+                <Layers className="w-6 h-6 text-teal-400" /> Carbon Structures & Nanomaterials
+              </h1>
+              <p className="text-xs text-slate-400 mt-1">
+                Explore allotropes, fullerenes, carbon nanotubes, and 2D graphene lattices with rigorous bonding physics.
+              </p>
+            </div>
+            <div className="flex gap-2">
           {types.map((t) => (
             <button
               key={t}
@@ -120,6 +154,8 @@ export const CarbonStructuresPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </>
+  )}
+</div>
+);
 };
