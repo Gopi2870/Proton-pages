@@ -13,13 +13,24 @@ import { ChromatographyWorkstation } from '../components/chemistry/chromatograph
 import { ColligativeWorkstation } from '../components/chemistry/colligative/ColligativeWorkstation';
 import { TernaryPhaseDiagramWorkstation } from '../components/chemistry/equilibria/TernaryPhaseDiagramWorkstation';
 import { SurfaceChemistryWorkstation } from '../components/chemistry/surface/SurfaceChemistryWorkstation';
+import { NuclearDecayWorkstation } from '../components/chemistry/nuclear/NuclearDecayWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
-  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography' | 'colligative' | 'ternary-lle' | 'surface-chemistry'>('titration');
+  const [activeRig, setActiveRig] = useState<
+    | 'titration'
+    | 'calorimetry'
+    | 'spectroscopy'
+    | 'gas-laws'
+    | 'chromatography'
+    | 'colligative'
+    | 'ternary-lle'
+    | 'surface-chemistry'
+    | 'nuclear-decay'
+  >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -82,7 +93,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #6: Colligative Solutions & Osmometry'
                   : activeRig === 'ternary-lle'
                   ? 'Rig #7: Ternary LLE & Phase Equilibria'
-                  : 'Rig #8: Surface Chemistry & BET Adsorption'}
+                  : activeRig === 'surface-chemistry'
+                  ? 'Rig #8: Surface Chemistry & BET Adsorption'
+                  : 'Rig #9: Nuclear Decay & Radiochemistry'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -182,6 +195,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Surface Chemistry & BET
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('nuclear-decay')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'nuclear-decay'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Nuclear Decay & Bateman
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -198,7 +222,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'surface-chemistry' ? (
+      {activeRig === 'nuclear-decay' ? (
+        <NuclearDecayWorkstation />
+      ) : activeRig === 'surface-chemistry' ? (
         <SurfaceChemistryWorkstation />
       ) : activeRig === 'ternary-lle' ? (
         <TernaryPhaseDiagramWorkstation />
