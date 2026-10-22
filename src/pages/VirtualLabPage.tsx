@@ -12,13 +12,14 @@ import { GasLawsPistonRig } from '../components/chemistry/virtual-lab/GasLawsPis
 import { ChromatographyWorkstation } from '../components/chemistry/chromatography/ChromatographyWorkstation';
 import { ColligativeWorkstation } from '../components/chemistry/colligative/ColligativeWorkstation';
 import { TernaryPhaseDiagramWorkstation } from '../components/chemistry/equilibria/TernaryPhaseDiagramWorkstation';
+import { SurfaceChemistryWorkstation } from '../components/chemistry/surface/SurfaceChemistryWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
-  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography' | 'colligative' | 'ternary-lle'>('titration');
+  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography' | 'colligative' | 'ternary-lle' | 'surface-chemistry'>('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -79,7 +80,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #5: Analytical Chromatography'
                   : activeRig === 'colligative'
                   ? 'Rig #6: Colligative Solutions & Osmometry'
-                  : 'Rig #7: Ternary LLE & Phase Equilibria'}
+                  : activeRig === 'ternary-lle'
+                  ? 'Rig #7: Ternary LLE & Phase Equilibria'
+                  : 'Rig #8: Surface Chemistry & BET Adsorption'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -168,6 +171,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Ternary LLE Rig
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('surface-chemistry')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'surface-chemistry'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Surface Chemistry & BET
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -184,7 +198,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'ternary-lle' ? (
+      {activeRig === 'surface-chemistry' ? (
+        <SurfaceChemistryWorkstation />
+      ) : activeRig === 'ternary-lle' ? (
         <TernaryPhaseDiagramWorkstation />
       ) : activeRig === 'colligative' ? (
         <ColligativeWorkstation />
