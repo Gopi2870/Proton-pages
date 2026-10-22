@@ -11,13 +11,14 @@ import { SpectrophotometerRig } from '../components/chemistry/spectroscopy/Spect
 import { GasLawsPistonRig } from '../components/chemistry/virtual-lab/GasLawsPistonRig';
 import { ChromatographyWorkstation } from '../components/chemistry/chromatography/ChromatographyWorkstation';
 import { ColligativeWorkstation } from '../components/chemistry/colligative/ColligativeWorkstation';
+import { TernaryPhaseDiagramWorkstation } from '../components/chemistry/equilibria/TernaryPhaseDiagramWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
-  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography' | 'colligative'>('titration');
+  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography' | 'colligative' | 'ternary-lle'>('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -76,7 +77,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #4: Gas Laws & Kinetic Theory'
                   : activeRig === 'chromatography'
                   ? 'Rig #5: Analytical Chromatography'
-                  : 'Rig #6: Colligative Solutions & Osmometry'}
+                  : activeRig === 'colligative'
+                  ? 'Rig #6: Colligative Solutions & Osmometry'
+                  : 'Rig #7: Ternary LLE & Phase Equilibria'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -154,6 +157,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Colligative Solutions
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('ternary-lle')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'ternary-lle'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Ternary LLE Rig
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -170,7 +184,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'colligative' ? (
+      {activeRig === 'ternary-lle' ? (
+        <TernaryPhaseDiagramWorkstation />
+      ) : activeRig === 'colligative' ? (
         <ColligativeWorkstation />
       ) : activeRig === 'chromatography' ? (
         <ChromatographyWorkstation />
