@@ -28,6 +28,7 @@ from services.chemistry.app.api.v1.endpoints.equilibrium import router as equili
 from services.chemistry.app.api.v1.endpoints.colligative import router as colligative_router
 from services.chemistry.app.api.v1.endpoints.molecular_dynamics import router as md_router
 from services.chemistry.app.api.v1.endpoints.electroanalytical import router as electroanalytical_router
+from services.chemistry.app.api.v1.endpoints.ternary_lle import router as ternary_lle_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -56,6 +57,7 @@ api_v1_router.include_router(equilibrium_router)
 api_v1_router.include_router(colligative_router, prefix="/chemistry")
 api_v1_router.include_router(md_router, prefix="/chemistry")
 api_v1_router.include_router(electroanalytical_router, prefix="/chemistry")
+api_v1_router.include_router(ternary_lle_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
