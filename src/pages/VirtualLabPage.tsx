@@ -7,13 +7,14 @@ import { TitrationRig } from '../components/chemistry/virtual-lab/TitrationRig';
 import { ObservationLog } from '../components/chemistry/virtual-lab/ObservationLog';
 
 import { CalorimeterRig } from '../components/chemistry/virtual-lab/CalorimeterRig';
+import { SpectrophotometerRig } from '../components/chemistry/spectroscopy/SpectrophotometerRig';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
-  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry'>('titration');
+  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy'>('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -62,7 +63,11 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                 Virtual Chemistry Laboratory
               </h1>
               <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-code-sm text-code-sm font-semibold">
-                {activeRig === 'titration' ? 'Rig #2: Acid-Base Titration' : 'Rig #1: Calorimetry'}
+                {activeRig === 'titration'
+                  ? 'Rig #2: Acid-Base Titration'
+                  : activeRig === 'calorimetry'
+                  ? 'Rig #1: Calorimetry'
+                  : 'Rig #3: UV-Vis Spectrophotometer'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -96,6 +101,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Calorimeter Rig
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('spectroscopy')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'spectroscopy'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Spectrophotometer
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -112,7 +128,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'calorimetry' ? (
+      {activeRig === 'spectroscopy' ? (
+        <SpectrophotometerRig />
+      ) : activeRig === 'calorimetry' ? (
         <CalorimeterRig />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
