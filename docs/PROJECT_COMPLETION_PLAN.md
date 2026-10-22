@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **127,270 Total Lines** (121,754 non-empty LOC | Source: 112,450 | Tests: 5,811 | Docs: 1,634 | Config: 7,375 across 387 files)  
-**Total Automated Tests**: **418 tests passing (100%)** (Backend: 297 | Frontend: 121)  
-**Git History**: 51 commits on `main` | 36 merged Pull Requests  
+**Current Verified LOC**: **129,665 Total Lines** (123,921 non-empty LOC | Source: 114,370 | Tests: 6,201 | Docs: 1,719 | Config: 7,375 across 398 files)  
+**Total Automated Tests**: **435 tests passing (100%)** (Backend: 309 | Frontend: 126)  
+**Git History**: 54 commits on `main` | 37 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -32,6 +32,7 @@ graph TD
     ChemEngine --> Equil[Chemical Equilibrium & Le Chatelier]
     ChemEngine --> Collig[Colligative Properties & Non-Ideal Solutions]
     ChemEngine --> Dynamics[Molecular Dynamics & Velocity-Verlet]
+    ChemEngine --> ElectroAnalysis[Cyclic Voltammetry & Cottrell Engine]
     Client --> ClientFallback[Self-Contained Offline Scientific Fallbacks]
 ```
 
@@ -43,7 +44,7 @@ graph TD
 
 ---
 
-## 2. Completed Capabilities Matrix (PRs #001 to #036)
+## 2. Completed Capabilities Matrix (PRs #001 to #037)
 
 | PR # | Branch / Module | Domain & Key Algorithms | Tests Added | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -59,6 +60,7 @@ graph TD
 | **#034** | `feature/chemical-equilibrium-le-chatelier` | RICE monotonic solver, polyprotic electroneutrality, van Slyke $\beta$, $K_{sp}$, Le Chatelier | 20 tests | Merged |
 | **#035** | `feature/colligative-properties-solutions` | Raoult VLE, Margules azeotrope, ebullioscopy, cryoscopy, osmometry, Debye-Hückel | 22 tests | Merged |
 | **#036** | `feature/molecular-dynamics-velocity-verlet` | Lennard-Jones 12-6, Velocity-Verlet, PBC minimum image, NVE/NVT, $g(r)$, MSD diffusion | 20 tests | Merged |
+| **#037** | `feature/electrochemistry-cyclic-voltammetry` | Randles-Sevcik peak current, Butler-Volmer kinetics, Nicholson $\psi$, Cottrell chronoamperometry | 17 tests | Merged |
 
 ---
 
@@ -66,15 +68,15 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 112,450 lines (108,119 non-empty) across 289 files
-- **Automated Tests**: 5,811 lines (4,985 non-empty) across 66 files
-- **Documentation**: 1,634 lines (1,295 non-empty) across 22 files
+- **Source Code**: 114,370 lines (109,877 non-empty) across 296 files
+- **Automated Tests**: 6,201 lines (5,325 non-empty) across 69 files
+- **Documentation**: 1,719 lines (1,364 non-empty) across 23 files
 - **Configuration**: 7,375 lines (7,355 non-empty) across 10 files
-- **Total Verified LOC**: **127,270 Total Lines** (121,754 non-empty LOC) across 387 files
+- **Total Verified LOC**: **129,665 Total Lines** (123,921 non-empty LOC) across 398 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 297 passed across unit, integration, and property tests in 13.3s.
-- **Vitest Frontend Suite**: 121 passed across 22 test files in 6.0s.
+- **Python Pytest Suite**: 309 passed across unit, integration, and property tests in 13.8s.
+- **Vitest Frontend Suite**: 126 passed across 23 test files in 6.2s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
 
 ---
@@ -83,17 +85,21 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR35[PR #035: Colligative Properties (Merged)] --> PR36[PR #036: Molecular Dynamics (Merged)]
-    PR36 --> PR37[PR #037: Advanced Electroanalytical Chemistry]
+    PR36[PR #036: Molecular Dynamics (Merged)] --> PR37[PR #037: Cyclic Voltammetry (Merged)]
     PR37 --> PR38[PR #038: Ternary Liquid-Liquid Extraction]
+    PR38 --> PR39[PR #039: Coordination Chemistry & CFT]
 ```
 
 ### Active Priority Backlog:
-1. **PR #037: Advanced Electroanalytical Chemistry & Cyclic Voltammetry Simulator (Active Next)**
-   - Randles-Sevcik peak current modeling ($i_p = 0.4463 n F A C \sqrt{\frac{n F \nu D}{R T}}$) for reversible, quasi-reversible, and irreversible redox couples.
-   - Cottrell chronoamperometry ($i(t) = \frac{n F A D^{1/2} C}{\pi^{1/2} t^{1/2}}$) and Butler-Volmer electron transfer kinetics with transfer coefficient $\alpha$ and exchange current density $j_0$.
-   - Interactive voltammogram curve explorer with forward and reverse scan visualization.
-2. **PR #038: Phase Equilibria & Ternary Liquid-Liquid Extraction (LLE)**
-   - Gibbs triangular coordinates, binodal solubility curves, tie-lines, and Hand / Othmer-Tobias consistency equations.
-3. **PR #039: Coordination Chemistry & Crystal Field Theory (CFT)**
-   - Octahedral, tetrahedral, and square planar d-orbital splitting ($\Delta_o, \Delta_t$), crystal field stabilization energy (CFSE), Jahn-Teller distortions, and spectrochemical series.
+1. **PR #038: Phase Equilibria & Ternary Liquid-Liquid Extraction (LLE) (Active Next)**
+   - Gibbs equilateral triangular coordinate projections ($x_A + x_B + x_C = 1$).
+   - Binodal liquid-liquid miscibility curves and plait point determination.
+   - Conjugate phase equilibrium tie-lines with Hand and Othmer-Tobias thermodynamic consistency equations.
+   - Multi-stage counter-current liquid-liquid extraction (Hunter-Nash graphical construction).
+2. **PR #039: Coordination Chemistry & Crystal Field Theory (CFT)**
+   - Octahedral ($O_h$), tetrahedral ($T_d$), and square planar ($D_{4h}$) d-orbital splitting diagrams ($\Delta_o, \Delta_t$).
+   - Crystal Field Stabilization Energy (CFSE), pairing energy $P$, high-spin vs low-spin electron configurations.
+   - Jahn-Teller tetragonal distortion and spectrochemical ligand field series.
+3. **PR #040: Computational Chemical Kinetics Network & Stiff ODE Solvers**
+   - Generalized reaction network mechanism builder with arbitrary stoichiometry and rate laws.
+   - Implicit stiff ODE integrator (Rosenbrock / Backward Differentiation Formula BDF) for multi-scale atmospheric and combustion kinetic networks.
