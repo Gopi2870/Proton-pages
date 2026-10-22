@@ -32,6 +32,7 @@ from services.chemistry.app.api.v1.endpoints.ternary_lle import router as ternar
 from services.chemistry.app.api.v1.endpoints.coordination_cft import router as coordination_cft_router
 from services.chemistry.app.api.v1.endpoints.stiff_kinetics import router as stiff_kinetics_router
 from services.chemistry.app.api.v1.endpoints.surface_chemistry import router as surface_chemistry_router
+from services.chemistry.app.api.v1.endpoints.nuclear_decay import router as nuclear_decay_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -64,6 +65,7 @@ api_v1_router.include_router(ternary_lle_router, prefix="/chemistry")
 api_v1_router.include_router(coordination_cft_router, prefix="/chemistry")
 api_v1_router.include_router(stiff_kinetics_router, prefix="/chemistry")
 api_v1_router.include_router(surface_chemistry_router, prefix="/chemistry")
+api_v1_router.include_router(nuclear_decay_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
