@@ -30,6 +30,7 @@
 | **#038** | `feature/phase-equilibria-ternary-lle` | Gibbs equilateral projections, binodal miscibility gap, Hand/Othmer-Tobias, Hunter-Nash | 18 tests | Commit `8d50d5c`, Merged (`--no-ff`) | Local merged |
 | **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller, magnetic moments | 17 tests | Commit `8c13bff`, Merged (`--no-ff`) | Local merged |
 | **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly-implicit Rosenbrock-W (ROS2) stiff ODE solver, analytic Jacobian, Robertson benchmark, Oregonator | 19 tests | Commit `64b10f4`, Merged (`--no-ff`) | Local merged |
+| **#041** | `feature/surface-chemistry-adsorption-catalysis` | Multi-point BET surface area ($S_{\text{BET}}$), Rouquerol criteria, Langmuir/Freundlich comparison, Langmuir-Hinshelwood kinetics | 19 tests | Commit `ce83640`, Merged (`--no-ff`) | Local merged |
 
 ---
 
@@ -46,27 +47,27 @@
 ---
 
 ## 3. Verified Metrics Summary (Commit `HEAD` on `main`)
-- **Total Lines**: 136,424
-- **Non-Empty Lines**: 130,054
-- **Files Tracked**: 431 files
-  - Source Code: 119,874 lines across 315 files
-  - Automated Tests: 7,208 lines across 80 files
-  - Documentation: 2,034 lines across 27 files
+- **Total Lines**: 138,750
+- **Non-Empty Lines**: 132,134
+- **Files Tracked**: 442 files
+  - Source Code: 121,856 lines across 322 files
+  - Automated Tests: 7,476 lines across 83 files
+  - Documentation: 2,110 lines across 28 files
   - Configuration: 7,308 lines across 9 files
 - **Automated Tests**:
-  - Backend Pytest: 348 passed in 13.76s
-  - Frontend Vitest: 141 passed in 6.39s
-  - Total: 489 automated tests (100% passing)
+  - Backend Pytest: 361 passed in 13.37s
+  - Frontend Vitest: 147 passed in 6.51s
+  - Total: 508 automated tests (100% passing)
 - **TypeScript**: 0 errors (`npx tsc --noEmit`)
-- **Build**: Succeeded (`vite build` in 30.25s)
+- **Build**: Succeeded (`vite build` in 34.72s)
 
 ---
 
-## 4. Next Incomplete Backlog Item: PR #041
-- **Feature**: Surface Chemistry, Heterogeneous Catalysis & Langmuir-BET Adsorption
-- **Target Branch**: `feature/surface-chemistry-adsorption-catalysis`
+## 4. Next Incomplete Backlog Item: PR #042
+- **Feature**: Nuclear Chemistry, Radioactive Decay Chains & Bateman Equation Solver
+- **Target Branch**: `feature/nuclear-decay-bateman-chains`
 - **Scope**:
-  1. Langmuir, Freundlich, and BET (Brunauer-Emmett-Teller) multilayer gas adsorption isotherms.
-  2. Specific surface area determination ($S_{\text{BET}}$ in $\text{m}^2/\text{g}$), monolayer volume $V_m$, and heat of adsorption parameter $C$.
-  3. Langmuir-Hinshelwood and Eley-Rideal heterogeneous catalytic kinetics.
-  4. Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive adsorption workstation.
+  1. Sequential alpha, beta, gamma radioactive decay chains ($A \rightarrow B \rightarrow C$).
+  2. Exact analytical Bateman equations for transient and secular radioactive equilibria.
+  3. Radiocarbon dating calibration, decay constant $\lambda$, half-life $t_{1/2}$, and decay activity $A(t) = \lambda N(t)$.
+  4. Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive decay chain workstation.

@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **136,424 Total Lines** (130,054 non-empty LOC | Source: 119,874 | Tests: 7,208 | Docs: 2,034 | Config: 7,308 across 431 files)  
-**Total Automated Tests**: **489 tests passing (100%)** (Backend: 348 | Frontend: 141)  
-**Git History**: 60 commits on `main` | 40 merged Pull Requests  
+**Current Verified LOC**: **138,750 Total Lines** (132,134 non-empty LOC | Source: 121,856 | Tests: 7,476 | Docs: 2,110 | Config: 7,308 across 442 files)  
+**Total Automated Tests**: **508 tests passing (100%)** (Backend: 361 | Frontend: 147)  
+**Git History**: 62 commits on `main` | 41 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -24,6 +24,7 @@ graph TD
     ChemEngine --> Electro[Electrochemistry & Nernst Equation]
     ChemEngine --> Kinetics[Reaction Kinetics & Rate Laws]
     ChemEngine --> StiffKinetics[Stiff ODE Solvers & Rosenbrock Networks]
+    ChemEngine --> SurfaceChem[Surface Chemistry & BET Isotherms]
     ChemEngine --> GasLaws[Real Gas & Phase Equilibria]
     ChemEngine --> Cryst[Crystallography & Powder XRD]
     ChemEngine --> Mech[Curved-Arrow Reaction Mechanisms]
@@ -47,7 +48,7 @@ graph TD
 
 ---
 
-## 2. Completed Capabilities Matrix (PRs #001 to #040)
+## 2. Completed Capabilities Matrix (PRs #001 to #041)
 
 | PR # | Branch / Module | Domain & Key Algorithms | Tests Added | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -67,6 +68,7 @@ graph TD
 | **#038** | `feature/phase-equilibria-ternary-lle` | Gibbs equilateral projections, binodal miscibility gap, Hand/Othmer-Tobias consistency, Hunter-Nash stages | 18 tests | Merged |
 | **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller distortion, magnetic moments, optical color | 17 tests | Merged |
 | **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly implicit Rosenbrock-W (ROS2) stiff ODE solver, exact analytic Jacobian, Robertson benchmark, Oregonator BZ oscillator | 19 tests | Merged |
+| **#041** | `feature/surface-chemistry-adsorption-catalysis` | Multi-point BET surface area ($S_{\text{BET}}$), Rouquerol criteria, Langmuir/Freundlich comparison, Langmuir-Hinshelwood kinetics | 19 tests | Merged |
 
 ---
 
@@ -74,17 +76,17 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 119,874 lines across 315 files
-- **Automated Tests**: 7,208 lines across 80 files
-- **Documentation**: 2,034 lines across 27 files
+- **Source Code**: 121,856 lines across 322 files
+- **Automated Tests**: 7,476 lines across 83 files
+- **Documentation**: 2,110 lines across 28 files
 - **Configuration**: 7,308 lines across 9 files
-- **Total Verified LOC**: **136,424 Total Lines** (130,054 non-empty LOC) across 431 files
+- **Total Verified LOC**: **138,750 Total Lines** (132,134 non-empty LOC) across 442 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 348 passed across unit, integration, and property tests in 13.76s.
-- **Vitest Frontend Suite**: 141 passed across 26 test files in 6.39s.
+- **Python Pytest Suite**: 361 passed across unit, integration, and property tests in 13.37s.
+- **Vitest Frontend Suite**: 147 passed across 27 test files in 6.51s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
-- **Production Build**: Vite build succeeded in 30.25s.
+- **Production Build**: Vite build succeeded in 34.72s.
 
 ---
 
@@ -92,18 +94,17 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR39[PR #039: Coordination CFT (Merged)] --> PR40[PR #040: Stiff Kinetics ODE (Merged)]
-    PR40 --> PR41[PR #041: Surface Science & Langmuir Adsorption]
+    PR40[PR #040: Stiff Kinetics ODE (Merged)] --> PR41[PR #041: Surface Science & Langmuir Adsorption (Merged)]
     PR41 --> PR42[PR #042: Nuclear Chemistry & Radioactive Decay]
+    PR42 --> PR43[PR #043: Statistical Thermodynamics & Partition Functions]
 ```
 
 ### Active Priority Backlog:
-1. **PR #041: Surface Chemistry, Heterogeneous Catalysis & Langmuir-BET Adsorption (Active Next)**
-   - Langmuir, Freundlich, and BET (Brunauer-Emmett-Teller) multilayer gas adsorption isotherms.
-   - Specific surface area determination ($S_{\text{BET}}$ in $\text{m}^2/\text{g}$), monolayer volume $V_m$, and heat of adsorption parameter $C$.
-   - Langmuir-Hinshelwood and Eley-Rideal heterogeneous catalytic kinetics.
-   - Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive adsorption workstation.
-2. **PR #042: Nuclear Chemistry, Radioactive Decay Chains & Bateman Equation Solver**
+1. **PR #042: Nuclear Chemistry, Radioactive Decay Chains & Bateman Equation Solver (Active Next)**
    - Sequential alpha, beta, gamma radioactive decay chains ($A \rightarrow B \rightarrow C$).
    - Exact analytical Bateman equations for transient and secular radioactive equilibria.
-   - Radiocarbon dating calibration and half-life curve projections.
+   - Radiocarbon dating calibration, decay constant $\lambda$, half-life $t_{1/2}$, and decay activity $A(t) = \lambda N(t)$.
+   - Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive decay chain workstation.
+2. **PR #043: Statistical Thermodynamics & Molecular Partition Functions**
+   - Translational, rotational, vibrational, and electronic partition functions ($q_{\text{trans}}, q_{\text{rot}}, q_{\text{vib}}, q_{\text{elec}}$).
+   - Statistical entropy ($S = k_B \ln W$), internal energy $U(T)$, Helmholtz free energy $A(T)$, and heat capacity $C_v(T)$.
