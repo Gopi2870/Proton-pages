@@ -14,6 +14,7 @@ import { ColligativeWorkstation } from '../components/chemistry/colligative/Coll
 import { TernaryPhaseDiagramWorkstation } from '../components/chemistry/equilibria/TernaryPhaseDiagramWorkstation';
 import { SurfaceChemistryWorkstation } from '../components/chemistry/surface/SurfaceChemistryWorkstation';
 import { NuclearDecayWorkstation } from '../components/chemistry/nuclear/NuclearDecayWorkstation';
+import { StatisticalThermoWorkstation } from '../components/chemistry/thermo/StatisticalThermoWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -30,6 +31,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'ternary-lle'
     | 'surface-chemistry'
     | 'nuclear-decay'
+    | 'statistical-thermo'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -95,7 +97,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #7: Ternary LLE & Phase Equilibria'
                   : activeRig === 'surface-chemistry'
                   ? 'Rig #8: Surface Chemistry & BET Adsorption'
-                  : 'Rig #9: Nuclear Decay & Radiochemistry'}
+                  : activeRig === 'nuclear-decay'
+                  ? 'Rig #9: Nuclear Decay & Radiochemistry'
+                  : 'Rig #10: Statistical Thermodynamics & Partition Functions'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -206,6 +210,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Nuclear Decay & Bateman
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('statistical-thermo')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'statistical-thermo'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Statistical Thermodynamics
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -222,7 +237,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'nuclear-decay' ? (
+      {activeRig === 'statistical-thermo' ? (
+        <StatisticalThermoWorkstation />
+      ) : activeRig === 'nuclear-decay' ? (
         <NuclearDecayWorkstation />
       ) : activeRig === 'surface-chemistry' ? (
         <SurfaceChemistryWorkstation />
