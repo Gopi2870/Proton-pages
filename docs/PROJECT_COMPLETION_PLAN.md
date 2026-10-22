@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **117,710 LOC** (Source: 103,941 | Tests: 4,518 | Docs: 1,387 | Config: 7,308)  
-**Total Automated Tests**: **356 tests passing (100%)** (Backend: 256 | Frontend: 100)  
-**Git History**: 42 commits on `main` | 33 merged Pull Requests  
+**Current Verified LOC**: **120,831 Total Lines** (115,899 non-empty LOC | Source: 107,060 | Tests: 4,935 | Docs: 1,461 | Config: 7,375 across 365 files)  
+**Total Automated Tests**: **376 tests passing (100%)** (Backend: 270 | Frontend: 106)  
+**Git History**: 45 commits on `main` | 34 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -29,6 +29,7 @@ graph TD
     ChemEngine --> Quantum[Huckel Molecular Orbital Solver]
     ChemEngine --> Chrom[Chromatography & van Deemter Kinetics]
     ChemEngine --> Poly[Polymer Chemistry & Flory-Huggins]
+    ChemEngine --> Equil[Chemical Equilibrium & Le Chatelier]
     Client --> ClientFallback[Self-Contained Offline Scientific Fallbacks]
 ```
 
@@ -40,7 +41,7 @@ graph TD
 
 ---
 
-## 2. Completed Capabilities Matrix (PRs #001 to #033)
+## 2. Completed Capabilities Matrix (PRs #001 to #034)
 
 | PR # | Branch / Module | Domain & Key Algorithms | Tests Added | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -53,22 +54,23 @@ graph TD
 | **#031** | `feature/quantum-molecular-orbitals` | Hückel secular matrix Jacobi solver, HOMO-LUMO gap, delocalization energy, wave lobe visualizer | 13 tests | Merged |
 | **#032** | `feature/chromatography-separation-science` | van Deemter kinetics ($H = A + B/u + Cu$), HPLC/GC retention, peak dispersion, resolution $R_s$ | 16 tests | Merged |
 | **#033** | `feature/polymer-chemistry-macromolecules` | Carothers polycondensation ($X_n, p_c$), radical QSSA kinetics, Flory-Schulz, Flory-Huggins $\chi$ | 17 tests | Merged |
+| **#034** | `feature/chemical-equilibrium-le-chatelier` | RICE monotonic solver, polyprotic electroneutrality, van Slyke $\beta$, $K_{sp}$, Le Chatelier | 20 tests | Merged |
 
 ---
 
 ## 3. Verified Metrics & Counting Methodology
 
 ### LOC Counting Script
-LOC is measured deterministically via Python counting non-empty lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 103,941 LOC (266 files)
-- **Automated Tests**: 4,518 LOC (57 files)
-- **Documentation**: 1,387 LOC (19 files)
-- **Configuration**: 7,308 LOC (9 files)
-- **Total Verified LOC**: **117,710 LOC** (360 files)
+LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
+- **Source Code**: 107,060 lines (103,217 non-empty) across 275 files
+- **Automated Tests**: 4,935 lines (4,228 non-empty) across 60 files
+- **Documentation**: 1,461 lines (1,153 non-empty) across 20 files
+- **Configuration**: 7,375 lines (7,301 non-empty) across 10 files
+- **Total Verified LOC**: **120,831 Total Lines** (115,899 non-empty LOC) across 365 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 256 passed across unit, integration, and property tests in 8.5s.
-- **Vitest Frontend Suite**: 100 passed across 19 test files in 3.8s.
+- **Python Pytest Suite**: 270 passed across unit, integration, and property tests in 8.1s.
+- **Vitest Frontend Suite**: 106 passed across 20 test files in 4.4s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
 
 ---
@@ -77,17 +79,17 @@ LOC is measured deterministically via Python counting non-empty lines, separatin
 
 ```mermaid
 graph LR
-    PR34[PR #034: Chemical Equilibrium & Le Chatelier] --> PR35[PR #035: Colligative Properties & Non-Ideal Solutions]
+    PR34[PR #034: Chemical Equilibrium & Le Chatelier (Merged)] --> PR35[PR #035: Colligative Properties & Non-Ideal Solutions]
     PR35 --> PR36[PR #036: Molecular Dynamics & Velocity Verlet Sandbox]
 ```
 
 ### Active Priority Backlog:
-1. **PR #034: Chemical Equilibrium, Buffer Capacity & Le Chatelier Engine (Active Next)**
-   - RICE table non-linear polynomial solver for complex polyprotic acid-base equilibria.
-   - Henderson-Hasselbalch buffer index $\beta = \frac{dC_b}{dpH} = 2.303 \left( [H^+] + [OH^-] + \frac{C_{total} K_a [H^+]}{(K_a + [H^+])^2} \right)$.
-   - Solubility product $K_{sp}$ solver with common-ion effect and complex ion formation equilibria ($K_f$).
-   - Interactive Le Chatelier Workstation UI with stress perturbation simulator (temperature $\Delta H$, pressure $\Delta n_g$, reactant/product concentration spikes).
-2. **PR #035: Colligative Properties & Non-Ideal Solution Chemistry**
-   - Raoult's law vapor pressure depression, boiling point elevation ($K_b$), freezing point depression ($K_f$), osmotic pressure ($\Pi = i M R T$), and van 't Hoff factor $i$ with Debye-Hückel ionic strength activity coefficients.
-3. **PR #036: High-Depth Molecular Dynamics & Numerical Velocity-Verlet Simulation Sandbox**
+1. **PR #035: Colligative Properties & Non-Ideal Solution Chemistry (Active Next)**
+   - Raoult's law vapor pressure depression for multi-component ideal & non-ideal binary systems.
+   - Ebullioscopic elevation ($\Delta T_b = i K_b m$) and cryoscopic depression ($\Delta T_f = i K_f m$).
+   - Osmotic pressure ($\Pi = i M R T$, Morse equation correction).
+   - Debye-Hückel limiting law & extended Debye-Hückel for mean ionic activity coefficients $\gamma_\pm$ under varying ionic strength $I = \frac{1}{2} \sum c_i z_i^2$.
+2. **PR #036: High-Depth Molecular Dynamics & Numerical Velocity-Verlet Simulation Sandbox**
    - Microcanonical ($NVE$) and canonical ($NVT$ Andersen / Berendsen thermostat) molecular dynamics integrator using Lennard-Jones 12-6 potential and Velocity-Verlet algorithm to scale authentic computational LOC toward the 500,000+ milestone.
+3. **PR #037: Advanced Electroanalytical Chemistry & Cyclic Voltammetry Simulator**
+   - Randles-Sevcik peak current modeling ($i_p = 0.4463 n F A C \sqrt{\frac{n F \nu D}{R T}}$), Cottrell chronoamperometry, and Butler-Volmer electron transfer kinetics.
