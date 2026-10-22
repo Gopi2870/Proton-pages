@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **148,040 Total Lines** (133,107 non-empty code lines across 475 files)  
-**Total Automated Tests**: **574 tests passing (100%)** (Backend: 404 | Frontend: 170)  
-**Git History**: 74 commits on `main` | 44 merged Pull Requests  
+**Current Verified LOC**: **150,300 Total Lines** (135,067 non-empty code lines across 486 files)  
+**Total Automated Tests**: **593 tests passing (100%)** (Backend: 416 | Frontend: 177)  
+**Git History**: 76 commits on `main` | 45 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -72,6 +72,7 @@ graph TD
 | **#042** | `feature/nuclear-decay-bateman-chains` | Analytical Bateman equation cascade solver, $\lambda$ regularization, secular/transient equilibrium, calibrated radiocarbon dating | 21 tests | Merged |
 | **#043** | `feature/statistical-thermo-partition-functions` | Canonical partition functions ($q_{\text{trans}}, q_{\text{rot}}, q_{\text{vib}}, q_{\text{elec}}$), Sackur-Tetrode entropy, quantum freeze-out | 21 tests | Merged |
 | **#044** | `feature/non-equilibrium-thermodynamics-onsager` | Entropy production $\sigma \ge 0$, coupled linear transport, Onsager reciprocity ($L_{ik} = L_{ki}$), Seebeck/Peltier Kelvin laws, Soret/Dufour, Saxén electrokinetics | 24 tests | Merged |
+| **#045** | `feature/supramolecular-host-guest-complexation` | Macrocyclic inclusion (crown ethers, cryptands, cyclodextrins), Job continuous variation, non-covalent force decomposition, binding isotherms | 19 tests | Merged |
 
 ---
 
@@ -94,28 +95,25 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR42[PR #042: Nuclear Chemistry & Bateman Decay (Merged)] --> PR43[PR #043: Statistical Thermodynamics & Partition Functions (Merged)]
-    PR43 --> PR44[PR #044: Non-Equilibrium Thermodynamics & Onsager Relations (Merged)]
-    PR44 --> PR45[PR #045: Supramolecular Chemistry & Host-Guest Complexation (Active Next)]
-    PR45 --> PR46[PR #046: Dynamic Covalent Chemistry & Constitutional Networks]
+    PR43[PR #043: Statistical Thermodynamics & Partition Functions (Merged)] --> PR44[PR #044: Non-Equilibrium Thermodynamics & Onsager Relations (Merged)]
+    PR44 --> PR45[PR #045: Supramolecular Chemistry & Host-Guest Complexation (Merged)]
+    PR45 --> PR46[PR #046: Dynamic Covalent Chemistry & Constitutional Networks (Active Next)]
+    PR46 --> PR47[PR #047: Photochemistry & Jablonski Diagrams]
 ```
 
 ### Active Priority Backlog:
-1. **PR #044: Non-Equilibrium Thermodynamics & Onsager Reciprocal Relations (Merged)**
-   - Entropy production rate in irreversible processes: $\sigma = \sum J_i X_i \ge 0$.
-   - Coupled linear transport equations: $J_i = \sum_{k} L_{ik} X_k$.
-   - Microscopic reversibility and Onsager reciprocal symmetry: $L_{ik} = L_{ki}$ (and $L_{ik}(B) = L_{ki}(-B)$).
-   - Thermoelectric transport (Seebeck coefficient $S$, Peltier coefficient $\Pi = S T$, Thomson heat).
-   - Thermodiffusion (Soret effect $S_T$ and Dufour effect).
-   - Electrokinetic cross-coupling (streaming potential and electro-osmosis, Saxén relations).
-   - Completed with 24 automated tests (17 backend, 7 frontend) and Rig #11 interactive workstation.
-2. **PR #045: Supramolecular Chemistry & Host-Guest Complexation (Active Next)**
+1. **PR #045: Supramolecular Chemistry & Host-Guest Complexation (Merged)**
    - Inclusion binding equilibria for macrocyclic hosts (crown ethers, cyclodextrins, cryptands).
    - Stoichiometry determination via Job's continuous variation method ($r = [G]/([H]+[G])$).
    - Binding isotherm modeling: association constant $K_a$, Benesi-Hildebrand double-reciprocal analysis, and Scatchard plots.
    - Non-covalent interaction energies: ion-dipole, hydrogen bonding, $\pi$-$\pi$ stacking, and hydrophobic desolvation driving forces.
-   - Dual-layer backend schemas, services, API endpoints, Pytest unit/integration tests, Vitest tests, and interactive supramolecular workstation.
-3. **PR #046: Dynamic Covalent Chemistry & Constitutional Networks**
-   - Imine condensation, disulfide exchange, boronate ester equilibria under thermodynamic control.
-   - Adaptive component distribution and constitutional selection under external templates.
+   - Completed with 19 automated tests (12 backend, 7 frontend) and Rig #12 interactive workstation.
+2. **PR #046: Dynamic Covalent Chemistry & Constitutional Networks (Active Next)**
+   - Reversible covalent exchanges: imine condensation ($R_1\text{CHO} + R_2\text{NH}_2 \rightleftharpoons R_1\text{CH}=\text{N}R_2 + \text{H}_2\text{O}$), disulfide exchange, boronate esters.
+   - Dynamic combinatorial libraries (DCL) and constitutional selection under template guidance.
+   - Dual-layer backend schemas, services, API endpoints, Pytest unit/integration tests, Vitest tests, and interactive constitutional network workstation.
+3. **PR #047: Photochemistry & Jablonski Diagrams**
+   - Radiative vs non-radiative decay cascades (fluorescence, phosphorescence, internal conversion, intersystem crossing).
+   - Quantum yields ($\Phi_F, \Phi_P$) and Stern-Volmer fluorescence quenching kinetics.
+
 
