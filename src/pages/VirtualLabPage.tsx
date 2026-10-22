@@ -15,6 +15,7 @@ import { TernaryPhaseDiagramWorkstation } from '../components/chemistry/equilibr
 import { SurfaceChemistryWorkstation } from '../components/chemistry/surface/SurfaceChemistryWorkstation';
 import { NuclearDecayWorkstation } from '../components/chemistry/nuclear/NuclearDecayWorkstation';
 import { StatisticalThermoWorkstation } from '../components/chemistry/thermo/StatisticalThermoWorkstation';
+import { NonEquilibriumThermoWorkstation } from '../components/chemistry/thermo/NonEquilibriumThermoWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -32,6 +33,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'surface-chemistry'
     | 'nuclear-decay'
     | 'statistical-thermo'
+    | 'non-equilibrium-thermo'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -221,6 +223,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Statistical Thermodynamics
             </button>
+            <button
+              onClick={() => setActiveRig('non-equilibrium-thermo')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'non-equilibrium-thermo'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              Non-Equilibrium Thermo
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -237,7 +249,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'statistical-thermo' ? (
+      {activeRig === 'non-equilibrium-thermo' ? (
+        <NonEquilibriumThermoWorkstation />
+      ) : activeRig === 'statistical-thermo' ? (
         <StatisticalThermoWorkstation />
       ) : activeRig === 'nuclear-decay' ? (
         <NuclearDecayWorkstation />

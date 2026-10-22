@@ -34,6 +34,7 @@ from services.chemistry.app.api.v1.endpoints.stiff_kinetics import router as sti
 from services.chemistry.app.api.v1.endpoints.surface_chemistry import router as surface_chemistry_router
 from services.chemistry.app.api.v1.endpoints.nuclear_decay import router as nuclear_decay_router
 from services.chemistry.app.api.v1.endpoints.statistical_thermo import router as statistical_thermo_router
+from services.chemistry.app.api.v1.endpoints.non_equilibrium_thermo import router as non_equilibrium_thermo_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -68,6 +69,7 @@ api_v1_router.include_router(stiff_kinetics_router, prefix="/chemistry")
 api_v1_router.include_router(surface_chemistry_router, prefix="/chemistry")
 api_v1_router.include_router(nuclear_decay_router, prefix="/chemistry")
 api_v1_router.include_router(statistical_thermo_router, prefix="/chemistry")
+api_v1_router.include_router(non_equilibrium_thermo_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
