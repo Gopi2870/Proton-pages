@@ -35,9 +35,11 @@ import { bookmarksApi, experimentsApi } from '../services/api';
 import { KineticsReactorRig } from '../components/chemistry/reactions/KineticsReactorRig';
 import { OrganicMechanismPlayer } from '../components/chemistry/mechanisms/OrganicMechanismPlayer';
 import { EquilibriumWorkstation } from '../components/chemistry/equilibrium/EquilibriumWorkstation';
+import { CyclicVoltammetryWorkstation } from '../components/chemistry/electrochemistry/CyclicVoltammetryWorkstation';
 
 export const ReactionDatabasePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics' | 'mechanisms' | 'equilibrium'>('catalog');
+  const [electroMode, setElectroMode] = useState<'voltammetry' | 'cells'>('voltammetry');
 
   // --- Catalog State ---
   const [searchTerm, setSearchTerm] = useState('');
@@ -635,20 +637,53 @@ export const ReactionDatabasePage: React.FC = () => {
       )}
 
       {/* =========================================================================
-          TAB 3: ELECTROCHEMISTRY & NERNST EQUATION
+          TAB 3: ELECTROCHEMISTRY & CYCLIC VOLTAMMETRY
       ========================================================================= */}
       {activeTab === 'electro' && (
         <div className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Galvanic Cell Simulator */}
-            <div className="bg-surface-container-lowest border border-surface-container-low rounded-xl p-6 shadow-sm space-y-4">
-              <div className="flex items-center justify-between border-b border-surface-container-low pb-3">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-amber-500" />
-                  <h2 className="font-headline-sm font-bold text-on-surface text-label-lg">
-                    Galvanic Cell & Nernst Equation
-                  </h2>
-                </div>
+          {/* Sub-mode Switcher */}
+          <div className="flex items-center justify-between bg-surface-container-lowest p-2 rounded-xl border border-surface-container-low">
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setElectroMode('voltammetry')}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${
+                  electroMode === 'voltammetry'
+                    ? 'bg-primary text-white shadow-xs'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[16px]">ssid_chart</span>
+                <span>Cyclic Voltammetry & Cottrell (PR #037)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setElectroMode('cells')}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${
+                  electroMode === 'cells'
+                    ? 'bg-primary text-white shadow-xs'
+                    : 'text-on-surface-variant hover:text-on-surface'
+                }`}
+              >
+                <Zap className="w-4 h-4" />
+                <span>Galvanic Cells & Electrolysis</span>
+              </button>
+            </div>
+          </div>
+
+          {electroMode === 'voltammetry' ? (
+            <CyclicVoltammetryWorkstation />
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Galvanic Cell Simulator */}
+              <div className="bg-surface-container-lowest border border-surface-container-low rounded-xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between border-b border-surface-container-low pb-3">
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-amber-500" />
+                    <h2 className="font-headline-sm font-bold text-on-surface text-label-lg">
+                      Galvanic Cell & Nernst Equation
+                    </h2>
+                  </div>
                 {cellResult && (
                   <button
                     onClick={handleSaveElectroToNotebook}
@@ -845,8 +880,9 @@ export const ReactionDatabasePage: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    )}
 
       {/* Kinetics & Rate Laws Tab */}
       {activeTab === 'kinetics' && (
