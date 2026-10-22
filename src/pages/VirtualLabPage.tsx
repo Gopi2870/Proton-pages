@@ -16,6 +16,7 @@ import { SurfaceChemistryWorkstation } from '../components/chemistry/surface/Sur
 import { NuclearDecayWorkstation } from '../components/chemistry/nuclear/NuclearDecayWorkstation';
 import { StatisticalThermoWorkstation } from '../components/chemistry/thermo/StatisticalThermoWorkstation';
 import { NonEquilibriumThermoWorkstation } from '../components/chemistry/thermo/NonEquilibriumThermoWorkstation';
+import { SupramolecularWorkstation } from '../components/chemistry/supramolecular/SupramolecularWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -34,6 +35,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'nuclear-decay'
     | 'statistical-thermo'
     | 'non-equilibrium-thermo'
+    | 'supramolecular'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -233,6 +235,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Non-Equilibrium Thermo
             </button>
+            <button
+              onClick={() => setActiveRig('supramolecular')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'supramolecular'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              Supramolecular
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -249,7 +261,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'non-equilibrium-thermo' ? (
+      {activeRig === 'supramolecular' ? (
+        <SupramolecularWorkstation />
+      ) : activeRig === 'non-equilibrium-thermo' ? (
         <NonEquilibriumThermoWorkstation />
       ) : activeRig === 'statistical-thermo' ? (
         <StatisticalThermoWorkstation />
