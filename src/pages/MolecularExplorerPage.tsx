@@ -7,6 +7,7 @@ import { ConformationPanel } from '../components/chemistry/molecules/Conformatio
 import { bookmarksApi } from '../services/api';
 import { CrystallographyWorkbench } from '../components/chemistry/crystallography/CrystallographyWorkbench';
 import { MolecularOrbitalWorkstation } from '../components/chemistry/quantum/MolecularOrbitalWorkstation';
+import { MolecularDynamicsWorkstation } from '../components/chemistry/dynamics/MolecularDynamicsWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -17,7 +18,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -118,14 +119,18 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'Molecular Explorer'
                     : workbenchTab === 'crystallography'
                     ? 'Materials & Solid-State Explorer'
-                    : 'Quantum Molecular Orbitals (HMO)'}
+                    : workbenchTab === 'orbitals'
+                    ? 'Quantum Molecular Orbitals (HMO)'
+                    : 'Molecular Dynamics (Velocity-Verlet)'}
                 </h1>
                 <span className="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-code-sm text-code-sm font-semibold">
                   {workbenchTab === 'molecules'
                     ? 'v4.8-GPU'
                     : workbenchTab === 'crystallography'
                     ? 'XRD-Bravais'
-                    : 'Hückel-HMO'}
+                    : workbenchTab === 'orbitals'
+                    ? 'Hückel-HMO'
+                    : 'LJ-12-6 NVE/NVT'}
                 </span>
                 {savedFeedback && (
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-xs font-semibold animate-pulse">
@@ -138,7 +143,9 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? 'Real-time quantum-mechanical topology, raycasted atomic inspection, and 3D geometry measurements'
                   : workbenchTab === 'crystallography'
                   ? 'Bravais lattices, Miller indices planes, unit cell geometries, and powder X-ray diffractograms'
-                  : 'Hückel molecular orbital secular matrix, energy ladders, wave function nodal planes, and UV-Vis absorption'}
+                  : workbenchTab === 'orbitals'
+                  ? 'Hückel molecular orbital secular matrix, energy ladders, wave function nodal planes, and UV-Vis absorption'
+                  : 'Lennard-Jones interatomic pair potential, Velocity-Verlet symplectic integrator, periodic boundary conditions, and g(r) pair correlation'}
               </p>
             </div>
           </div>
@@ -177,6 +184,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               Molecular Orbitals
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('dynamics')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'dynamics'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Molecular Dynamics
             </button>
           </div>
 
@@ -307,6 +325,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
         <CrystallographyWorkbench />
       ) : workbenchTab === 'orbitals' ? (
         <MolecularOrbitalWorkstation />
+      ) : workbenchTab === 'dynamics' ? (
+        <MolecularDynamicsWorkstation onAskAi={onAskAi} />
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
           {/* Left Panel: Library & Isomers (3 cols) */}
