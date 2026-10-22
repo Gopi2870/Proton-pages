@@ -29,6 +29,7 @@
 | **#037** | `feature/electrochemistry-cyclic-voltammetry` | Randles-Sevcik peak current, Butler-Volmer kinetics, Nicholson $\psi$, Cottrell | 17 tests | Merged to `main` (`--no-ff`) | Local merged |
 | **#038** | `feature/phase-equilibria-ternary-lle` | Gibbs equilateral projections, binodal miscibility gap, Hand/Othmer-Tobias, Hunter-Nash | 18 tests | Commit `8d50d5c`, Merged (`--no-ff`) | Local merged |
 | **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller, magnetic moments | 17 tests | Commit `8c13bff`, Merged (`--no-ff`) | Local merged |
+| **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly-implicit Rosenbrock-W (ROS2) stiff ODE solver, analytic Jacobian, Robertson benchmark, Oregonator | 19 tests | Commit `64b10f4`, Merged (`--no-ff`) | Local merged |
 
 ---
 
@@ -45,28 +46,27 @@
 ---
 
 ## 3. Verified Metrics Summary (Commit `HEAD` on `main`)
-- **Total Lines**: 134,300
-- **Non-Empty Lines**: 128,126
-- **Files Tracked**: 422 files
-  - Source Code: 125,270 lines across 312 files
-  - Automated Tests: 6,842 lines across 77 files
-  - Documentation: 1,969 lines across 27 files
-  - Configuration: 219 lines across 6 files
+- **Total Lines**: 136,424
+- **Non-Empty Lines**: 130,054
+- **Files Tracked**: 431 files
+  - Source Code: 119,874 lines across 315 files
+  - Automated Tests: 7,208 lines across 80 files
+  - Documentation: 2,034 lines across 27 files
+  - Configuration: 7,308 lines across 9 files
 - **Automated Tests**:
-  - Backend Pytest: 334 passed in 13.18s
-  - Frontend Vitest: 136 passed in 6.53s
-  - Total: 470 automated tests (100% passing)
+  - Backend Pytest: 348 passed in 13.76s
+  - Frontend Vitest: 141 passed in 6.39s
+  - Total: 489 automated tests (100% passing)
 - **TypeScript**: 0 errors (`npx tsc --noEmit`)
-- **Build**: Succeeded (`vite build` in 29.43s)
+- **Build**: Succeeded (`vite build` in 30.25s)
 
 ---
 
-## 4. Next Incomplete Backlog Item: PR #040
-- **Feature**: Computational Chemical Kinetics Network & Stiff ODE Solvers
-- **Target Branch**: `feature/stiff-kinetics-reaction-networks`
+## 4. Next Incomplete Backlog Item: PR #041
+- **Feature**: Surface Chemistry, Heterogeneous Catalysis & Langmuir-BET Adsorption
+- **Target Branch**: `feature/surface-chemistry-adsorption-catalysis`
 - **Scope**:
-  1. Generalized chemical reaction network compiler with arbitrary reaction orders and reversible elementary steps.
-  2. Stiff numerical ODE integration: Rosenbrock / Backward Differentiation Formula (BDF) / Radau IIA methods handling disparity in rate constants ($10^{-6}\text{ s}^{-1}$ to $10^{9}\text{ s}^{-1}$).
-  3. Classical atmospheric (Chapman ozone cycle $\text{O}_2 + h\nu \leftrightarrow \text{O}_3$), combustion (Zeldovich $\text{NO}_x$ mechanism), and oscillatory (Belousov-Zhabotinsky Oregonator) benchmark networks.
-  4. Sensitivity analysis: Jacobian matrix computation $\partial f_i / \partial c_j$ and normalized sensitivity coefficients.
-  5. Interactive Reaction Network Simulator with live concentration vs time trajectories and phase space limit cycles.
+  1. Langmuir, Freundlich, and BET (Brunauer-Emmett-Teller) multilayer gas adsorption isotherms.
+  2. Specific surface area determination ($S_{\text{BET}}$ in $\text{m}^2/\text{g}$), monolayer volume $V_m$, and heat of adsorption parameter $C$.
+  3. Langmuir-Hinshelwood and Eley-Rideal heterogeneous catalytic kinetics.
+  4. Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive adsorption workstation.

@@ -3,9 +3,9 @@
 **Repository**: [https://github.com/Gopi2870/Proton-pages](https://github.com/Gopi2870/Proton-pages)  
 **Status**: Active Execution  
 **Current Branch**: `main`  
-**Current Verified LOC**: **134,300 Total Lines** (128,126 non-empty LOC | Source: 125,270 | Tests: 6,842 | Docs: 1,969 | Config: 219 across 422 files)  
-**Total Automated Tests**: **470 tests passing (100%)** (Backend: 334 | Frontend: 136)  
-**Git History**: 58 commits on `main` | 39 merged Pull Requests  
+**Current Verified LOC**: **136,424 Total Lines** (130,054 non-empty LOC | Source: 119,874 | Tests: 7,208 | Docs: 2,034 | Config: 7,308 across 431 files)  
+**Total Automated Tests**: **489 tests passing (100%)** (Backend: 348 | Frontend: 141)  
+**Git History**: 60 commits on `main` | 40 merged Pull Requests  
 **TypeScript Verification**: 0 errors (`npx tsc --noEmit`)
 
 ---
@@ -23,6 +23,7 @@ graph TD
     ChemEngine --> Thermo[Thermodynamics & Hess Law]
     ChemEngine --> Electro[Electrochemistry & Nernst Equation]
     ChemEngine --> Kinetics[Reaction Kinetics & Rate Laws]
+    ChemEngine --> StiffKinetics[Stiff ODE Solvers & Rosenbrock Networks]
     ChemEngine --> GasLaws[Real Gas & Phase Equilibria]
     ChemEngine --> Cryst[Crystallography & Powder XRD]
     ChemEngine --> Mech[Curved-Arrow Reaction Mechanisms]
@@ -46,7 +47,7 @@ graph TD
 
 ---
 
-## 2. Completed Capabilities Matrix (PRs #001 to #039)
+## 2. Completed Capabilities Matrix (PRs #001 to #040)
 
 | PR # | Branch / Module | Domain & Key Algorithms | Tests Added | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -65,6 +66,7 @@ graph TD
 | **#037** | `feature/electrochemistry-cyclic-voltammetry` | Randles-Sevcik peak current, Butler-Volmer kinetics, Nicholson $\psi$, Cottrell chronoamperometry | 17 tests | Merged |
 | **#038** | `feature/phase-equilibria-ternary-lle` | Gibbs equilateral projections, binodal miscibility gap, Hand/Othmer-Tobias consistency, Hunter-Nash stages | 18 tests | Merged |
 | **#039** | `feature/coordination-chemistry-crystal-field-theory` | Oh/Td/D4h d-orbital splitting, CFSE, High/Low spin, Jahn-Teller distortion, magnetic moments, optical color | 17 tests | Merged |
+| **#040** | `feature/stiff-kinetics-reaction-networks` | Linearly implicit Rosenbrock-W (ROS2) stiff ODE solver, exact analytic Jacobian, Robertson benchmark, Oregonator BZ oscillator | 19 tests | Merged |
 
 ---
 
@@ -72,17 +74,17 @@ graph TD
 
 ### LOC Counting Script
 LOC is measured deterministically via Python counting lines, separating categories while ignoring `.git`, `node_modules`, `.venv`, `__pycache__`, and build artifacts:
-- **Source Code**: 125,270 lines (120,450 non-empty) across 312 files
-- **Automated Tests**: 6,842 lines (5,892 non-empty) across 77 files
-- **Documentation**: 1,969 lines (1,569 non-empty) across 27 files
-- **Configuration**: 219 lines (215 non-empty) across 6 files
-- **Total Verified LOC**: **134,300 Total Lines** (128,126 non-empty LOC) across 422 files
+- **Source Code**: 119,874 lines across 315 files
+- **Automated Tests**: 7,208 lines across 80 files
+- **Documentation**: 2,034 lines across 27 files
+- **Configuration**: 7,308 lines across 9 files
+- **Total Verified LOC**: **136,424 Total Lines** (130,054 non-empty LOC) across 431 files
 
 ### Automated Test Coverage
-- **Python Pytest Suite**: 334 passed across unit, integration, and property tests in 13.2s.
-- **Vitest Frontend Suite**: 136 passed across 25 test files in 6.5s.
+- **Python Pytest Suite**: 348 passed across unit, integration, and property tests in 13.76s.
+- **Vitest Frontend Suite**: 141 passed across 26 test files in 6.39s.
 - **Type Checking**: Clean `tsc --noEmit` with 0 errors.
-- **Production Build**: Vite build succeeded in 29.4s.
+- **Production Build**: Vite build succeeded in 30.25s.
 
 ---
 
@@ -90,18 +92,18 @@ LOC is measured deterministically via Python counting lines, separating categori
 
 ```mermaid
 graph LR
-    PR38[PR #038: Ternary LLE (Merged)] --> PR39[PR #039: Coordination CFT (Merged)]
-    PR39 --> PR40[PR #040: Stiff ODE Reaction Networks]
+    PR39[PR #039: Coordination CFT (Merged)] --> PR40[PR #040: Stiff Kinetics ODE (Merged)]
     PR40 --> PR41[PR #041: Surface Science & Langmuir Adsorption]
+    PR41 --> PR42[PR #042: Nuclear Chemistry & Radioactive Decay]
 ```
 
 ### Active Priority Backlog:
-1. **PR #040: Computational Chemical Kinetics Network & Stiff ODE Solvers (Active Next)**
-   - Generalized chemical reaction network compiler with arbitrary reaction orders and reversible equilibrium steps.
-   - Stiff numerical ODE integration: Rosenbrock / Backward Differentiation Formula (BDF) / Radau IIA methods handling disparity in rate constants ($10^{-6}\text{ s}^{-1}$ to $10^{9}\text{ s}^{-1}$).
-   - Classical atmospheric (Chapman ozone cycle $\text{O}_2 + h\nu \leftrightarrow \text{O}_3$), combustion (Zeldovich $\text{NO}_x$ mechanism), and oscillatory (Belousov-Zhabotinsky Oregonator) benchmark networks.
-   - Sensitivity analysis: Jacobian matrix computation $\partial f_i / \partial c_j$ and normalized sensitivity coefficients.
-2. **PR #041: Surface Chemistry, Heterogeneous Catalysis & Langmuir-BET Adsorption**
+1. **PR #041: Surface Chemistry, Heterogeneous Catalysis & Langmuir-BET Adsorption (Active Next)**
    - Langmuir, Freundlich, and BET (Brunauer-Emmett-Teller) multilayer gas adsorption isotherms.
-   - Specific surface area determination ($S_{\text{BET}}$ in $\text{m}^2/\text{g}$), monolayer volume $V_m$, and heat of adsorption $C$.
+   - Specific surface area determination ($S_{\text{BET}}$ in $\text{m}^2/\text{g}$), monolayer volume $V_m$, and heat of adsorption parameter $C$.
    - Langmuir-Hinshelwood and Eley-Rideal heterogeneous catalytic kinetics.
+   - Dual-layer backend schemas, services, API endpoints, Vitest tests, and interactive adsorption workstation.
+2. **PR #042: Nuclear Chemistry, Radioactive Decay Chains & Bateman Equation Solver**
+   - Sequential alpha, beta, gamma radioactive decay chains ($A \rightarrow B \rightarrow C$).
+   - Exact analytical Bateman equations for transient and secular radioactive equilibria.
+   - Radiocarbon dating calibration and half-life curve projections.
