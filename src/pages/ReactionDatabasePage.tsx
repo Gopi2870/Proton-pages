@@ -31,9 +31,10 @@ import {
   FALLBACK_REDUCTION_POTENTIALS
 } from '../services/electrochemistryService';
 import { bookmarksApi, experimentsApi } from '../services/api';
+import { KineticsReactorRig } from '../components/chemistry/reactions/KineticsReactorRig';
 
 export const ReactionDatabasePage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro'>('catalog');
+  const [activeTab, setActiveTab] = useState<'catalog' | 'thermo' | 'electro' | 'kinetics'>('catalog');
 
   // --- Catalog State ---
   const [searchTerm, setSearchTerm] = useState('');
@@ -258,6 +259,17 @@ export const ReactionDatabasePage: React.FC = () => {
           >
             <Zap className="w-4 h-4" />
             <span>Electrochemistry & Nernst</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('kinetics')}
+            className={`px-3.5 py-1.5 rounded-lg text-label-md font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'kinetics'
+                ? 'bg-primary text-on-primary shadow-xs'
+                : 'text-on-surface-variant hover:text-on-surface'
+            }`}
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span>Kinetics & Rate Laws</span>
           </button>
         </div>
       </div>
@@ -808,6 +820,13 @@ export const ReactionDatabasePage: React.FC = () => {
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Kinetics & Rate Laws Tab */}
+      {activeTab === 'kinetics' && (
+        <div className="pt-2">
+          <KineticsReactorRig />
         </div>
       )}
     </div>
