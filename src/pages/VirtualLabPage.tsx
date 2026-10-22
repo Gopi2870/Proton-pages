@@ -10,13 +10,14 @@ import { CalorimeterRig } from '../components/chemistry/virtual-lab/CalorimeterR
 import { SpectrophotometerRig } from '../components/chemistry/spectroscopy/SpectrophotometerRig';
 import { GasLawsPistonRig } from '../components/chemistry/virtual-lab/GasLawsPistonRig';
 import { ChromatographyWorkstation } from '../components/chemistry/chromatography/ChromatographyWorkstation';
+import { ColligativeWorkstation } from '../components/chemistry/colligative/ColligativeWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
 }
 
 export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
-  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography'>('titration');
+  const [activeRig, setActiveRig] = useState<'titration' | 'calorimetry' | 'spectroscopy' | 'gas-laws' | 'chromatography' | 'colligative'>('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
     experimentsService.createInitialSession()
@@ -73,7 +74,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #3: UV-Vis Spectrophotometer'
                   : activeRig === 'gas-laws'
                   ? 'Rig #4: Gas Laws & Kinetic Theory'
-                  : 'Rig #5: Analytical Chromatography'}
+                  : activeRig === 'chromatography'
+                  ? 'Rig #5: Analytical Chromatography'
+                  : 'Rig #6: Colligative Solutions & Osmometry'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -140,6 +143,17 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Chromatography Workstation
             </button>
+            <button
+              type="button"
+              onClick={() => setActiveRig('colligative')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                activeRig === 'colligative'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Colligative Solutions
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -156,7 +170,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'chromatography' ? (
+      {activeRig === 'colligative' ? (
+        <ColligativeWorkstation />
+      ) : activeRig === 'chromatography' ? (
         <ChromatographyWorkstation />
       ) : activeRig === 'spectroscopy' ? (
         <SpectrophotometerRig />
