@@ -18,6 +18,7 @@ import { StatisticalThermoWorkstation } from '../components/chemistry/thermo/Sta
 import { NonEquilibriumThermoWorkstation } from '../components/chemistry/thermo/NonEquilibriumThermoWorkstation';
 import { SupramolecularWorkstation } from '../components/chemistry/supramolecular/SupramolecularWorkstation';
 import { DynamicCovalentWorkstation } from '../components/chemistry/dynamic-covalent/DynamicCovalentWorkstation';
+import { PhotochemistryWorkstation } from '../components/chemistry/photochemistry/PhotochemistryWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -38,6 +39,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'non-equilibrium-thermo'
     | 'supramolecular'
     | 'dynamic-covalent'
+    | 'photochemistry'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -111,7 +113,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #11: Non-Equilibrium Thermodynamics & Onsager'
                   : activeRig === 'supramolecular'
                   ? 'Rig #12: Supramolecular Host-Guest Chemistry'
-                  : 'Rig #13: Dynamic Covalent & Constitutional Networks'}
+                  : activeRig === 'dynamic-covalent'
+                  ? 'Rig #13: Dynamic Covalent & Constitutional Networks'
+                  : 'Rig #14: Photochemistry & Jablonski Energy Diagram'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -263,6 +267,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Dynamic Covalent & DCL
             </button>
+            <button
+              onClick={() => setActiveRig('photochemistry')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'photochemistry'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              Photochemistry & FRET
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -279,7 +293,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'dynamic-covalent' ? (
+      {activeRig === 'photochemistry' ? (
+        <PhotochemistryWorkstation />
+      ) : activeRig === 'dynamic-covalent' ? (
         <DynamicCovalentWorkstation />
       ) : activeRig === 'supramolecular' ? (
         <SupramolecularWorkstation />
