@@ -48,32 +48,34 @@
 - **Git Remote**: `origin https://github.com/Gopi2870/Proton-pages.git`. Push permissions active via Windows Credential Manager.
 - **Remote Branches**: All feature branches through PR #049 (`feature/electroanalytical-stripping-rde-hydrodynamics`) pushed to `origin`.
 - **Remote Pull Requests**: 2 genuine PRs on GitHub remote (`#1` and `#2`, both merged). Local merges simulate PR workflow pending remote token generation.
+- **PR #050**: Chemical Compounds & Spectral Reference Database (Merged into `main`).
 
 ---
 
 ## 3. Verified Metrics Summary (Commit `HEAD` on `main`)
-- **Total Lines**: 156,013
-- **Non-Empty Code Lines**: 143,701
-- **Files Tracked**: 530 files
+- **Total Lines**: 158,722
+- **Non-Empty Code Lines**: 146,114
+- **Files Tracked**: 542 files
 - **Automated Tests**:
-  - Backend Pytest: 462 passed in 20.45s
-  - Frontend Vitest: 197 passed in 7.15s
-  - Total: 659 automated tests (100% passing)
+  - Backend Pytest: 479 passed in 15.91s
+  - Frontend Vitest: 202 passed in 7.31s
+  - Total: 681 automated tests (100% passing)
 - **TypeScript**: 0 errors (`npx tsc --noEmit`)
-- **Build**: Succeeded (`vite build` in 48.78s)
-- **Git Commits on `main`**: 90 commits
+- **Build**: Succeeded (`npm run build` in 24.03s)
+- **Git Commits on `main`**: 93 commits
 
 ---
 
-## 4. Next Incomplete Backlog Item: PR #050
-- **Feature**: Comprehensive Chemical Compounds & Spectral Reference Database Expansion
-- **Target Branch**: `feature/chemical-compounds-spectral-database`
+## 4. Next Incomplete Backlog Item: PR #051
+- **Feature**: Analytical Chromatography & Mass Spectrometry (GC-MS / LC-MS / MS-MS Quadrupole Fragmentation & Isotopic Envelopes)
+- **Target Branch**: `feature/chromatography-mass-spectrometry-quadrupole`
 - **Scope**:
-  1. Expand curated IUPAC compound knowledge database with 2,500+ authentic chemical entities:
-     - Canonical SMILES, InChI, InChIKey, CAS registry, molecular formula, exact monoisotopic mass.
-     - Thermochemical parameters: $\Delta H_f^\circ$, $S^\circ$, $C_{p,m}$, $\Delta G_f^\circ$.
-     - Solution chemistry: $pK_a$, $pK_b$, $\log P$ (octanol-water partition coefficient), aqueous solubility $S_{aq}$.
-     - Spectroscopic reference bands: UV-Vis $\lambda_{max}$ ($\epsilon_{max}$), FTIR diagnostic peaks (stretching/bending modes), $^{1}\text{H}$ & $^{13}\text{C}$ NMR characteristic chemical shifts.
-  2. Search, filtering, and indexing service:
-     - Multi-attribute fast search by SMILES substructure, formula, CAS, functional group classification, and property thresholds.
-  3. Interactive Compound Explorer workstation & dual-layer API endpoints with automated unit and integration tests.
+  1. GC-MS / LC-MS Quadrupole Mass Spectrometer simulator:
+     - Hard electron ionization (EI @ 70 eV) and soft electrospray ionization (ESI+ / ESI-).
+     - McLafferty rearrangement, $\alpha$-cleavage, tropylium ion formation, and loss of neutral fragments ($-\text{H}_2\text{O}$, $-\text{CO}$, $-\text{C}_2\text{H}_4$).
+     - Exact isotopic abundance envelopes calculated from elemental stoichiometry ($M, M+1, M+2$ peaks from $^{13}\text{C}, ^{15}\text{N}, ^{18}\text{O}, ^{34}\text{S}, ^{37}\text{Cl}, ^{81}\text{Br}$).
+  2. Reversed-phase Liquid Chromatography (HPLC / UPLC):
+     - Van Deemter equation ($H = A + B/u + C u$) with particle size ($d_p$), column efficiency ($N = L/H$), and retention factors ($k'$).
+     - Gradient elution simulation with binary mobile phases ($\text{H}_2\text{O} / \text{ACN} + 0.1\%\text{ FA}$).
+  3. Interactive Mass Spectrometry Workbench with real-time extracted ion chromatograms (XIC), mass spectra ($m/z$ vs relative abundance), and isotope pattern analyzer.
+
