@@ -21,6 +21,7 @@ import { DynamicCovalentWorkstation } from '../components/chemistry/dynamic-cova
 import { PhotochemistryWorkstation } from '../components/chemistry/photochemistry/PhotochemistryWorkstation';
 import { MicrofluidicsWorkstation } from '../components/chemistry/microfluidics/MicrofluidicsWorkstation';
 import { HydrodynamicElectrochemistryWorkstation } from '../components/chemistry/electrochemistry/HydrodynamicElectrochemistryWorkstation';
+import { MassSpectrometryWorkstation } from '../components/chemistry/analytical/MassSpectrometryWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -44,6 +45,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'photochemistry'
     | 'microfluidics'
     | 'hydrodynamic-electrochemistry'
+    | 'mass-spectrometry'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -305,6 +307,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               RDE & Stripping
             </button>
+            <button
+              onClick={() => setActiveRig('mass-spectrometry')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'mass-spectrometry'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              GC/LC Mass Spec
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -321,7 +333,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'hydrodynamic-electrochemistry' ? (
+      {activeRig === 'mass-spectrometry' ? (
+        <MassSpectrometryWorkstation />
+      ) : activeRig === 'hydrodynamic-electrochemistry' ? (
         <HydrodynamicElectrochemistryWorkstation />
       ) : activeRig === 'microfluidics' ? (
         <MicrofluidicsWorkstation />
