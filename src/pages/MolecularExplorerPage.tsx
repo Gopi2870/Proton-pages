@@ -10,6 +10,7 @@ import { MolecularOrbitalWorkstation } from '../components/chemistry/quantum/Mol
 import { MolecularDynamicsWorkstation } from '../components/chemistry/dynamics/MolecularDynamicsWorkstation';
 import { CoordinationCftWorkstation } from '../components/chemistry/coordination/CoordinationCftWorkstation';
 import { CompoundDatabaseExplorer } from '../components/chemistry/compounds/CompoundDatabaseExplorer';
+import { DftKohnShamWorkstation } from '../components/chemistry/quantum/DftKohnShamWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -20,7 +21,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database' | 'dft_orbitals'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -159,7 +160,9 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? 'Lennard-Jones interatomic pair potential, Velocity-Verlet symplectic integrator, periodic boundary conditions, and g(r) pair correlation'
                   : workbenchTab === 'coordination'
                   ? 'Octahedral, tetrahedral, and square planar d-orbital splitting manifolds, CFSE, High/Low-spin, and Jahn-Teller effect'
-                  : 'Comprehensive IUPAC chemical entities with thermochemical parameters, pKa dissociation, and UV-Vis / FTIR / 1H-NMR / 13C-NMR spectral standards'}
+                  : workbenchTab === 'spectral_database'
+                  ? 'Comprehensive IUPAC chemical entities with thermochemical parameters, pKa dissociation, and UV-Vis / FTIR / 1H-NMR / 13C-NMR spectral standards'
+                  : 'Self-Consistent Field Kohn-Sham DFT solver, DIIS convergence accelerator, LDA/GGA/Hybrid XC functionals, and MEP electrostatic surface'}
               </p>
             </div>
           </div>
@@ -198,6 +201,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               Molecular Orbitals
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('dft_orbitals')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'dft_orbitals'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              DFT & Kohn-Sham
             </button>
             <button
               type="button"
@@ -361,6 +375,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
         <CrystallographyWorkbench />
       ) : workbenchTab === 'orbitals' ? (
         <MolecularOrbitalWorkstation />
+      ) : workbenchTab === 'dft_orbitals' ? (
+        <DftKohnShamWorkstation />
       ) : workbenchTab === 'dynamics' ? (
         <MolecularDynamicsWorkstation onAskAi={onAskAi} />
       ) : workbenchTab === 'coordination' ? (
