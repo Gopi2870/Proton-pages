@@ -17,6 +17,7 @@ import { NuclearDecayWorkstation } from '../components/chemistry/nuclear/Nuclear
 import { StatisticalThermoWorkstation } from '../components/chemistry/thermo/StatisticalThermoWorkstation';
 import { NonEquilibriumThermoWorkstation } from '../components/chemistry/thermo/NonEquilibriumThermoWorkstation';
 import { SupramolecularWorkstation } from '../components/chemistry/supramolecular/SupramolecularWorkstation';
+import { DynamicCovalentWorkstation } from '../components/chemistry/dynamic-covalent/DynamicCovalentWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -36,6 +37,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'statistical-thermo'
     | 'non-equilibrium-thermo'
     | 'supramolecular'
+    | 'dynamic-covalent'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -103,7 +105,13 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #8: Surface Chemistry & BET Adsorption'
                   : activeRig === 'nuclear-decay'
                   ? 'Rig #9: Nuclear Decay & Radiochemistry'
-                  : 'Rig #10: Statistical Thermodynamics & Partition Functions'}
+                  : activeRig === 'statistical-thermo'
+                  ? 'Rig #10: Statistical Thermodynamics & Partition Functions'
+                  : activeRig === 'non-equilibrium-thermo'
+                  ? 'Rig #11: Non-Equilibrium Thermodynamics & Onsager'
+                  : activeRig === 'supramolecular'
+                  ? 'Rig #12: Supramolecular Host-Guest Chemistry'
+                  : 'Rig #13: Dynamic Covalent & Constitutional Networks'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -245,6 +253,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Supramolecular
             </button>
+            <button
+              onClick={() => setActiveRig('dynamic-covalent')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'dynamic-covalent'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              Dynamic Covalent & DCL
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -261,7 +279,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'supramolecular' ? (
+      {activeRig === 'dynamic-covalent' ? (
+        <DynamicCovalentWorkstation />
+      ) : activeRig === 'supramolecular' ? (
         <SupramolecularWorkstation />
       ) : activeRig === 'non-equilibrium-thermo' ? (
         <NonEquilibriumThermoWorkstation />
