@@ -20,6 +20,7 @@ import { SupramolecularWorkstation } from '../components/chemistry/supramolecula
 import { DynamicCovalentWorkstation } from '../components/chemistry/dynamic-covalent/DynamicCovalentWorkstation';
 import { PhotochemistryWorkstation } from '../components/chemistry/photochemistry/PhotochemistryWorkstation';
 import { MicrofluidicsWorkstation } from '../components/chemistry/microfluidics/MicrofluidicsWorkstation';
+import { HydrodynamicElectrochemistryWorkstation } from '../components/chemistry/electrochemistry/HydrodynamicElectrochemistryWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -42,6 +43,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'dynamic-covalent'
     | 'photochemistry'
     | 'microfluidics'
+    | 'hydrodynamic-electrochemistry'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -119,7 +121,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #13: Dynamic Covalent & Constitutional Networks'
                   : activeRig === 'photochemistry'
                   ? 'Rig #14: Photochemistry & Jablonski Energy Diagram'
-                  : 'Rig #15: Microfluidics & Droplet Flow Reactor'}
+                  : activeRig === 'microfluidics'
+                  ? 'Rig #15: Microfluidics & Droplet Flow Reactor'
+                  : 'Rig #16: Electroanalytical Stripping & RDE Hydrodynamics'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -291,6 +295,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Microfluidics & Droplets
             </button>
+            <button
+              onClick={() => setActiveRig('hydrodynamic-electrochemistry')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'hydrodynamic-electrochemistry'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              RDE & Stripping
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -307,7 +321,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'microfluidics' ? (
+      {activeRig === 'hydrodynamic-electrochemistry' ? (
+        <HydrodynamicElectrochemistryWorkstation />
+      ) : activeRig === 'microfluidics' ? (
         <MicrofluidicsWorkstation />
       ) : activeRig === 'photochemistry' ? (
         <PhotochemistryWorkstation />
