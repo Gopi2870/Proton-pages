@@ -11,6 +11,7 @@ import { MolecularDynamicsWorkstation } from '../components/chemistry/dynamics/M
 import { CoordinationCftWorkstation } from '../components/chemistry/coordination/CoordinationCftWorkstation';
 import { CompoundDatabaseExplorer } from '../components/chemistry/compounds/CompoundDatabaseExplorer';
 import { DftKohnShamWorkstation } from '../components/chemistry/quantum/DftKohnShamWorkstation';
+import { BiomolecularStructureWorkstation } from '../components/chemistry/biomolecules/BiomolecularStructureWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -21,7 +22,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database' | 'dft_orbitals'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database' | 'dft_orbitals' | 'biomolecules'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -162,6 +163,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? 'Octahedral, tetrahedral, and square planar d-orbital splitting manifolds, CFSE, High/Low-spin, and Jahn-Teller effect'
                   : workbenchTab === 'spectral_database'
                   ? 'Comprehensive IUPAC chemical entities with thermochemical parameters, pKa dissociation, and UV-Vis / FTIR / 1H-NMR / 13C-NMR spectral standards'
+                  : workbenchTab === 'biomolecules'
+                  ? 'PDB macromolecular coordinate parser, DSSP electrostatic hydrogen-bonding networks, backbone dihedrals (phi, psi, omega), and Ramachandran plots'
                   : 'Self-Consistent Field Kohn-Sham DFT solver, DIIS convergence accelerator, LDA/GGA/Hybrid XC functionals, and MEP electrostatic surface'}
               </p>
             </div>
@@ -212,6 +215,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               DFT & Kohn-Sham
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('biomolecules')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'biomolecules'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Biomolecules & DSSP
             </button>
             <button
               type="button"
@@ -377,6 +391,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
         <MolecularOrbitalWorkstation />
       ) : workbenchTab === 'dft_orbitals' ? (
         <DftKohnShamWorkstation />
+      ) : workbenchTab === 'biomolecules' ? (
+        <BiomolecularStructureWorkstation />
       ) : workbenchTab === 'dynamics' ? (
         <MolecularDynamicsWorkstation onAskAi={onAskAi} />
       ) : workbenchTab === 'coordination' ? (

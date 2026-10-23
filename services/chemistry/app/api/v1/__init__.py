@@ -44,6 +44,7 @@ from services.chemistry.app.api.v1.endpoints.compound_database import router as 
 from services.chemistry.app.api.v1.endpoints.mass_spectrometry import router as mass_spectrometry_router
 from services.chemistry.app.api.v1.endpoints.dft_quantum import router as dft_quantum_router
 from services.chemistry.app.api.v1.endpoints.education_problems import router as education_problems_router
+from services.chemistry.app.api.v1.endpoints.biomolecule import router as biomolecule_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -87,6 +88,7 @@ api_v1_router.include_router(hydrodynamic_electrochemistry_router, prefix="/chem
 api_v1_router.include_router(compound_database_router, prefix="/chemistry")
 api_v1_router.include_router(mass_spectrometry_router, prefix="/chemistry")
 api_v1_router.include_router(dft_quantum_router, prefix="/chemistry")
+api_v1_router.include_router(biomolecule_router)
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
