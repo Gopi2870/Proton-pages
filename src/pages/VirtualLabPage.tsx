@@ -22,6 +22,7 @@ import { PhotochemistryWorkstation } from '../components/chemistry/photochemistr
 import { MicrofluidicsWorkstation } from '../components/chemistry/microfluidics/MicrofluidicsWorkstation';
 import { HydrodynamicElectrochemistryWorkstation } from '../components/chemistry/electrochemistry/HydrodynamicElectrochemistryWorkstation';
 import { MassSpectrometryWorkstation } from '../components/chemistry/analytical/MassSpectrometryWorkstation';
+import { RadicalReactionNetworkWorkstation } from '../components/chemistry/kinetics/RadicalReactionNetworkWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -46,6 +47,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'microfluidics'
     | 'hydrodynamic-electrochemistry'
     | 'mass-spectrometry'
+    | 'radical-reactions'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -317,6 +319,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               GC/LC Mass Spec
             </button>
+            <button
+              onClick={() => setActiveRig('radical-reactions')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'radical-reactions'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              Radical Reactions & Stiff ODE
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -333,7 +345,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'mass-spectrometry' ? (
+      {activeRig === 'radical-reactions' ? (
+        <RadicalReactionNetworkWorkstation />
+      ) : activeRig === 'mass-spectrometry' ? (
         <MassSpectrometryWorkstation />
       ) : activeRig === 'hydrodynamic-electrochemistry' ? (
         <HydrodynamicElectrochemistryWorkstation />
