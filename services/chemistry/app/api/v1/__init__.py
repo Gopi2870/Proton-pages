@@ -48,6 +48,7 @@ from services.chemistry.app.api.v1.endpoints.biomolecule import router as biomol
 from services.chemistry.app.api.v1.endpoints.crystallography_spacegroup import router as crystallography_spacegroup_router
 from services.chemistry.app.api.v1.endpoints.radical_reactions import router as radical_reactions_router
 from services.chemistry.app.api.v1.endpoints.semi_empirical import router as semi_empirical_router
+from services.chemistry.app.api.v1.endpoints.cheminformatics import router as cheminformatics_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -95,6 +96,7 @@ api_v1_router.include_router(biomolecule_router)
 api_v1_router.include_router(crystallography_spacegroup_router)
 api_v1_router.include_router(radical_reactions_router)
 api_v1_router.include_router(semi_empirical_router)
+api_v1_router.include_router(cheminformatics_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
