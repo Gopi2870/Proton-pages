@@ -12,6 +12,7 @@ import { CoordinationCftWorkstation } from '../components/chemistry/coordination
 import { CompoundDatabaseExplorer } from '../components/chemistry/compounds/CompoundDatabaseExplorer';
 import { DftKohnShamWorkstation } from '../components/chemistry/quantum/DftKohnShamWorkstation';
 import { BiomolecularStructureWorkstation } from '../components/chemistry/biomolecules/BiomolecularStructureWorkstation';
+import { SpaceGroupWyckoffWorkbench } from '../components/chemistry/crystallography/SpaceGroupWyckoffWorkbench';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -22,7 +23,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database' | 'dft_orbitals' | 'biomolecules'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'space_groups' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database' | 'dft_orbitals' | 'biomolecules'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -123,6 +124,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'Molecular Explorer'
                     : workbenchTab === 'crystallography'
                     ? 'Materials & Solid-State Explorer'
+                    : workbenchTab === 'space_groups'
+                    ? '230 Space Groups & Wyckoff Symmetry'
                     : workbenchTab === 'orbitals'
                     ? 'Quantum Molecular Orbitals (HMO)'
                     : workbenchTab === 'dynamics'
@@ -136,6 +139,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'v4.8-GPU'
                     : workbenchTab === 'crystallography'
                     ? 'XRD-Bravais'
+                    : workbenchTab === 'space_groups'
+                    ? 'SG 1-230'
                     : workbenchTab === 'orbitals'
                     ? 'Hückel-HMO'
                     : workbenchTab === 'dynamics'
@@ -155,6 +160,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? 'Real-time quantum-mechanical topology, raycasted atomic inspection, and 3D geometry measurements'
                   : workbenchTab === 'crystallography'
                   ? 'Bravais lattices, Miller indices planes, unit cell geometries, and powder X-ray diffractograms'
+                  : workbenchTab === 'space_groups'
+                  ? '230 standard crystallographic space groups, Wyckoff positions, affine symmetry operations, and powder XRD'
                   : workbenchTab === 'orbitals'
                   ? 'Hückel molecular orbital secular matrix, energy ladders, wave function nodal planes, and UV-Vis absorption'
                   : workbenchTab === 'dynamics'
@@ -193,6 +200,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               Crystallography & XRD
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('space_groups')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'space_groups'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Space Groups & Wyckoff
             </button>
             <button
               type="button"
@@ -387,6 +405,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
       {/* Main Viewport Grid / Workbench View */}
       {workbenchTab === 'crystallography' ? (
         <CrystallographyWorkbench />
+      ) : workbenchTab === 'space_groups' ? (
+        <SpaceGroupWyckoffWorkbench />
       ) : workbenchTab === 'orbitals' ? (
         <MolecularOrbitalWorkstation />
       ) : workbenchTab === 'dft_orbitals' ? (
