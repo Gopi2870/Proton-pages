@@ -19,6 +19,7 @@ import { NonEquilibriumThermoWorkstation } from '../components/chemistry/thermo/
 import { SupramolecularWorkstation } from '../components/chemistry/supramolecular/SupramolecularWorkstation';
 import { DynamicCovalentWorkstation } from '../components/chemistry/dynamic-covalent/DynamicCovalentWorkstation';
 import { PhotochemistryWorkstation } from '../components/chemistry/photochemistry/PhotochemistryWorkstation';
+import { MicrofluidicsWorkstation } from '../components/chemistry/microfluidics/MicrofluidicsWorkstation';
 
 interface VirtualLabPageProps {
   onAskAi: (prompt: string) => void;
@@ -40,6 +41,7 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
     | 'supramolecular'
     | 'dynamic-covalent'
     | 'photochemistry'
+    | 'microfluidics'
   >('titration');
   const [reagents] = useState<LabReagent[]>(LAB_REAGENTS);
   const [session, setSession] = useState<TitrationSession>(() =>
@@ -115,7 +117,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
                   ? 'Rig #12: Supramolecular Host-Guest Chemistry'
                   : activeRig === 'dynamic-covalent'
                   ? 'Rig #13: Dynamic Covalent & Constitutional Networks'
-                  : 'Rig #14: Photochemistry & Jablonski Energy Diagram'}
+                  : activeRig === 'photochemistry'
+                  ? 'Rig #14: Photochemistry & Jablonski Energy Diagram'
+                  : 'Rig #15: Microfluidics & Droplet Flow Reactor'}
               </span>
             </div>
             <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -277,6 +281,16 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
             >
               Photochemistry & FRET
             </button>
+            <button
+              onClick={() => setActiveRig('microfluidics')}
+              className={`px-3 py-1.5 rounded-lg text-label-md font-label-md transition-colors ${
+                activeRig === 'microfluidics'
+                  ? 'bg-primary text-on-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
+              }`}
+            >
+              Microfluidics & Droplets
+            </button>
           </div>
 
           {activeRig === 'titration' && (
@@ -293,7 +307,9 @@ export const VirtualLabPage: React.FC<VirtualLabPageProps> = ({ onAskAi }) => {
       </div>
 
       {/* Main Laboratory Rig Viewport */}
-      {activeRig === 'photochemistry' ? (
+      {activeRig === 'microfluidics' ? (
+        <MicrofluidicsWorkstation />
+      ) : activeRig === 'photochemistry' ? (
         <PhotochemistryWorkstation />
       ) : activeRig === 'dynamic-covalent' ? (
         <DynamicCovalentWorkstation />
