@@ -1,6 +1,7 @@
-import React from 'react';
-import { ClipboardList, Calendar, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { ClipboardList, Calendar, CheckCircle2, Clock, AlertCircle, BookOpen } from 'lucide-react';
 import { StatCard } from '../components/ui/StatCard';
+import { InteractiveProblemBank } from '../components/education/InteractiveProblemBank';
 
 interface AssignmentItem {
   id: string;
@@ -20,6 +21,8 @@ const ASSIGNMENTS_LIST: AssignmentItem[] = [
 ];
 
 export const AssignmentsPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'syllabus' | 'practice_bank'>('practice_bank');
+
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -31,9 +34,39 @@ export const AssignmentsPage: React.FC = () => {
             Track upcoming assignment deadlines, submit virtual laboratory worksheets, and inspect graded rubrics.
           </p>
         </div>
+
+        {/* Tab Switcher */}
+        <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+          <button
+            type="button"
+            onClick={() => setActiveTab('practice_bank')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'practice_bank'
+                ? 'bg-primary-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5" /> Interactive Problem Bank
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('syllabus')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+              activeTab === 'syllabus'
+                ? 'bg-primary-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <ClipboardList className="w-3.5 h-3.5" /> Syllabus Deliverables
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {activeTab === 'practice_bank' ? (
+        <InteractiveProblemBank />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard title="Pending Assignments" value="2" subtitle="Due this week" icon={<Clock className="w-4 h-4 text-amber-400" />} />
         <StatCard title="Completed & Graded" value="14" subtitle="Mean: 94.2%" isPositive icon={<CheckCircle2 className="w-4 h-4 text-emerald-400" />} />
         <StatCard title="Total Course Points" value="840 / 900" change="A (4.0)" isPositive icon={<ClipboardList className="w-4 h-4 text-primary-400" />} />
@@ -72,6 +105,8 @@ export const AssignmentsPage: React.FC = () => {
           ))}
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 };
