@@ -14,6 +14,7 @@ import { DftKohnShamWorkstation } from '../components/chemistry/quantum/DftKohnS
 import { BiomolecularStructureWorkstation } from '../components/chemistry/biomolecules/BiomolecularStructureWorkstation';
 import { SpaceGroupWyckoffWorkbench } from '../components/chemistry/crystallography/SpaceGroupWyckoffWorkbench';
 import { SemiEmpiricalWorkstation } from '../components/chemistry/quantum/SemiEmpiricalWorkstation';
+import { CheminformaticsWorkstation } from '../components/chemistry/cheminformatics/CheminformaticsWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -24,7 +25,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'space_groups' | 'orbitals' | 'dft_orbitals' | 'semi_empirical' | 'biomolecules' | 'dynamics' | 'coordination' | 'spectral_database'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'space_groups' | 'orbitals' | 'dft_orbitals' | 'semi_empirical' | 'cheminformatics' | 'biomolecules' | 'dynamics' | 'coordination' | 'spectral_database'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -133,6 +134,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'Density Functional Theory & Kohn-Sham Orbitals'
                     : workbenchTab === 'semi_empirical'
                     ? 'Semi-Empirical Quantum Chemistry (MNDO / AM1 / PM3)'
+                    : workbenchTab === 'cheminformatics'
+                    ? 'Cheminformatics & Chemical Space Explorer'
                     : workbenchTab === 'biomolecules'
                     ? 'Biomolecular Protein Structure & DSSP'
                     : workbenchTab === 'dynamics'
@@ -154,6 +157,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'DFT-SCF'
                     : workbenchTab === 'semi_empirical'
                     ? 'MNDO-AM1-PM3'
+                    : workbenchTab === 'cheminformatics'
+                    ? 'ECFP4-Tanimoto'
                     : workbenchTab === 'biomolecules'
                     ? 'PDB-DSSP'
                     : workbenchTab === 'dynamics'
@@ -181,6 +186,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? 'Self-Consistent Field Kohn-Sham DFT solver, DIIS convergence accelerator, LDA/GGA/Hybrid XC functionals, and MEP electrostatic surface'
                   : workbenchTab === 'semi_empirical'
                   ? 'Roothaan-Hall STO equations, Dewar core-core repulsion, Pulay DIIS SCF convergence, Mulliken populations, and 1D potential energy surface scans'
+                  : workbenchTab === 'cheminformatics'
+                  ? 'Morgan extended-connectivity circular fingerprints, multi-metric chemical similarity (Tanimoto / Dice / Cosine), subgraph isomorphism, and library heatmaps'
                   : workbenchTab === 'biomolecules'
                   ? 'PDB macromolecular coordinate parser, DSSP electrostatic hydrogen-bonding networks, backbone dihedrals (phi, psi, omega), and Ramachandran plots'
                   : workbenchTab === 'dynamics'
@@ -259,6 +266,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               Semi-Empirical (MNDO/AM1/PM3)
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('cheminformatics')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'cheminformatics'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Cheminformatics & Fingerprints
             </button>
             <button
               type="button"
@@ -439,6 +457,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
         <DftKohnShamWorkstation />
       ) : workbenchTab === 'semi_empirical' ? (
         <SemiEmpiricalWorkstation />
+      ) : workbenchTab === 'cheminformatics' ? (
+        <CheminformaticsWorkstation />
       ) : workbenchTab === 'biomolecules' ? (
         <BiomolecularStructureWorkstation />
       ) : workbenchTab === 'dynamics' ? (
