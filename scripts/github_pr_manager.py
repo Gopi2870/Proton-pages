@@ -63,10 +63,25 @@ def create_pr(title: str, head_branch: str, base_branch: str = "main", body: str
     return res
 
 
+def merge_pr(pr_number: int, commit_title: str = None, merge_method: str = "merge"):
+    payload = {
+        "merge_method": merge_method
+    }
+    if commit_title:
+        payload["commit_title"] = commit_title
+    res = api_request(f"/pulls/{pr_number}/merge", method="PUT", data=payload)
+    print(f"SUCCESS: Merged PR #{pr_number}: {res.get('message', 'Merged')}")
+    return res
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         list_all_prs()
     elif len(sys.argv) > 3 and sys.argv[1] == "create":
         create_pr(title=sys.argv[2], head_branch=sys.argv[3])
+    elif len(sys.argv) > 2 and sys.argv[1] == "merge":
+        title = sys.argv[3] if len(sys.argv) > 3 else None
+        merge_pr(pr_number=int(sys.argv[2]), commit_title=title)
     else:
         list_all_prs()
+
