@@ -38,6 +38,7 @@ from services.chemistry.app.api.v1.endpoints.non_equilibrium_thermo import route
 from services.chemistry.app.api.v1.endpoints.supramolecular import router as supramolecular_router
 from services.chemistry.app.api.v1.endpoints.dynamic_covalent import router as dynamic_covalent_router
 from services.chemistry.app.api.v1.endpoints.photochemistry import router as photochemistry_router
+from services.chemistry.app.api.v1.endpoints.microfluidics import router as microfluidics_router
 from services.chemistry.app.api.v1.endpoints.education import router as education_router
 from services.chemistry.app.api.v1.endpoints.admin import router as admin_router
 
@@ -76,6 +77,7 @@ api_v1_router.include_router(non_equilibrium_thermo_router, prefix="/chemistry")
 api_v1_router.include_router(supramolecular_router, prefix="/chemistry")
 api_v1_router.include_router(dynamic_covalent_router, prefix="/chemistry")
 api_v1_router.include_router(photochemistry_router, prefix="/chemistry")
+api_v1_router.include_router(microfluidics_router, prefix="/chemistry")
 api_v1_router.include_router(search_router, prefix="/chemistry")
 
 # User persistence, auth, bookmarks, virtual lab notebook, and education platform
