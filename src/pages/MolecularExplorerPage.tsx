@@ -13,6 +13,7 @@ import { CompoundDatabaseExplorer } from '../components/chemistry/compounds/Comp
 import { DftKohnShamWorkstation } from '../components/chemistry/quantum/DftKohnShamWorkstation';
 import { BiomolecularStructureWorkstation } from '../components/chemistry/biomolecules/BiomolecularStructureWorkstation';
 import { SpaceGroupWyckoffWorkbench } from '../components/chemistry/crystallography/SpaceGroupWyckoffWorkbench';
+import { SemiEmpiricalWorkstation } from '../components/chemistry/quantum/SemiEmpiricalWorkstation';
 
 interface MolecularExplorerPageProps {
   initialMoleculeId?: string;
@@ -23,7 +24,7 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
   initialMoleculeId,
   onAskAi,
 }) => {
-  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'space_groups' | 'orbitals' | 'dynamics' | 'coordination' | 'spectral_database' | 'dft_orbitals' | 'biomolecules'>('molecules');
+  const [workbenchTab, setWorkbenchTab] = useState<'molecules' | 'crystallography' | 'space_groups' | 'orbitals' | 'dft_orbitals' | 'semi_empirical' | 'biomolecules' | 'dynamics' | 'coordination' | 'spectral_database'>('molecules');
   const [molecules] = useState<MoleculeData[]>(MOLECULES_DATA);
   const [selectedMolecule, setSelectedMolecule] = useState<MoleculeData>(
     molecules.find((m) => m.id === initialMoleculeId) || molecules[0]
@@ -128,6 +129,12 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? '230 Space Groups & Wyckoff Symmetry'
                     : workbenchTab === 'orbitals'
                     ? 'Quantum Molecular Orbitals (HMO)'
+                    : workbenchTab === 'dft_orbitals'
+                    ? 'Density Functional Theory & Kohn-Sham Orbitals'
+                    : workbenchTab === 'semi_empirical'
+                    ? 'Semi-Empirical Quantum Chemistry (MNDO / AM1 / PM3)'
+                    : workbenchTab === 'biomolecules'
+                    ? 'Biomolecular Protein Structure & DSSP'
                     : workbenchTab === 'dynamics'
                     ? 'Molecular Dynamics (Velocity-Verlet)'
                     : workbenchTab === 'coordination'
@@ -143,6 +150,12 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                     ? 'SG 1-230'
                     : workbenchTab === 'orbitals'
                     ? 'Hückel-HMO'
+                    : workbenchTab === 'dft_orbitals'
+                    ? 'DFT-SCF'
+                    : workbenchTab === 'semi_empirical'
+                    ? 'MNDO-AM1-PM3'
+                    : workbenchTab === 'biomolecules'
+                    ? 'PDB-DSSP'
                     : workbenchTab === 'dynamics'
                     ? 'LJ-12-6 NVE/NVT'
                     : workbenchTab === 'coordination'
@@ -164,15 +177,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
                   ? '230 standard crystallographic space groups, Wyckoff positions, affine symmetry operations, and powder XRD'
                   : workbenchTab === 'orbitals'
                   ? 'Hückel molecular orbital secular matrix, energy ladders, wave function nodal planes, and UV-Vis absorption'
+                  : workbenchTab === 'dft_orbitals'
+                  ? 'Self-Consistent Field Kohn-Sham DFT solver, DIIS convergence accelerator, LDA/GGA/Hybrid XC functionals, and MEP electrostatic surface'
+                  : workbenchTab === 'semi_empirical'
+                  ? 'Roothaan-Hall STO equations, Dewar core-core repulsion, Pulay DIIS SCF convergence, Mulliken populations, and 1D potential energy surface scans'
+                  : workbenchTab === 'biomolecules'
+                  ? 'PDB macromolecular coordinate parser, DSSP electrostatic hydrogen-bonding networks, backbone dihedrals (phi, psi, omega), and Ramachandran plots'
                   : workbenchTab === 'dynamics'
                   ? 'Lennard-Jones interatomic pair potential, Velocity-Verlet symplectic integrator, periodic boundary conditions, and g(r) pair correlation'
                   : workbenchTab === 'coordination'
                   ? 'Octahedral, tetrahedral, and square planar d-orbital splitting manifolds, CFSE, High/Low-spin, and Jahn-Teller effect'
-                  : workbenchTab === 'spectral_database'
-                  ? 'Comprehensive IUPAC chemical entities with thermochemical parameters, pKa dissociation, and UV-Vis / FTIR / 1H-NMR / 13C-NMR spectral standards'
-                  : workbenchTab === 'biomolecules'
-                  ? 'PDB macromolecular coordinate parser, DSSP electrostatic hydrogen-bonding networks, backbone dihedrals (phi, psi, omega), and Ramachandran plots'
-                  : 'Self-Consistent Field Kohn-Sham DFT solver, DIIS convergence accelerator, LDA/GGA/Hybrid XC functionals, and MEP electrostatic surface'}
+                  : 'Comprehensive IUPAC chemical entities with thermochemical parameters, pKa dissociation, and UV-Vis / FTIR / 1H-NMR / 13C-NMR spectral standards'}
               </p>
             </div>
           </div>
@@ -233,6 +248,17 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
               }`}
             >
               DFT & Kohn-Sham
+            </button>
+            <button
+              type="button"
+              onClick={() => setWorkbenchTab('semi_empirical')}
+              className={`px-3 py-1.5 rounded-md font-label-md text-xs font-semibold transition ${
+                workbenchTab === 'semi_empirical'
+                  ? 'bg-surface-container-lowest text-primary shadow-xs'
+                  : 'text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Semi-Empirical (MNDO/AM1/PM3)
             </button>
             <button
               type="button"
@@ -411,6 +437,8 @@ export const MolecularExplorerPage: React.FC<MolecularExplorerPageProps> = ({
         <MolecularOrbitalWorkstation />
       ) : workbenchTab === 'dft_orbitals' ? (
         <DftKohnShamWorkstation />
+      ) : workbenchTab === 'semi_empirical' ? (
+        <SemiEmpiricalWorkstation />
       ) : workbenchTab === 'biomolecules' ? (
         <BiomolecularStructureWorkstation />
       ) : workbenchTab === 'dynamics' ? (
